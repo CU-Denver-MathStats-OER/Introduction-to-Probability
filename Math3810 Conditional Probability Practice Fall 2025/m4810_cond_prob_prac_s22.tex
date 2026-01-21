@@ -1,0 +1,914 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\ifnum\printsol=0 (when no solutions printed)
+%Do something
+%	\else  (when solutions are printed)
+%Do something else
+%\fi
+
+
+% Assessment specific definitions to fill in title and page headers. Other course specific definitions are located in classinfo document which is accessed by \input command below. 
+\def\assessmenttype{practice problems}
+\def\assessmenttypecap{Practice Problems}
+\def\assessmentname{: Conditional Probability}  % Such as #1 or a word title
+\def\assessmentnamesol{: Conditional Probability Solutions}
+\def\assessmentnameshort{Conditional Probability Practice}
+\def\duedate{Wednesday, September 18}
+\def\duetime{3:30pm}
+\def\printfancyheader{1} % Beware that changing the header will change custom pagebreaks for boxed solutions
+
+\input{classinfo}  % Class Specific Information for title header
+
+%If use fancy title header then include custom header on all pages. If don't use fancy title header then include pagenumbers only when solutions printed
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+	\else
+		\ifnum\printsol=0
+				\pagestyle{empty}
+			\else
+				\pagestyle{plain}
+		\fi		
+\fi
+
+
+% Creates a fancy title header for front page. This is turned on by boolean \printfancyheader which later invokes \maketitle command. Otherwise a simpler header is displayed.
+\ifnum\printsol=0 % Determine if non-solution fancyheader or solution fancyheader is displayed
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	\assessmenttypecap\;\assessmentname}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - Dr. \instructor}
+
+	\markright{Math\classnum,\;\assessmentnameshort, UCD, \classterm, Dr. \instructor}
+	
+		\else
+
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	\assessmenttypecap\;\assessmentnamesol}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - Dr. \instructor}
+
+	\markright{Math\classnum,\;\assessmentnameshort, UCD, \classterm, Dr. \instructor}
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+	\else	
+		\ifnum\printsol=0
+
+				\begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+\smallskip
+Due by \duedate\, at \duetime.\\
+\smallskip
+{\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+				\end{center}
+			\else
+
+				\begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+				\end{center}
+\vskip 2mm
+
+		\fi
+		
+\hrule
+\vskip 5mm
+
+\fi
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\normalsize
+
+%\ifnum\printsol=0
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+%\textbf{Student Number:}\bigskip\hrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\vspace*{5mm}
+%\begin{itemize}\itemsep=0in
+%	\item This is an open note \assessmenttype. You may use your notes on this \assessmenttype but may not use your book. All electronics must be turned off during the exam.
+%	\item Write all answers in the spaces provided on the \assessmenttype.
+%	\item Throughout the \assessmenttype, show your work so that your reasoning is clear. Otherwise no credit will be given.
+%	\item If you are asked to \emph{find} or \emph{write} a formula or an expression without proof, you do not need to show any work but must present your solution using correct mathematical notation.
+%	\item If you are asked to \emph{give} or \emph{cite} a definition or a result that we discussed in class, you must use complete sentences, correct mathematical notation, and state all conditions or assumptions.
+%	\item If you are asked to \emph{prove} or \emph{show} a formula or a result, you must give a proof using complete sentences and correct mathematical notation. If you can correctly cite a result that we have proved in class or that is proven in the book, you can use it and do not have to prove it again. 
+%	\item The following table gives the total points for each problem on this \assessmenttype.
+%
+%\begin{center}
+%{\renewcommand{\arraystretch}{1.5}
+%\renewcommand{\tabcolsep}{0.2cm}
+%\begin{tabular}{||c||c||c||c||c||c||}
+%\hline
+%\rule{0pt}{3ex}Problem & Points & Score/10 & Problem & Points & Score/10 \\ \hline \hline
+%1  & 12 & \hspace{1.0in}  & 7  & 8  & \hspace{1.0in}\\ \hline
+%2  & 12 & \hspace{1.0in}  & 8  & 6  & \hspace{1.0in}\\ \hline
+%3  & 8  & \hspace{1.0in}  & 9  & 6  & \hspace{1.0in}\\ \hline
+%4  & 12 & \hspace{1.0in}  & 10 & 8  & \hspace{1.0in}\\ \hline
+%5  & 17 & \hspace{1.0in}  & 11 & 5  & \hspace{1.0in}\\ \hline
+%6  & 8  & \hspace{1.0in}  & 12 & 5  & \hspace{1.0in}\\ \hline\hline
+%\rule{0pt}{3ex}Total & 69 & \hspace{1.0in} & & 38 & \\ \hline
+%\end{tabular}}
+%\end{center}
+%
+%\vspace*{5mm}
+%
+%\end{itemize}
+%\vspace*{5mm}
+%
+%\begin{flushright}
+%Total Score:\;\underline{\hspace*{2cm}}\;/\;10
+%
+%\end{flushright}
+%
+%\vfill\eject
+%
+%\fi
+%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\renewcommand{\S}{\mathbb{S}} % For defining a set S 
+\renewcommand{\P}{\mathbb{P}} % For defining a probabilty measure
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)} % For defining a probability measure with argument and normal parentheses
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)} % For defining a probability measure with argument and large parenthesis
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\ifnum\printsol=1
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+%\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{enumerate}
+
+
+\item Yang Xuelian has lost her dog in either forest A (with {\em a priori} probability 0.4) or in forest B (with {\em a priori} probability 0.6). On any given day, if the dog is in A and Yang Xuelian spends a day searching for it in A, the conditional probability that she will find the dog that day is 0.25. Similarly, if the dog is in B and Yang Xuelian spends a day looking for it there, the conditional probability that she will find the dog that day is 0.15. The dog cannot go from one forest to the other. Moreover, Yang Xuelian can only search in one forest during a given day. 
+
+	\begin{enumerate}
+		
+		\item Draw a tree-diagram describing all possible outcomes and conditional probabilities in the sample space.
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		Draw a probability tree diagram.
+	\end{boxsolution}
+	
+\vskip 2mm
+
+}
+
+		\item In which forest should Yang Xuelian look to maximize the probability she finds her dog on the first day of the search?
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		Recall the multiplication rule of conditional probability
+\[P(A\inter B)=P\big(A\big|B\big)P(B)\]
+We consider two cases: $F_A$ is the event she finds her dog in forest $A$ on the first day; $F_B$ is the event she finds her dog in forest $B$ on the first day. We first partition the sample space into events $D_A$ (the dog is in $A$) and $D_B$ (the dog is in $B$). Now we compute.
+\beq
+P(F_A)&=&P\big(F_A\big| D_A\big)\cdot P(D_A)+P\big(F_A\big| D_B\big)\cdot P(D_B)\\
+&=&(0.25)\cdot(0.4)+0\cdot(0.6)\\
+&=&0.1\\
+&&\\
+P(F_B)&=&P\big(F_B\big| D_A\big)\cdot P(D_A)+P\big(F_B\big| D_B\big)\cdot P(D_B)\\
+&=&0\cdot(0.4)+(0.15)\cdot(0.6)\\
+&=&0.09
+\eeq
+	\end{boxsolution}
+	\begin{boxsolutioncont}
+An relative frequency interpretation of these equations is as follows. For $P(F_A)$, of the $40\%$ of the times the dog if in forest $A$ she will find it $25\%$ of the time, and of the $60\%$ of the times that the dog is in forest $B$, she will find the dog $0\%$ of those times. So over the long run, if she look in forest $A$ she will find the dog $10\%$ of the time. A similar argument can be made for $P(F_B)$.\\
+
+The computations show that she should look in forest $A$ to maximize the probability that she find her dog on the first day. Of course, $F_A$ is just the event $(F_A\inter D_A)$; i.e., $P(F_A)=P(F_A\inter D_A)$.
+	\end{boxsolutioncont}
+	
+\vskip 5mm
+
+}
+
+
+
+		\item Given that Yang Xuelian looked in forest A on the first day but didn't find her dog, what is the probability that the dog is in forest A?
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		We first recall Baye's Formula where $A_1,A_2,\dots,A_n$ partition the sample space and $B\not=\emptyset$ is any event.
+\[P\big(A_i\big| B\big)=\ds\frac{P\big(B\big| A_i\big)P(A_i)}{\ds\sum^{n}_{i=1}P\big(B\big| A_i\big)P(A_i)}\] 
+We then partition the sample space into events $D_A$ (the dog is in $A$) and $D_B$ (the dog is in $B$). If we let $N$ be the event that she does not find her dog. Then
+\beq P\big(D_A\big| N\big)&=&
+\ds\frac{P\big(N\big|D_A\big)P(D_A)}{P\big(N\big| D_A\big)P(D_A)+P\big(N\big| D_B\big)P(D_B)}\\
+&=&\ds\frac{(0.75)\cdot(0.4)}{(0.75)\cdot(0.4)+(1)\cdot(0.6)}\\
+&=&\ds\frac{1}{3}
+\eeq
+	\end{boxsolution}
+	
+\vskip 5mm
+
+}
+
+
+		\item If Yang Xuelian flips a fair coin to determine where to look on the first day and finds the dog on the first day, what is the probability that she looked in forest A?
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		Let $L_A$ be the event that she looks in forest $A$ and $L_B$ be the event that she looks in forest $B$. The $L_A$ and $L_B$ partition the sample space and $P(L_A)=P(L_B)=0.5$. Then let $F$ be the event that she finds her dog. Then using Baye's Formula:
+		\vspace*{2mm}
+	\end{boxsolution}
+	\begin{boxsolutioncont}
+\beq
+P\big(L_A\big| F\big)&=&\ds\frac{P\big(F\big| L_A\big)P(L_A)}{P\big(F\big| L_A\big)P(L_A)+P\big(F\big| L_B\big)P(L_B)}\\
+&=&\ds\frac{(0.25)\cdot(0.4)\cdot(0.5)}{(0.25)\cdot(0.4)\cdot(0.5)+(0.15)\cdot(0.6)\cdot(0.5)}\\
+&=&10/19
+\eeq
+
+Note that the conditional event $F|L_A$ (she finds her dog given that she looked in forest $A$) is just the event she found her dog in forest $A$, and in part(b) we have already computed 
+$P(\text{found dog in forest }A)=(0.25)\cdot(0.4)$. Similarly, $P\big(F\big| L_B\big)=(0.15)\cdot(0.6)$.
+	\end{boxsolutioncont}
+	
+\vskip 5mm
+
+}
+
+
+		\item If the dog is alive and not found by the Nth day of the search, it will die that evening with probability $N/N+2$. Yang Xuelian has decided to look in forest A for the first two days. What is the probability that she will find a live dog for the first time on the second day?		
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		For this to occur we need to have the following happen: the dog is in forest A, she doesn't find the dog on the first day, the dog is alive on the second day, and she find the dog on the second day. We first extend the conditional probability multiplication rule.
+\[P\big[A\inter B\inter C\inter D\big]=P(A)P\big[(B\inter C\inter D)\big| A\big]\]
+Then we have 
+\[P(A)P\big[(B\inter C\inter D)\big| A\big]=P(A)P(B|A)P\big[(C|(B\inter A)\big]P\big[(D|(B\inter C\inter A)\big]\]
+Let $NF_1$ be the event that the dog is found on day one, $F_2$ be the event that the dog is found alive on day two, $L_2$ the event that the dog is alive on day two, and $D_A$ be the event that the dog is in forest $A$. Then we are computing the probability $P(F_2)$. Using the multiplication rule we get
+\beq
+P(F_2)&=&P(D_A)\cdot P\big(NF_1\big|D_A\big)\cdot P(L_2)\cdot P\big(F_2\big|D_A\big)\\
+&=&(0.4)\cdot(0.75)\cdot\left(1-\ds\frac{1}{3}\right)\cdot(0.25)\\
+&=&0.05
+\eeq
+These computations depend on the conditional independence of not finding the dog on different days.
+		\vspace*{2mm}
+	\end{boxsolution}
+	
+\vskip 5mm
+
+}
+
+	\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifnum\printsol=1
+\newpage
+
+\fi
+
+
+\item Let $A$ be the event that it rains today and $B$ be the event that we carry an umbrella today. It is clear that $\P\big(B\big|A\big)\not=\P(B)$ and so the events are dependent. Then we must have $\P\big(A\big|B\big)\not=\P(A)$. Does this imply that our choice to carry an umbrella effects whether it rains or doesn't rain? Explain your reasoning.
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+		No. Of course our carrying an umbrella does not affect whether or not it rains. But our choice to carry an umbrella is not a random decision and therefore is made after we have information about the weather. So our bringing an umbrella will affect our belief about the likelihood of rain. That is
+\[\P(\text{It Rains}\,|\,\text{Bring an Umbrella})\not=\P(\text{It Rains}).\]
+The events are NOT independent.
+	\end{boxsolution}
+	
+\vskip 5mm
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Consider the following random experiment. From a jar containing five indistinguishable coins we randomly select a coin. Then flip the coin, record the result. Assume that for each coin we have the following probability of flipping heads:
+\[p_1=0.1\qquad p_2=0.65\qquad p_3=0.9\qquad p_4=0.4\qquad p_5=0\]
+
+	\begin{enumerate}
+
+		\item Determine the probability of flipping heads.
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		We need to consider all possible ways that we could flip heads, and so use the Law of Total Probability where we partition our space into the events $\{C_i\}$ and $C_i$ is the event that we initially choose the $i$th coin. So $\P(C_i)=1/5$ for each $i=1,2,3,4,5$. Then letting $H$ be the event that we flip heads, by the Law of Total Probability we have
+\[\P(H)=\ds\sum^{5}_{i=1}\P(C_i)\P(H|C_i)=\P(C_1)\P(H|C_1)+\cdots+\P(C_5)\P(H|C_5)\]
+then we see that
+\beq
+\P(H|C_1)&=&p_1\\
+\P(H|C_2)&=&p_2\\
+\P(H|C_3)&=&p_3\\
+\P(H|C_4)&=&p_4\\
+\P(H|C_5)&=&p_5
+\eeq
+This gives us the following: 
+\[\P(H)=\ds\sum^{5}_{i=1}\P(C_i)\P(H|C_i)=\ds\frac{1}{5}\Big(p_1+\cdots+p_5\Big).\] 
+	\end{boxsolution}
+	\begin{boxsolutioncont}
+Substituting the values $p_i$ we get 
+\[\P(H)=\ds\frac{1}{5}\Big(0.10+0.65+0.90+0.40+0.00\Big)=0.41.\]
+	\end{boxsolutioncont}
+	 
+\vskip 5mm
+
+}
+
+
+		
+		\item Now suppose that we flip the coin a second time, and then record the result. If we know that the coin showed heads on the first toss, what is the probability that obtain heads on this second toss.
+		\vskip 1mm
+		{\bf\emph{Note}:} Remember that the coins are indistinguishable.
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		Let $H_1$ be the event we flipped heads on the first toss, so $H_1=H$ from part(a), and $H_2$ be the event we flip heads on the second toss. We can think of this problem in the following way. We walk into the experiment after the first toss and see that the first toss was a heads. Without knowing which coin was chosen initially we want to use the information of heads on the first toss to adjust our probability of flipping heads on the next toss. So we use conditional probabilities.
+\[\P(H_2|H_1)=\ds\frac{\P(H_1\cap H_2)}{\P(H_1)}\]
+We know $\P(H_1)$ from part(a). Then using the Law of Total Probability and the notation from part(a) we see that
+\beq
+\P(H_1\cap H_2)&=&\ds\sum^{5}_{i=1}\P(C_i)\P(H_1\cap H_2|C_i)\\
+&=&\ds\frac{1}{5}\ds\sum^{5}_{i=1}p^2_i\\
+&=&\ds\frac{1}{5}\Big(p^2_1+p^2_2+p^2_3+p^2_4+p^2_5\Big)
+\eeq
+\begin{center}
+\includegraphics[scale=0.2]{cond_prob_practice_gr.jpg}
+\end{center}
+
+It now follows that
+\[\P(H_2|H_1)=\ds\frac{p^2_1+p^2_2+p^2_3+p^2_4+p^2_5}{p_1+p_2+p_3+p_4+p_5}=\ds\frac{1.4025}{2.05}=0.68.\]
+	\end{boxsolution}
+	
+\vskip 2mm
+
+}
+			
+	\end{enumerate}	 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\item Consider the following experiment. A container has $r>1$ red balls and $b>1$ black balls. A ball is drawn and the color is noted. Again, a ball is drawn and the color is noted. This process is repeated until we have chosen $k\ge 2$ times.
+\vskip 2mm
+Let $k=2$ so that two balls are chosen. What is the probability that the sampling was done with replacement given that one red ball was chosen and one black ball was chosen? Show that this probability depends on $n=r+b$, but not on $r$ or $b$ separately.
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+		Let $E$ be the event that the balls were chosen with replacement and $RB$ be the event that one red and one black ball were chosen. Then assuming $\P(E)=1/2$ we calculate using Baye's Rule.
+\beq
+\P\big(E|RB\big)&=&\ds\frac{\P(E)\cdot\P\big(RB|E\big)}{\P(E)\cdot\P\big(RB|E\big)+\P(E^C)\cdot\P\big(RB|E^C\big)}\\
+&=&\ds\frac{\P\big(RB|E\big)}{\P\big(RB|E\big)+\P\big(RB|E^C\big)}\\
+&=&\ds\frac{\ds\frac{2rb}{(r+b)^2}}{\ds\frac{2rb}{(r+b)^2}+\ds\frac{2rb}{(r+b)(r+b-1)}}\\
+&=&\ds\frac{1}{1+\ds\frac{r+b}{r+b-1}}\\
+&=&\ds\frac{(r+b)-1}{2(r+b)-1}\\
+&=&\ds\frac{n-1}{2n-1}
+\eeq
+Note that $\ds\lim_{n\to\infty}\P\big(E|RB\big)=\P(E)$. It is easy to check that this will be true for all unconditional probabilities $\P(E)=p$.
+\vspace*{2mm}
+	\end{boxsolution}]
+	
+\vskip 5mm
+	
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\item We consider now a problem called the {\bf\emph{Monty Hall problem}}. This problem but was made popular by a letter from Craig Whitaker to Marilyn vos Savant for consideration in her column in Parade Magazine. In his letter to the column, Craig wrote:
+\vskip 1mm
+\noindent "Suppose you're on Monty Hall's {\emph Let's Make a Deal!} You are given the choice of three doors, behind one door is a car, the others, goats. You pick a door, say 1, Monty opens another door, say 3, which has a goat. Monty says to you 'Do you want to pick door 2?' Is it to your advantage to switch your choice of doors?"
+%1Marilyn vos Savant, Ask Marilyn, Parade Magazine, 9 September; 2 December; 17 February
+%1990, reprinted in Marilyn vos Savant, Ask Marilyn, St. Martins, New York, 1992
+\vskip 1mm
+\noindent The solution given by Marilyn vos Savant implicitly assumes the following: the car was put behind a door by rolling a three-sided die which made all three choices equally likely; Monty knows where the car is and always opens a door with a goat behind it; finally, we assume that if Monty has a choice of doors (i.e., the contestant has picked the door with the car behind it), he chooses each door with probability 1/2. Surprisingly, under these assumptions, given that we switch to door 2, the probability of winning the car equals 2/3, while if we stay with our original choice of door 1 the probability of winning the car equals 1/3. So it is to our advantage to switch to door 2.
+\vskip 1mm
+Consider the following events:
+\beq
+D_i&=&\{\o\in\O:\;\text{the car is behind door}\;i\}\\
+C_i&=&\{\o\in\O:\;\text{the contestant chooses door}\;i\}\\
+M_i&=&\{\o\in\O:\;\text{Monte Hall chooses door}\;i\}
+\eeq
+	\begin{enumerate}
+	
+		\item\points{5} Under the assumptions given above, draw a probability tree diagram that includes all possible single outcome events $\{\omega\}\in\mathcal{F}$ with non-zero probability. Then make a separate list of all single outcome events $\{\omega\}\in\mathcal{F}$ with zero probability.
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		The probability tree diagram follows.\\
+		
+\begin{center}
+\includegraphics[scale=0.40]{monte_hall_prob_tree1.jpg}
+\end{center}
+\vspace*{2mm}
+	\end{boxsolution}
+	
+\vskip 2mm
+
+}
+
+
+		\item\points{10} Next suppose instead that when Monte Hall has a choice, he chooses the door having the larger number with probability equal to 3/4. Draw a probability tree diagram that includes all possible single outcome events $\{\omega\}\in\mathcal{F}$ with non-zero probability. Then make a separate list of all single outcome events $\{\omega\}\in\mathcal{F}$ with zero probability and draw a Venn diagram representing the event $E=C_1\bigcap M_3$ and showing all single outcome events in $E$. Finally, determine the following: the path-probability of the contestant winning when switching to door 2; the path-probability of the contestant winning if he does not switch doors; the probability of the event $E=C_1\bigcap M_3$; the conditional probabilities $\P\big(D_i\,\big|\,C_1\bigcap M_3\big)$ for $i=1,2,3$. What does this say about the contestants chances of winning if he switches to door 2 under these new assumptions?
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		The probability tree diagram follows. There are a total of 12 outcomes, call them $\{\o_1,\o_2,\dots,\o_{12}\}$, so that $\{\omega_k\}$ has non-zero probability.
+
+\begin{center}
+\includegraphics[scale=0.4]{monte_hall_prob_tree2.jpg}
+\end{center}
+
+The following is a list of all 15 single outcome events $\{\o\}\in\mathcal{F}$ such that $\P(\o)=0$.
+\[\left\{\begin{array}{l}
+D_1\cap C_1\cap M_1,\;D_1\cap C_2\cap M_2,\;D_1\cap C_2\cap M_3,\;D_1\cap C_3\cap M_1,\;D_1\cap C_3\cap M_3,\\
+D_2\cap C_1\cap M_1,\;D_2\cap C_1\cap M_2,\;D_2\cap C_2\cap M_2,\;D_2\cap C_3\cap M_2,\;D_2\cap C_3\cap M_3,\\
+D_3\cap C_1\cap M_1,\;D_3\cap C_1\cap M_3,\;D_3\cap C_2\cap M_2,\;D_3\cap C2\cap M_3,\;D_3\cap C_3\cap M_3\\
+\end{array}\right\}\]
+
+The following is the Venn diagram of the event $E=C_1\bigcap M_3$.\\
+\begin{center}
+\fbox{\includegraphics[scale=0.38]{monte_hall_event.jpg}}
+\end{center}
+\vskip 5mm
+Two determine the requested path probabilities we multiply all conditional probabilities on the highlighted paths shown in the probability tree.
+	\end{boxsolution}
+	\begin{boxsolutioncont}
+\begin{center}
+\includegraphics[scale=0.5]{monte_hall_prob_tree2_color.jpg}
+\end{center}
+The contestant winning after switching to door 2 is the event $D_2\cap C_1\cap M_3$, and we see by multiplying probabilities that 
+\[\P\big(D_2\cap C_1\cap M_3\big)=(1/3)\cdot(1/3)\cdot(1)=1/9.\] 
+The contestant winning after staying with door 1 is the event $D_1\bigcap C_1\bigcap M_3$, and we see by multiplying probabilities that 
+\[\P\big(D_1\cap C_1\cap M_3\big)=(1/3)\cdot(1/3)\cdot(1/4)=1/12.\] 
+We can then, using the additive property of probability, easily calculate that
+\[\P(C_1\cap M_3)=\P\big(D_1\cap C_1\cap M_3\big)+\P\big(D_2\cap C_1\cap M_3\big)+\P\big(D_3\cap C_1\cap M_3\big)=\ds\frac{1}{9}+\ds\frac{1}{12}+0=\ds\frac{7}{36}.\]
+We now have the following conditional probabilities:
+\beq
+\P\big(D_1\,\big|\,C_1\cap M_3\big)&=&\ds\frac{\P\big(D_1\cap C_1\cap M_3\big)}{\P\big(C_1\cap M_3\big)}=\ds\frac{3}{7}\\
+\P\big(D_2\,\big|\,C_1\cap M_3\big)&=&\ds\frac{\P\big(D_2\cap C_1\cap M_3\big)}{\P\big(C_1\cap M_3\big)}=\ds\frac{4}{7}\\
+\P\big(D_3\,\big|\,C_1\cap M_3\big)&=&\ds\frac{\P\big(D_1\cap C_1\cap M_3\big)}{\P\big(C_1\cap M_3\big)}=0
+\eeq
+It is clear that switching to door 2 is advantageous for the contestant.
+\vspace*{2mm}
+	\end{boxsolutioncont}
+	
+\vskip 5mm
+
+}
+		
+		
+	\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\item A man is known to speak the truth 3 out of 4 times. He throws a 6-sided die and reports that he rolled a five. Find the probability that it he actually rolled a five.
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		We want to compute $\P\big(\text{ Rolled a five }|\text{ He reports a five }\big)$. It seems that the probability must be the same as the probability the man tells the truth. To show this carefully, let $E$ be the event he rolled a five and $R$ be the event that he reports a five so that $R^C$ is the event he does not roll a five. Using Baye's Rule we have
+\[\P\big(E\,|\,R\big)=\ds\frac{\P\big(R\,|\,E\big)\cdot\P\big(E\big)}{\P\big(R\,|\,E\big)\cdot\P\big(E\big)+\P\big(R\cap E^C\big)}=\ds\frac{\left(\ds\frac{3}{4}\right)\left(\ds\frac{1}{6}\right)}{\left(\ds\frac{3}{4}\right)\left(\ds\frac{1}{6}\right)+\left(\ds\frac{1}{24}\right)}=\ds\frac{3}{4}.\]
+%&=&\ds\frac{\left(\ds\frac{3}{4}\right)\left(\ds\frac{1}{6}\right)}{\left(\ds\frac{3}{4}\right)\left(\ds\frac{1}{6}\right)+\left(\ds\frac{1}{4}\right)\left(\ds\frac{5}{6}\right)}\\
+%&=&\ds\frac{3}{8}
+Note that we will compute $\P\left(R\cap E^C\right)$ instead of $\P\left(E^C\right)\cdot\P\left(R\,|\,E^C\right)$ in Baye's Rule. The other probabilities come directly from the information given in the problem: 
+\[\P\big(E\big)=1/6\qquad\text{and}\qquad\P\left(E^C\right)=5/6\qquad\text{and}\qquad\P\big(R\,|\,E\big)=3/4\]
+But we must take some care with $\P\big(R\cap E^C\big)$. Evaluating this probability as $\P\left(E^C\right)\cdot \P\left(R\,|\,E^C\right)$ we can understand $\P\left(R\,|\,E^C\right)$ as the probability he reports a five when a five has not occurred. This is not the same as the probability he is lying. This is because if we assume that the man randomly chooses a number besides 5 to report, then he has five choices, and so we must scale the probability he is lying $1/4$ by a factor of $1/5$. Using $\P\left(E^C\right)=5/6$ we get the desired $\P\left(R\cap E^C\right)=1/24$. Let's check this and compute $\P\left(R\cap E^C\right)$ directly. To do this carefully consider the sample space
+\[\O=\Big\{(x,y):x,y=1,2,\dots,6\Big\}\]
+where $x$ is the actual roll and $y$ represents reported roll. Then the event $T$ that he tells the truth is
+\[T=\Big\{(1,1),(2,2),(3,3),(4,4),(5,5),(6,6)\Big\}.\] 
+%Then since $\P(T)=3/4$, for all $\o\in T$ we must have $\P(\o)=1/8$. 
+There are 30 remaining outcomes in $T^C$ and, since $\P\left(T^C\right)=1/4$, for each $\o\in T^C$ we must have $\P(\o)=1/120$.
+\vskip 2mm
+
+Next return to the event $R\cap E^C$. We have $R\cap E^C=\Big\{(1,5),(2,5),(3,5),(4,5),(6,5)\Big\}$ and so 
+\[\P\left(R\cap E^C\right)=\ds\sum_{\o\in R\cap E^C}\P(\o)=\ds\frac{5}{120}=\ds\frac{1}{24}.\]
+This gives us the final needed probability in our Baye's Rule calculation above.
+%Then we have
+%\[\P\left(E^C\right)=\ds\sum_{\o\in E^C}\P(\o)=\ds\sum_{\o\in E^C\cap T}\P(\o)+\ds\sum_{\o\in E^C\cap T^C}\P(\o)=\ds\frac{5}{8}+\ds\frac{25}{120}=\ds\frac{5}{6}.\]
+\vspace*{5mm}
+	\end{boxsolution}
+%	\begin{boxsolutioncont} 
+%We now finally arrive at the desired result $\P\left(R\,|\,E^C\right)=\ds\frac{\P\left(R\cap E^C\right)}{\P\left(E^C\right)}=\ds\frac{1}{20}=\left(\ds\frac{1}{4}\right)\left(\ds\frac{1}{5}\right)$.
+%	\end{boxsolutioncont}
+	
+\vskip 5mm
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifnum\printsol=0
+\vfill\eject
+
+\fi
+
+
+\item Let $(\O,\F,\P)$ be a probability space where $B\in\F$ and $\P(B)\not=0$. Then define a function $Q:B\to\R$ where $Q(A)=\P\big(A\,\big|\,B\big)$ for every event $A\subseteq B$. Show that the function $Q$ satisfies the three probability axioms and is therefore a probability function. Then decide which of the following properties hold for $Q$.
+	\begin{enumerate}
+		
+		\item $Q\big(\emptyset\big)=0$.
+		\item $Q\big(A^c\big)=1-Q\big(A\big)$ for all $A\in\F\cap B$.
+		\item If $A,C\in\F\cap B$ and $A\subset C$, then $Q\big(A\big)\le Q\big(C\big)$.
+		\item $Q\big(A\union C\big)=Q\big(A\big)+Q\big(C\big)=Q\big(A\cap C\big)$ for all $A,C\in\F\cap B$.
+		\item $Q\big(A\big)=Q\big(A\cap C\big)+Q\big(A\cap C^c\big)$ for all $A,C\in\F\cap B$.
+		\item For any increasing sequence of events $\{A_k:A_k\in\F\cap B\}$ where $A=\bigcup_{k}A_k$, then we have $Q\Big(\bigcup_{k}\Big)=\lim_{n\to\infty}Q(A_n)$.
+	\end{enumerate}
+\boxsol{ 
+		\vskip 2mm
+	\begin{boxsolution}
+		We proved in class that $Q$ is a probability function and it therefore satisfies all the properties of a probability function. So all of properties (a)-(f) hold.
+	\end{boxsolution}
+	
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item A child mixes twelve good and five dead batteries. To find the dead batteries, his father tests them one-by-one and without replacement. If the first four batteries tested are all good, what is the probability that the fifth one is dead?
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+		Using the information that the first four batteries tested are all good, we rephrase the problem in the reduced sample space: Eight good and five dead batteries are mixed. A battery is selected at random: What is the probability that it is dead? The solution to this trivial question is $5/8$. Note that without reducing the sample space, the solution of this problem is not so easy.
+	\end{boxsolution}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Your neighbor has 2 children. You learn that he has a son. What is the probability that the other child is a boy?
+
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		It is tempting to say that the probability the other child is a boy is 1/2. Let's check.
+\vskip 2mm
+Consider the random experiment $\epsilon$ of selecting a random family having two children and recording whether they are boys or girls.
+	\end{boxsolution}
+	\begin{boxsolutioncont}
+Then
+\[\Omega=\big\{BB,BG,GB,GG\big\},\]
+where, for example, outcome``BG" means that the first-born child is a boy and the second-born is a girl. Assuming boys and girls are equally likely to be born, the 4 elements of $\Omega$ are equally likely. The event $A$, that the neighbor has a son is the set $A=\{BB,BG,GB\}$. The event $C$, that the neighbor has two boys is the set $C=\{BB\}$.
+We want to compute
+\[\P\big(C\,|\,A\big)=\ds\frac{\P\big(A\cap C\big)}{\P\big(A)}=\ds\frac{\P\big(\{BB\}\big)}{\P\big(\{BB,BG,GB\}\big)}=\ds\frac{1/4}{3/4}=\ds\frac{1}{3}.\]		
+	\end{boxsolutioncont}
+
+\vskip 1cm
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Your neighbor has 2 children. He picks one of them at random and comes by your house; he brings a boy named
+Joe (his son). What is the probability that Joe’s sibling is a brother?
+
+\boxsol{ 
+\vskip 5mm
+	\begin{boxsolution}
+\vskip 2mm
+		In this example there is a mechanism by which the son was selected that gave you the information that your neighbor has a boy (the mechanism was random selection).
+\vskip 2mm
+Let $A'$ be the event that ``your neighbor randomly chose one of his 2 children, and that chosen child is a son”. We note that $A'\subseteq A$,
+since event $A'$ happening clearly implies that event $A$ happens. It does not go the other way, though: $A$ does not imply $A'$ (just because he has a son does not mean that he chose that son at random).
+We want to compute		
+\beq
+\P\big(C\,|\,A'\big)=\ds\frac{\P\big(A'\cap C\big)}{\P\big(A')}&=&\ds\frac{\P\big(\{BB\}\big)}{\P\big(A'\big)}\\
+&=&\ds\frac{\P\big(\{BB\}\big)}{\P\big(\{BB\}\big)\P\big(A'\,|\,\{BB\}\big)+\cdots+\P\big(\{GG\}\big)\P\big(A'\,|\,\{GG\}\big)}\\
+&=&\left(\ds\frac{1}{4}\right)\Big(\,1\,\Big)+\left(\ds\frac{1}{4}\right)\left(\ds\frac{1}{2}\right)+\left(\ds\frac{1}{4}\right)\left(\ds\frac{1}{2}\right)+\left(\ds\frac{1}{4}\right)\Big(\,0\,\Big)\\
+&=&\ds\frac{1/4}{1/2}\\
+&=&\ds\frac{1}{2}.\\
+\eeq
+	\end{boxsolution}
+
+\newpage
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item (Ross, Section 3.4, Example 4h) Consider independent trials consisting of rolling a pair of fair dice, over and
+over. What is the probability that a sum of 5 appears before a sum of 7?
+
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		Let $E$ be the event that we see a sum of 5 before a sum of 7. We want to compute $\P(E)$.
+The easy way to solve this is by conditioning on the outcome of the first roll: Let $F$ be the event that the first roll is a 5; let
+$G$ be the event that the first roll is a 7; let $H$ be the event that the first roll is a sum other than 5 or 7. Then $F,G,H$ partition the
+sample space $\O$.
+Then, by the law of total probability:
+\[\P(E)=\P(E\,|\,F)\P(F)+\P(E\,|\,G)\P(G)+\P(E\,|\,H)\P(H).\]
+Now, we know that $\P(F) = 4/36$, $\P(G) = 6/36$, and $\P(H) = 26/36$. Also, given that the first roll is a 5, the probability
+we get a 5 before a 7 is 1: $\P(E\,|\,F) = 1$. Similarly, given that the first roll is a 7, the probability we get a 5 before a 7 is 0:
+$\P(E\,|\,G) = 0$. Now, if the first roll is neither a 5 nor a 7, we can think of the process starting all over again: the chance we get a
+5 before a 7 is just like it was $\P(E)$ before we started rolling: $\P(E\,|\,H)=P(E)$.
+Thus,
+\[\P(E)=\P(E\,|\,F)\P(F)+\P(E\,|\,G)\P(G)+\P(E\,|\,H)\P(H)=1 \cdot(4/36)+0\cdot(6/36)+\P(E)\cdot(26/36),\]
+which gives us an equation in one unknown $\P(E)=4/36+(26/36)\P(E)$, so solving for $\P(E)$ we get $\P(E)=2/5$.		
+	\end{boxsolution}
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Let three fair coins be tossed. Let $A$ be the event all heads or all tails, $B$be the event at least two heads, and $C$ be the event at most two tails. Of the pairs of events $\{A,B\}$, $\{A,C\}$, and $\{B,C\}$, which are independent and which are dependent? (Justify your answers.)
+
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		The events can be written explicitly: $A=\{HHH,TTT\}$, $B=\{HHH,HHT,HTH,THH\}$, $C=\{ HHH, HHT,
+HTH, THH, HTT, THT, TTH\}$. $\P\big(A\cap B\big) = 1/8 = (2/8)(4/8) = \P(A)\cdot\P(B)$, so $A$ and $B$ are independent. $P(A\cap C) =
+1/8 6= (2/8)(7/8) = \P(A)\cdot\P(C)$, so $A$ and $C$ are dependent. $\P(B\cap C) = 4/8 6= (4/8)(7/8) = \P(B)\cdot\P(C)$, so $B$ and
+$C$ are dependent.		
+\vskip 2mm		
+	\end{boxsolution}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Consider the game of Let’s Make a Deal in which there are five doors (numbered 1, 2, 3, 4, and 5), one of which
+has a car behind it and four of which are empty. You initially select Door 1, then, before it is opened,
+Monty Hall opens two of the other doors that are empty (selecting the two at random if there are three empty doors among
+{2,3,4,5}). (We are assuming that Monty Hall knows where the car is and that he selects doors to open only from among those
+that are empty.) You are then given the option to switch your selection from Door 1 to one of the two remaining closed doors.
+Given that Monty opens Door 2 and Door 4, what is the probability that you will win the car if you switch your door selection
+to Door 3? Also, compute the probability that you will win a car if you do not switch. (What would you do?)
+
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+%	S = {1, 2, 3, 4, 5}, where outcome “i” means that the car is behind door i. Let E = { Monty shows you doors 2 and 4 }.
+%The probability that you win by switching to door 3, given that he shows you doors 2 and 4 is:
+%P({3} | E) = P(E ∩ {3})
+%P(E)
+%=
+%P(E | {3})P({3})
+%P(E)
+%=
+%P(E | {3})P({3})
+%P(E | {1})P({1}) + P(E | {2})P({2}) + P(E | {3})P({3}) + P(E | {4})P({4}) + P(E | {5})P({5})
+%=
+%(1/
+%
+%3
+%2
+%
+%)(1/5)
+%(1/
+%
+%4
+%2
+%
+%)(1/5) + 0 + (1/
+%
+%3
+%2
+%
+%)(1/5) + 0 + (1/
+%
+%3
+%2
+%
+%)(1/5)
+%=
+%2
+%5
+%The probability that you win by staying with door 1, given that he shows you doors 2 and 4 is:
+%P({1} | E) = P(E ∩ {1})
+%P(E)
+%=
+%P(E | {1})P({1})
+%P(E)
+%=
+%P(E | {1})P({1})
+%P(E | {1})P({1}) + P(E | {2})P({2}) + P(E | {3})P({3}) + P(E | {4})P({4}) + P(E | {5})P({5})
+%=
+%(1/
+%
+%4
+%2
+%
+%)(1/5)
+%(1/
+%
+%4
+%2
+%
+%)(1/5) + 0 + (1/
+%
+%3
+%2
+%
+%)(1/5) + 0 + (1/
+%
+%3
+%2
+%
+%)(1/5)
+%=
+%1
+%5
+%So, I don’t know about you, but I would certainly				
+\vskip 2mm		
+	\end{boxsolution}
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Consider a game where a bag contains three \$1 bills, two \$5 bills, and one \$10 bill. Bills are selected randomly until the \$10 bill is selected and then the game stops. What is the probability that \$16 are selected in the game.
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		In order to win \$16 we must select a single \$1 bill, one \$5 dollar bill, and then the \$10 bill on the third selection. So let $A_1$ be the event that we choose a \$1 bill on the first selection and $A_2$ the event that we choose a \$1 bill on the second selection. Similarly, let $B_1$ the event that we choose a \$5 bill on the first selection and $B_2$ the event that we choose a \$5 bill on the second selection. So if we let $E$ be the event that\$16 is selected we have
+\beq
+\P(E)&=&\P\Big(E\cap A_1\cap B_2\Big)\cup\P\Big(E\cap B_1\cap A_2\Big)\\
+&=&\P\big(E\,|\,A_1\cap B_2\big)\P\big(A_1\cap B_2\big)+\P\big(E\,|\,B_1\cap A_2\big)\P\big(B_1\cap A_2\big)\\
+&=&\P\big(E\,|\,A_1\cap B_2\big)\P\big(B_2\,|\,A_1\big)\P\big(A_1\big)+\P\big(E\,|\,B_1\cap A_2\big)\P\big(A_2\,|\,B_1\big)\P\big(B_1\big)\\
+&=&\left(\ds\frac{1}{4}\right)\left(\ds\frac{2}{5}\right)\left(\ds\frac{3}{6}\right)+\left(\ds\frac{1}{4}\right)\left(\ds\frac{3}{5}\right)\left(\ds\frac{2}{6}\right)\\
+&=&\ds\frac{1}{15}
+\eeq
+\vskip 2mm		
+	\end{boxsolution}
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item In a card game, suppose a player needs to draw two cards of the same suit in order to win. Of the 52 cards, there are 13 cards in each suit. Suppose first the player draws a heart. What is the probability the player draws a second heart? 
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		Since one heart has already been chosen, there are now 12 hearts remaining in a deck of 51 cards. So the conditional probability $\P\big(\,\text{Draw second heart}\,|\,\text{First card a heart}\,\big) = 12/51$.					
+\vskip 2mm		
+	\end{boxsolution}
+
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Consider the college applicant who has determined that he has 0.80 probability of acceptance and that only 60\% of the accepted students will receive dormitory housing. Of the accepted students who receive dormitory housing, 80\% will have at least one roommate. What is the probability of being accepted and receiving dormitory housing and having no roommates?
+
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		We have 
+\begin{eqnarray*}
+\P\big(\,\text{Accepted and Dormitory Housing and No Roommates}\,\big)&=&\\
+\P\big(\,\text{Accepted}\,\big)\P\big(\,\text{Dormitory Housing}\,|\,\text{Accepted}\,\big)&&\\
+\P\big(\,\text{No Roomates}\,|\,\text{Dormitory Housing and Accepted}\,\big)&=&\\
+(0.80)*(0.60)*(0.20)&=&\\
+0.096
+\end{eqnarray*}
+The student has about a 10\% chance of receiving a single room at the college. 					
+\vskip 2mm		
+	\end{boxsolution}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\item Suppose a voter poll is taken in three states. In state A, 50\% of voters support the liberal candidate, in state B, 60\% of the voters support the liberal candidate, and in state C, 35\% of the voters support the liberal candidate. Of the total population of the three states, 40\% live in state A, 25\% live in state B, and 35\% live in state C. Given that a voter supports the liberal candidate, what is the probability that she lives in state B?
+
+\boxsol{ 
+\vskip 2mm
+	\begin{boxsolution}
+\vskip 2mm
+		By Bayes's formula, the probability that the voter lives in state B is approximately 0.32. Let $L$ be the event that the voter supports the liberal candidate, and  $A,B,C$ be the events that the voter lives in said state.
+\begin{eqnarray*}
+\P(B|L)&=&
+\ds\frac{\P\big(L\,|\,B\big)\P\big(B\big)}{
+\P\big(L\,|\,A\,\big)\P\big(A\big)+\P\big(L\,|\,B\big)\P\big(B\big)+\P\big(L\,|\,C\big)\P\big(C\big)}\\
+&=&\ds\frac{(0.60)*(0.25)}{(0.50)*(0.40)+(0.60)*(0.25)+(0.35)*(0.35)}\\ 
+&=&\ds\frac{0.15}{0.20 + 0.15 + 0.1225}\\
+&=&\ds\frac{0.15}{0.4725}\\
+&=&0.3175.\\
+\end{eqnarray*}
+					
+\vskip 2mm		
+	\end{boxsolution}
+
+}
+
+
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\quescommentcorrection
+
+\end{document}

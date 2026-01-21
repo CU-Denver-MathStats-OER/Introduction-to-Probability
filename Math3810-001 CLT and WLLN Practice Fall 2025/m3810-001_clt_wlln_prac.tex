@@ -1,0 +1,711 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\ifnum\printsol=0 (when no solutions printed)
+%Do something
+%	\else  (when solutions are printed)
+%Do something else
+%\fi
+
+
+% Assessment specific definitions to fill in title and page headers. Other course specific definitions are located in classinfo document which is accessed by \input command below. 
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\assessmenttype{homework}
+\def\assessmenttypecap{Homework}
+\def\assessmentname{\#4}  % Such as #1 or a word title
+\def\assessmentnamesol{\#4 Solutions}
+\def\duedate{Wednesday, September 18}
+\def\duetime{3:30pm}
+\def\printfancyheader{1} % Beware that changing the header will change custom pagebreaks for boxed solutions
+
+\input{classinfo}  % Class Specific Information for title header
+
+%If use fancy title header then include custom header on all pages. If don't use fancy title header then include pagenumbers only when solutions printed
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+	\else
+		\ifnum\printsol=0
+				\pagestyle{empty}
+			\else
+				\pagestyle{plain}
+		\fi		
+\fi
+
+
+% Creates a fancy title header for front page. This is turned on by boolean \printfancyheader which later invokes \maketitle command. Otherwise a simpler header is displayed.
+\ifnum\printsol=0 % Determine if non-solution fancyheader or solution fancyheader is displayed
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Practice Problems: WLLN and CLT}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\,\classnum\;-\;\classtitleshort,\;Practice Problems: WLLN and CLT, UCD, \classterm, \instructor}
+	
+		\else
+
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Practice Problems: WLLN and CLT (Solutions)}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort,\;Practice Problems: WLLN and CLT, UCD, \classterm, \instructor}
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+	\else	
+		\ifnum\printsol=0
+
+				\begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+\smallskip
+Due by \duedate\, at \duetime.\\
+\smallskip
+{\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+				\end{center}
+			\else
+
+				\begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+				\end{center}
+\vskip 2mm
+
+		\fi
+		
+\hrule
+\vskip 5mm
+
+\fi
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\normalsize
+%
+%\ifnum\printsol=0
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+%\textbf{Student Number:}\bigskip\hrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\vspace*{5mm}
+%\begin{itemize}\itemsep=0in
+%	\item This is an open note \assessmenttype. You may use your notes and your book on this \assessmenttype.
+%%	\item Write all answers in the spaces provided on the \assessmenttype.
+%	\item Throughout the \assessmenttype, show your work so that your reasoning is clear. Otherwise no credit will be given.
+%	\item If you are asked to \emph{find} or \emph{write} a formula or an expression without proof, you do not need to show any work but must present your solution using correct mathematical notation.
+%	\item If you are asked to \emph{give} or \emph{cite} a definition or a result that we discussed in class, you must use complete sentences, correct mathematical notation, and state all conditions or assumptions.
+%	\item If you are asked to \emph{prove} or \emph{show} a formula or a result, you must give a proof using complete sentences and correct mathematical notation. If you can correctly cite a result that we have proved in class or that is proven in the book, you can use it and do not have to prove it again. 
+%	\item The following table gives the total points for each problem on this \assessmenttype.
+%
+%\begin{center}
+%{\renewcommand{\arraystretch}{1.5}
+%\renewcommand{\tabcolsep}{0.2cm}
+%\begin{tabular}{||c||c||c||c||c||c||}
+%\hline
+%\rule{0pt}{3ex}Problem & Points & Score/10 & Problem & Points & Score/10 \\ \hline \hline
+%  &  & \hspace{1.0in}  &  & 10 & \hspace{1.0in}\\ \hline
+%  &  & \hspace{1.0in}  &  & 10 & \hspace{1.0in}\\ \hline
+%  &  & \hspace{1.0in}  &  & 10 & \hspace{1.0in}\\ \hline
+%  &  & \hspace{1.0in}  &  & 10 & \hspace{1.0in}\\ \hline
+%  &  & \hspace{1.0in}  &  & 10 & \hspace{1.0in}\\ \hline
+%  &  & \hspace{1.0in}  &  & 10 & \hspace{1.0in}\\ \hline
+%\hline
+%\rule{0pt}{3ex}Total &  & \hspace{1.0in} & &  & \\ \hline
+%\end{tabular}}
+%\end{center}
+%
+%\vspace*{5mm}
+%
+%\end{itemize}
+%\vspace*{5mm}
+%
+%\begin{flushright}
+%Total Score:\;\underline{\hspace*{2cm}}\;/\;10
+%
+%\end{flushright}
+%
+%\vfill\eject
+%
+%\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\renewcommand{\S}{\mathbb{S}} % For defining a set S 
+\renewcommand{\P}{\mathbb{P}} % For defining a probabilty measure
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)} % For defining a probability measure with argument and normal parentheses
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)} % For defining a probability measure with argument and large parenthesis
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\ifnum\printsol=1
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+%\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\section*{Part A: Weak Law of Large Numbers}
+
+\paragraph{1. Basic WLLN Verification.}
+Let $X_1, X_2, \dots$ be i.i.d.\ with
+\[\P(X_i = 2)=\tfrac12,\qquad \P(X_i=-1)=\tfrac12.\]
+Define $S_n = X_1+\cdots+X_n$ and $\bar X_n = S_n/n$.
+\begin{itemize}
+    \item[(a)] Compute $E[X_1]$ and $\operatorname{Var}(X_1)$.
+    \item[(b)] Use Chebyshev’s inequality to show that $\bar X_n \to E[X_1]$ in probability.
+\end{itemize}
+
+\paragraph{2. WLLN for Random Variables with Increasing Variance.}
+Let $X_n$ be independent with
+\[E[X_n]=1, \qquad \operatorname{Var}(X_n)=\frac{1}{n}.\]
+Does the LLN hold for $\bar X_n = \frac1n\sum_{k=1}^n X_k$?  
+
+\paragraph{3. Sample Proportion Convergence.}
+Let $X_1,\dots,X_n,\dots$ be i.i.d.\ Bernoulli($p$).  
+Use the WLLN to show that the sample proportion
+\[\hat p_n = \frac{1}{n}\sum_{i=1}^n X_i\]
+converges in probability to $p$.  
+Then compute $n$ such that
+\[\P\big(| \hat p_n - p| > 0.05\big) < 0.01.\]
+
+\paragraph{4. WLLN When Moments Do Not Exist.}
+Let $X_1,\dots,X_n,\dots$ be i.i.d.\ with density
+\[f(x)=\frac{1}{x^2}, \qquad x\ge 1.\]
+Does the Weak Law hold for $\bar X_n$? Explain.
+\ifnum\printsol=0
+\vfill\eject
+\fi
+
+\paragraph{5. WLLN for Non-Identically Distributed Variables.}
+Suppose $X_k$ are independent with
+\[E[X_k] = 0,\qquad \operatorname{Var}(X_k)=\frac{1}{k}.\]
+Consider $Y_n = \frac{1}{n} \sum_{k=1}^n X_k$.  
+Does $Y_n \to 0$ in probability?
+
+\section*{Part B: Central Limit Theorem}
+
+\paragraph{6. CLT for Bernoulli Variables.}
+Let $X_i\sim \text{Bernoulli}(p)$. Derive the CLT approximation for
+\[\P\left(\frac{\hat p_n - p}{\sqrt{p(1-p)/n}} \le z\right).\]
+Approximate
+\[\P(|\hat p_n - p|<0.02)\]
+when $p=0.3$ and $n=400$.
+
+\paragraph{7. CLT for Poisson Variables.}
+Let $X_i\sim \mathrm{Poisson}(\lambda)$.  
+Approximate
+\[\P(S_{200} \le 230),\]
+where $S_{200}=\sum_{i=1}^{200} X_i$, using the CLT with continuity correction.
+
+\paragraph{8. CLT Approximation Error.}
+If $X_i\sim N(\mu, \sigma^2)$, redo the CLT derivation and identify the limiting distribution of $S_n$. Explain why the CLT is unnecessary here.
+
+\paragraph{9. CLT for Uniform Distribution.}
+Let $X_i\sim \mathrm{Uniform}(0,1)$. Approximate
+\[\P(S_{50} > 30),\]
+where $S_{50}=X_1+\cdots+X_{50}$.
+
+\paragraph{10. Lindeberg Condition Check.}
+Let $X_k$ be independent with
+\[\P(X_k = k) = \frac{1}{2k},\qquad\P(X_k = -k)=\frac{1}{2k},\qquad\P(X_k = 0)=1-\frac{1}{k}.\]
+\begin{itemize}
+    \item[(a)] Compute $E[X_k]$ and $\operatorname{Var}(X_k)$.
+    \item[(b)] Let $S_n=\sum_{k=1}^n X_k$. Does the CLT apply? Check whether the Lindeberg condition holds.
+\end{itemize}
+
+\paragraph{11. CLT + Delta Method.}
+Let $X_i\sim \text{Exponential}(1)$. Approximate the distribution of
+\[\sqrt{n}\big(\log(\bar X_n)-\log(1)\big).\]
+
+\paragraph{12. CLT for Non-Rectangular Domains.}
+Let $(X_i,Y_i)$ be i.i.d. points uniformly distributed on the unit disk. Consider
+\[R_n = \frac{1}{n}\sum_{i=1}^n \sqrt{X_i^2 + Y_i^2}.\]
+\begin{itemize}
+    \item[(a)] Compute $\mu = E[\sqrt{X_1^2 + Y_1^2}]$.
+    \item[(b)] Using the CLT, approximate the distribution of $\sqrt{n}(R_n - \mu)$.
+\end{itemize}
+
+
+\ifnum\printsol=0
+\end{document}
+
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\newpage
+\section*{Solutions}
+
+\paragraph{1. Basic WLLN Verification.}
+
+\emph{(a)}  
+The expectation is computed directly from the definition:
+\[
+E[X_1]
+= \sum_x x \, \P(X_1=x)
+= 2\cdot \tfrac12 + (-1)\cdot \tfrac12
+= \tfrac12.
+\]
+Next compute the second moment:
+\[
+E[X_1^2]
+= 2^2\cdot \tfrac12 + (-1)^2\cdot \tfrac12
+= \tfrac12(4) + \tfrac12(1)
+= \tfrac52.
+\]
+Hence
+\[
+\operatorname{Var}(X_1)
+= E[X_1^2] - (E[X_1])^2
+= \tfrac52 - \left(\tfrac12\right)^2
+= \frac{9}{4}.
+\]
+
+\emph{(b)}  
+Since the $X_i$ are i.i.d.,
+\[
+E[\bar X_n] = E[X_1] = \tfrac12,
+\qquad
+\operatorname{Var}(\bar X_n) = \frac{\operatorname{Var}(X_1)}{n}
+= \frac{9}{4n}.
+\]
+By Chebyshev’s inequality,
+\[
+\P\!\left(|\bar X_n - \tfrac12| > \varepsilon\right)
+\le \frac{\operatorname{Var}(\bar X_n)}{\varepsilon^2}
+= \frac{9}{4n\varepsilon^2}.
+\]
+As $n\to\infty$, this bound converges to $0$, so
+\[
+\bar X_n \xrightarrow{P} \tfrac12.
+\]
+
+---
+
+\paragraph{2. WLLN for Random Variables with Increasing Variance.}
+
+First compute the mean:
+\[
+E[\bar X_n]
+= \frac1n \sum_{k=1}^n E[X_k]
+= 1.
+\]
+Using independence,
+\[
+\operatorname{Var}(\bar X_n)
+= \frac{1}{n^2} \sum_{k=1}^n \operatorname{Var}(X_k)
+= \frac{1}{n^2} \sum_{k=1}^n \frac{1}{k}.
+\]
+Since $\sum_{k=1}^n \frac1k \sim \log n$, we obtain
+\[
+\operatorname{Var}(\bar X_n)
+\sim \frac{\log n}{n^2} \to 0.
+\]
+Chebyshev’s inequality then implies
+\[
+\bar X_n \xrightarrow{P} 1.
+\]
+Thus the Weak Law holds even though the individual variances do not vanish.
+
+---
+
+\paragraph{3. Sample Proportion Convergence.}
+
+For Bernoulli$(p)$ variables,
+\[
+E[X_i]=p, \qquad \operatorname{Var}(X_i)=p(1-p).
+\]
+Hence
+\[
+E[\hat p_n]=p,
+\qquad
+\operatorname{Var}(\hat p_n)=\frac{p(1-p)}{n}.
+\]
+By the WLLN,
+\[
+\hat p_n \xrightarrow{P} p.
+\]
+
+For the probability bound, Chebyshev’s inequality gives
+\[
+\P(|\hat p_n - p|>0.05)
+\le \frac{p(1-p)}{n(0.05)^2}.
+\]
+To make this less than $0.01$, it suffices that
+\[
+\frac{p(1-p)}{n(0.05)^2} < 0.01
+\quad\Longrightarrow\quad
+n > \frac{p(1-p)}{0.000025}.
+\]
+This bound is conservative but does not rely on any normal approximation.
+
+---
+
+\paragraph{4. WLLN When Moments Do Not Exist.}
+
+We compute
+\[
+E[X_1]
+= \int_1^\infty x \frac{1}{x^2}\,dx
+= \int_1^\infty \frac{1}{x}\,dx
+= \infty.
+\]
+Since the expectation does not exist, the classical WLLN does not apply.
+In fact, this heavy-tailed distribution allows rare but extremely large observations that dominate the sample average, preventing stabilization of $\bar X_n$.
+
+---
+
+\paragraph{5. WLLN for Non-Identically Distributed Variables.}
+
+We have
+\[
+E[Y_n] = 0,
+\qquad
+\operatorname{Var}(Y_n)
+= \frac{1}{n^2}\sum_{k=1}^n \frac{1}{k}
+\sim \frac{\log n}{n^2} \to 0.
+\]
+Applying Chebyshev’s inequality,
+\[
+\P(|Y_n|>\varepsilon)
+\le \frac{\operatorname{Var}(Y_n)}{\varepsilon^2} \to 0.
+\]
+Thus
+\[
+Y_n \xrightarrow{P} 0.
+\]
+
+---
+
+\paragraph{6. CLT for Bernoulli Variables.}
+
+By the CLT,
+\[
+\frac{\hat p_n - p}{\sqrt{p(1-p)/n}}
+\Rightarrow N(0,1).
+\]
+For $p=0.3$ and $n=400$,
+\[
+\sqrt{\frac{p(1-p)}{n}}
+= \sqrt{\frac{0.21}{400}}
+\approx 0.0229.
+\]
+Hence
+\[
+\P(|\hat p_n - p|<0.02)
+\approx \P\!\left(|Z|<\frac{0.02}{0.0229}\right)
+= \P(|Z|<1.746)
+\approx 0.919.
+\]
+
+---
+
+\paragraph{7. CLT for Poisson Variables.}
+
+If $X_i\sim\text{Poisson}(1)$, then
+\[
+S_{200} \sim \text{Poisson}(200),
+\qquad
+E[S_{200}]=200,
+\quad
+\operatorname{Var}(S_{200})=200.
+\]
+Using the normal approximation with continuity correction,
+\[
+\P(S_{200}\le 230)
+\approx \P\!\left(
+Z \le \frac{230.5 - 200}{\sqrt{200}}
+\right)
+= \P(Z \le 2.162)
+\approx 0.985.
+\]
+
+---
+
+\paragraph{8. CLT Approximation Error.}
+
+If $X_i \sim N(\mu,\sigma^2)$, then the sum
+\[
+S_n = \sum_{i=1}^n X_i
+\sim N(n\mu, n\sigma^2)
+\]
+\emph{exactly}, for every $n$.
+Thus the limiting distribution obtained from the CLT coincides with the exact finite-sample distribution.
+In this case the CLT provides no approximation—it is already exact.
+
+---
+
+\paragraph{9. CLT for Uniform Distribution.}
+
+For $X_i \sim U(0,1)$,
+\[
+E[X_i]=\tfrac12,
+\qquad
+\operatorname{Var}(X_i)=\tfrac{1}{12}.
+\]
+Therefore
+\[
+E[S_{50}]=25,
+\qquad
+\operatorname{Var}(S_{50})=\frac{50}{12}.
+\]
+By the CLT,
+\[
+\P(S_{50}>30)
+\approx \P\!\left(
+Z > \frac{30-25}{\sqrt{50/12}}
+\right)
+= \P(Z>2.45)
+\approx 0.0071.
+\]
+
+---
+
+\paragraph{10. Lindeberg Condition Check.}
+
+\emph{(a)}  
+By symmetry,
+\[
+E[X_k]=0.
+\]
+The variance is
+\[
+\operatorname{Var}(X_k)
+= E[X_k^2]
+= k^2\!\left(\frac{1}{2k} + \frac{1}{2k}\right)
+= k.
+\]
+
+\emph{(b)}  
+Let $S_n=\sum_{k=1}^n X_k$. Then
+\[
+\operatorname{Var}(S_n)
+= \sum_{k=1}^n \operatorname{Var}(X_k)
+= \sum_{k=1}^n k
+\sim \frac{n^2}{2}.
+\]
+Thus the natural scaling for a CLT would be $S_n / n$.
+
+However, with probability $1/k$, the variable $X_k$ takes values of size $k$.
+These jumps are \emph{not negligible} relative to the standard deviation of $S_n$, which is of order $n$.
+Consequently, for any $\varepsilon>0$,
+\[
+\E\!\left[
+X_k^2 \mathbf{1}_{\{|X_k|>\varepsilon n\}}
+\right]
+\approx k^2 \cdot \frac{1}{k}
+= k,
+\]
+so the Lindeberg condition fails.
+Hence the CLT does \emph{not} apply.
+
+---
+
+
+\paragraph{11. CLT + Delta Method.}
+
+For $X_i\sim\text{Exponential}(1)$,
+\[
+E[X_i]=1,
+\qquad
+\operatorname{Var}(X_i)=1.
+\]
+By the CLT,
+\[
+\sqrt{n}(\bar X_n - 1) \Rightarrow N(0,1).
+\]
+Let $g(x)=\log x$, which is differentiable at $x=1$ with $g'(1)=1$.
+By the delta method,
+\[
+\sqrt{n}(\log\bar X_n - \log 1)
+\Rightarrow N\!\left(0,(g'(1))^2\right)
+= N(0,1).
+\]
+Thus the asymptotic distribution is standard normal.
+
+---
+
+\paragraph{12. CLT for Non-Rectangular Domains.}
+
+\emph{(a)}  
+Let $R=\sqrt{X^2+Y^2}$. For a point uniformly distributed in the unit disk,
+the radial density is
+\[
+f_R(r)=2r, \qquad 0\le r\le 1.
+\]
+Hence
+\[
+E[R]
+= \int_0^1 r(2r)\,dr
+= \frac{2}{3}.
+\]
+
+\emph{(b)}  
+We compute
+\[
+E[R^2]
+= \int_0^1 r^2(2r)\,dr
+= \frac12,
+\]
+so
+\[
+\operatorname{Var}(R)
+= \frac12 - \left(\frac23\right)^2
+= \frac{1}{18}.
+\]
+Since the $R_i$ are i.i.d., the CLT yields
+\[
+\sqrt{n}(R_n - \tfrac23)
+\Rightarrow N\!\left(0,\frac{1}{18}\right).
+\]
+
+
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\paragraph*{Detailed Explanation of the Lindeberg Condition.}
+
+Recall that for a triangular array of independent random variables
+$\{X_k\}$ with partial sums
+\[
+S_n = \sum_{k=1}^n X_k,
+\qquad
+s_n^2 = \operatorname{Var}(S_n),
+\]
+the \emph{Lindeberg condition} states that for every $\varepsilon>0$,
+\[
+\frac{1}{s_n^2}
+\sum_{k=1}^n
+\E\!\left[
+X_k^2 \, \mathbf{1}_{\{|X_k|>\varepsilon s_n\}}
+\right]
+\;\longrightarrow\; 0.
+\]
+This condition formalizes the requirement that no single summand
+contributes a non-negligible fraction of the total variance through
+rare but large deviations.
+
+\vspace{0.5em}
+
+In the present example,
+\[
+\P(X_k = k)=\frac{1}{2k},
+\qquad
+\P(X_k = -k)=\frac{1}{2k},
+\qquad
+\P(X_k=0)=1-\frac{1}{k}.
+\]
+By symmetry, $E[X_k]=0$, and the variance is
+\[
+\operatorname{Var}(X_k)
+= E[X_k^2]
+= k^2\!\left(\frac{1}{2k}+\frac{1}{2k}\right)
+= k.
+\]
+Therefore, the variance of the sum is
+\[
+s_n^2
+= \operatorname{Var}(S_n)
+= \sum_{k=1}^n k
+= \frac{n(n+1)}{2}
+\sim \frac{n^2}{2},
+\]
+so the natural scale of fluctuations is
+\[
+s_n \sim \frac{n}{\sqrt{2}}.
+\]
+
+\vspace{0.5em}
+
+We now examine the Lindeberg condition.
+The indicator $\mathbf{1}_{\{|X_k|>\varepsilon s_n\}}$ is nonzero only
+when $|X_k|=k$ and
+\[
+k > \varepsilon s_n \sim \varepsilon \frac{n}{\sqrt{2}}.
+\]
+Thus only indices $k$ of order $n$ contribute to the sum.
+
+For such $k$,
+\[
+\E\!\left[
+X_k^2 \, \mathbf{1}_{\{|X_k|>\varepsilon s_n\}}
+\right]
+= k^2 \cdot \P(|X_k|=k)
+= k^2 \cdot \frac{1}{k}
+= k.
+\]
+Summing over all indices with $k>\varepsilon n/\sqrt{2}$ gives
+\[
+\sum_{k>\varepsilon n/\sqrt{2}} k
+\;\approx\;
+\int_{\varepsilon n/\sqrt{2}}^n x\,dx
+\;\sim\; C n^2
+\quad\text{for some } C>0.
+\]
+
+Dividing by $s_n^2 \sim n^2/2$, we obtain
+\[
+\frac{1}{s_n^2}
+\sum_{k=1}^n
+\E\!\left[
+X_k^2 \, \mathbf{1}_{\{|X_k|>\varepsilon s_n\}}
+\right]
+\;\longrightarrow\;
+\text{a positive constant}.
+\]
+Since this limit is not zero, the Lindeberg condition fails.
+
+\vspace{0.5em}
+
+\emph{Interpretation.}
+Although each $X_k$ is usually zero, it occasionally takes values of
+size $k$ with probability $1/k$.
+For large $k$, these jumps are of the same order as the standard
+deviation of the entire sum $S_n$.
+Because such jumps occur often enough to contribute a fixed proportion
+of the total variance, the averaging mechanism behind the Central Limit
+Theorem breaks down.
+Consequently, the CLT does not apply to this sequence.
+
+\end{document}
