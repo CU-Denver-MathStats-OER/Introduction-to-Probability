@@ -1,0 +1,174 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      6248,        164]
+NotebookOptionsPosition[      5823,        148]
+NotebookOutlinePosition[      6166,        163]
+CellTagsIndexPosition[      6123,        160]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Define", " ", "the", " ", "piecewise", " ", "pdf", " ", "of", " ", "W"}], 
+   "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"fW", "[", "w_", "]"}], ":=", 
+     RowBox[{"Piecewise", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"1", "/", "10"}], ",", 
+          RowBox[{"0", "\[LessEqual]", "w", "<", "5"}]}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"1", "/", "20"}], ",", 
+          RowBox[{"5", "\[LessEqual]", "w", "\[LessEqual]", "15"}]}], "}"}], 
+        ",", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "True"}], "}"}]}], "}"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Plot", " ", "the", " ", "density", " ", "function"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"Plot", "[", 
+    RowBox[{
+     RowBox[{"fW", "[", "w", "]"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"w", ",", "0", ",", "15"}], "}"}], ",", 
+     RowBox[{"AxesLabel", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"\"\<w (minutes)\>\"", ",", "\"\<f_W(w)\>\""}], "}"}]}], ",", 
+     RowBox[{"PlotStyle", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"Thick", ",", "Blue"}], "}"}]}], ",", 
+     RowBox[{"Filling", "\[Rule]", "Axis"}], ",", 
+     RowBox[{"PlotRange", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"0", ",", "15"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "0.12"}], "}"}]}], "}"}]}], ",", 
+     RowBox[{"GridLines", "\[Rule]", "Automatic"}], ",", 
+     RowBox[{"PlotLabel", "\[Rule]", "\"\<PDF of Waiting Time W\>\""}]}], 
+    "]"}], "\n"}]}]], "Input",
+ CellChangeTimes->{{3.970700098975175*^9, 3.970700098978175*^9}, {
+  3.970700339456435*^9, 3.970700351597771*^9}},
+ CellLabel->"In[5]:=",ExpressionUUID->"ff6c1524-6f62-46a9-b5ca-cd0925fc3013"],
+
+Cell[BoxData[
+ GraphicsBox[{GraphicsComplexBox[CompressedData["
+1:eJxTTMoPSmViYGBwA2IQ/e3eySMq3VPsZs0EgZ32P6+bT/1w/ZI9jH/YefmS
+i4sew/ky93c+S9J5C+eL5MSvYnf+DOdPMnTb7Rf6A86/OcPgwEeBv3B+95L6
+80ySjA4wvviUx52T5zLD+e0hnnaXvrHC+cWWC+NPNnHA+S7vf1XlPeaC8xtt
+AhOlLHjhfKt1M7fU7eeH83N+fGw4wSsI5//UFrinGyoE59usXrNg2jRhOP+j
+kFdC2CERKH+l/ZOehLAidjE43/N9uedTM3E4/00yR/GWegk4301FnKn9kCSc
+L3RWrW/Deyk4X6ZjfYCZmQycP0PbUkA4XRbOPyXlaPp5ohycbyVzaIL+NXk4
+n495UUlikwKcL9cobxOppgjnc6rGbAs6juDr2UquL49VgvOL7gkd9mJQhvPf
+f+4J9ZyB4LvrH5vlqasC5+/7bP37+zkEP0/H6NbFVFU43/ZdypVITjU431VF
+wpd3EYKv0dBVcchcHc7XSrXcr3oLwU/dl9GypVADzt+/4ErKR1FNOP/Liv/f
+9bcj+Mmqqzln+WrB+R+1Jptt+oDg71jy++HXDm04P8pF2cFaTgfOl85t36l3
+AMEX5crZ6BuuC+fPy9319f9/XaT4fHX34/VD8PQrFl/dUKaDSB+v/EOjn6SI
+wvm3rCdfXrYaoV+TdcqEtoeI9MWyM6kgrRyh3yhiwQy+PQh5Vv3lD56yIOSX
+3O7tcfqCkJ/d0diySxIhn/ZhQt+TVwj53xci5KV+I/jOgT3dH3/gNh9dPQMY
+iDjsNgaBzfaw8oEBCmDqYXyYeTA+LPxgfABERBje
+    "], {{{}, 
+      {RGBColor[0, 0, 1], Opacity[0.2], EdgeForm[None], 
+       GraphicsGroupBox[{
+         PolygonBox[{{1, 67, 68, 62, 63, 59, 61, 55, 57, 17, 16, 15, 14, 13, 
+          12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 51}}], 
+         PolygonBox[{{58, 69, 70, 50, 54, 49, 48, 47, 46, 45, 44, 43, 42, 41, 
+          40, 39, 38, 37, 36, 35, 34, 33, 32, 31, 30, 29, 28, 27, 26, 25, 24, 
+          23, 22, 21, 20, 19, 53, 18, 56, 52, 60}}]}]}, {}, {}}, {{}, {}, 
+      TagBox[
+       {RGBColor[0, 0, 1], Thickness[Large], Opacity[1.], 
+        LineBox[{1, 51, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 
+         17, 57, 55, 61, 59, 63, 62}], 
+        LineBox[{58, 60, 52, 56, 18, 53, 19, 20, 21, 22, 23, 24, 25, 26, 27, 
+         28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 
+         45, 46, 47, 48, 49, 54, 50}]},
+       Annotation[#, "Charting`Private`Tag$3500#1"]& ], 
+      {RGBColor[0, 0, 1], Opacity[0.2], 
+       LineBox[{65, 66, 64}]}}, {{}, {}, {}}}], {}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{True, True},
+  AxesLabel->{
+    FormBox["\"w (minutes)\"", TraditionalForm], 
+    FormBox["\"f_W(w)\"", TraditionalForm]},
+  AxesOrigin->{0, 0},
+  DisplayFunction->Identity,
+  Frame->{{False, False}, {False, False}},
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, 
+     Charting`ScaledFrameTicks[{Identity, Identity}]}, {Automatic, 
+     Charting`ScaledFrameTicks[{Identity, Identity}]}},
+  GridLines->{Automatic, Automatic},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImagePadding->All,
+  Method->{
+   "DefaultBoundaryStyle" -> Automatic, "DefaultMeshStyle" -> 
+    AbsolutePointSize[6], "ScalingFunctions" -> None, 
+    "CoordinatesToolOptions" -> {"DisplayFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+        (Identity[#]& )[
+         Part[#, 1]], 
+        (Identity[#]& )[
+         Part[#, 2]]}& )}, "AxesInFront" -> True},
+  PlotLabel->FormBox["\"PDF of Waiting Time W\"", TraditionalForm],
+  PlotRange->{{0, 15}, {0, 0.12}},
+  PlotRangeClipping->True,
+  PlotRangePadding->{{0, 0}, {0, 0}},
+  Ticks->{Automatic, Automatic}]], "Output",
+ CellChangeTimes->{
+  3.970700101649867*^9, {3.9707003443357687`*^9, 3.9707003526939335`*^9}},
+ CellLabel->"Out[6]=",ExpressionUUID->"e27c0b24-8fe0-442f-a075-dc6feb7128c6"]
+}, Open  ]]
+},
+WindowSize->{759, 833},
+WindowMargins->{{Automatic, 364}, {25, Automatic}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 1901, 52, 162, "Input",ExpressionUUID->"ff6c1524-6f62-46a9-b5ca-cd0925fc3013"],
+Cell[2484, 76, 3323, 69, 237, "Output",ExpressionUUID->"e27c0b24-8fe0-442f-a075-dc6feb7128c6"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+
