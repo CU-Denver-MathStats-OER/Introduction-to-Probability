@@ -1,0 +1,368 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Bayes' Rule and Disease Testing}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We are tested for a particular disease. We know that 5\% of the population has the disease and we also have empirical data about the accuracy of the test. The test has sensitivity 95\% -- the ability of the test to correctly identify those who have the disease). Also, the test specificity is 90\% -- the ability of the test to correctly identify those who do not have the disease. We want to know the probability of having the disease given a positive test result.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R. Below are graphics from four different simulations with running proportions (up to $n=100,000$) of those having the disease from patients testing positive. In each simulation the proportion seems to be converging to a common proportion $p=1/3$. The R code is provided the end of the document.
+
+\begin{center}
+\includegraphics[scale=0.31]{m3810_bayes_medical_simulation1.jpeg}\qquad\qquad
+\includegraphics[scale=0.31]{m3810_bayes_medical_simulation2.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.31]{m3810_bayes_medical_simulation3.jpeg}\qquad\qquad
+\includegraphics[scale=0.31]{m3810_bayes_medical_simulation4.jpeg}\\
+\end{center}
+
+\vfill\eject
+
+The following graphic shows the results of 50 different simulations. We can see that in all simulations the proportion of those having the disease given a positive test result are converging to the proportion $p=1/3$.
+\vskip 1mm
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.48]{bayes_medical_simulation_multiple.jpeg}
+\caption{50 Simulations of True Positive Test Results}
+\end{center}
+\end{figure}
+\vskip 5mm
+Given these simulations and our frequency approach to probability theory we might suspect that the true probability is about $p=1/3$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent 
+
+	\begin{itemize}
+		\item {\bf\emph{Conditional Probability:}} Let $(\Omega,\mathcal{F},\P)$ be a probability space and $A,B\in\mathcal{F}$ where $\P(B)\not=0$. Then we define the conditional probability of $A$ given $B$ as
+\[\P\big(A\,|\,B\big)=\ds\frac{\P\big(A\cap B\big)}{\P(B)}.\]
+We note that from this we can write 
+\[\P\big(A\cap B\big)=\P\big(B\big)\cdot\P\big(A\,|\,B\big)\quad\text{and}\quad\P\big(A\cap B\big)=\P\big(A\big)\cdot\P\big(B\,|\,A\big).\]
+		\item {\bf\emph{Total Probability:}} Let $(\Omega,\mathcal{F},\P)$ be a probability space where $B\in\mathcal{F}$ is a non-zero probability event. Moreover suppose $A_1,A_2,\dots,A_n$ forms a partition of the sample space $\Omega$ where $\P(A_k)\not=0$ when $1\le k\le n$. Then we can write
+\[\P\big(B\big)=\P\big(A_1\big)\cdot\P\big(B\,|\,A_1\big)+\P\big(A_2\big)\cdot\P\big(B\,|\,A_2\big)+\cdots+\P\big(A_n\big)\cdot\P\big(B\,|\,A_n\big).\]
+This is one of the main tools in a ``divide and conquer" strategy in evaluating probability.
+
+\vfill\eject
+
+		\item {\bf\emph{Baye's Rule:}} Let $(\Omega,\mathcal{F},\P)$ be a probability space where $B\in\mathcal{F}$ is a non-zero probability event. Moreover suppose $A_1,A_2,\dots,A_n$ forms a partition of the sample space $\Omega$ where $\P(A_k)\not=0$ when $1\le k\le n$. Then we can write
+\[\P\big(A_k\,|\,B\big)=\ds\frac{\P\big(A_k\big)\P\big(B\,|\,A_k\big)}{\ds\sum^{n}_{k=1}\P\big(A_k\big)\cdot\P\big(B\,|\,A_k\big)}\]		
+Bayes' Rule is simply a combination of conditional probability and total probability, but it is important when trying to make probabalistic inference. In particular, we can think of $A_1,A_2,\dots,A_n$ as $n$ possible states of the world and event $B$ as evidence obtained from experiment. Then $\P(A_k\,|\,B)$ can be interpreted as follows: what is the probability that we are in the state $A_k$ given the evidence outcome in event $B$?		
+	\end{itemize} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Let $D$ be the event that we have the disease and $E$ be the event that we test positive for the disease. Then, since $D$ and $D^C$ partition the sample space, we have
+\beq
+\P\big(D\,|\,E\big)&=&\ds\frac{\P\big(D\big)\cdot\P\big(E\,|\,D\big)}{\P\big(D\big)\cdot\P\big(E\,|\,D\big)+\P\big(D^C\big)\cdot\P\big(E\,|\,D^C\big)}\\
+\\
+&=&\ds\frac{(0.05)\cdot(0.95)}{(0.05)\cdot(0.95)+(0.95)\cdot(0.10)}\\
+\\
+&=&0.\overline{333}
+\eeq 
+That is, $\P\big(D\,|\,E\big)=1/3$ as we suspected from the simulations. So just testing positive with a very accurate test does not mean you have a high probability of actually having the disease. With a little thought, the reason for this surprising result as the low probability of having the disease.
+
+\vskip 1cm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+########################################################################
+# This simulates the probability of having a particular disease
+# given a positive test result.
+
+# install.packages("ggrepel") if necessary
+library(ggplot2)
+library(ggrepel)  # for table labels on plot
+
+# --- Parameters ---
+p_disease <- 0.05
+sens <- 0.95
+spec <- 0.90
+
+# True Bayesian probability
+p_true <- p_disease * sens / (p_disease * sens + (1 - p_disease) * (1 - spec))
+
+# --- Simulation function ---
+simulate_medical <- function(n, p_disease, sens, spec) {
+  disease <- rbinom(n, 1, p_disease)   # 1 = has disease, 0 = does not
+  test <- integer(n)
+  
+  # Conditional test results
+  test[disease == 1] <- rbinom(sum(disease == 1), 1, sens)
+  test[disease == 0] <- rbinom(sum(disease == 0), 1, 1 - spec)
+  
+  # Probability of disease given positive test
+  p_given_positive <- mean(disease[test == 1])
+  return(p_given_positive)
+}
+
+# --- Simulate multiple sample sizes ---
+sample_sizes <- c(100, 500, 1000, 5000, 10000, 50000, 1e5)
+results <- sapply(sample_sizes, simulate_medical,
+                  p_disease = p_disease,
+                  sens = sens,
+                  spec = spec)
+
+# --- Create table ---
+df <- data.frame(
+  n = sample_sizes,
+  p_given_positive = results
+)
+
+
+# --- Plot ---
+ggplot(df, aes(x = n, y = p_given_positive)) +
+  geom_line(size = 1.2, color = "blue") +
+  geom_point(size = 2) +
+  scale_x_log10() +
+  geom_hline(yintercept = p_true, linetype = "dotted", color = "red", size = 1) +
+  geom_text(aes(label = round(p_given_positive,3)), vjust = -0.5, size = 3.5) +
+  labs(
+  title = paste0("Single Simulation: Probability of Disease Given Positive Test\n",
+                      "Parameters: Prob(disease) = ", p_disease,
+                      ", Sensitivity = ", sens,
+                      ", Specificity = ", spec),
+       subtitle = paste0("Red dotted line = true probability (Bayes): ", 
+       round(p_true,3)),
+       x = "Number of Simulated People (log scale)",
+       y = "Estimated Probability") +
+  theme_minimal()
+
+
+print(df)  # Table output
+
+
+
+
+################################################################################
+################################################################################
+# Run Multiple Simulations
+################################################################################
+################################################################################
+
+library(ggplot2)
+library(dplyr)
+
+# --- Parameters ---
+p_disease <- 0.05
+sens <- 0.95
+spec <- 0.90
+
+# True Bayesian probability
+p_true <- p_disease * sens / (p_disease * sens + (1 - p_disease) * (1 - spec))
+
+# --- Simulation function ---
+simulate_medical <- function(n, p_disease, sens, spec) {
+  disease <- rbinom(n, 1, p_disease)
+  test <- integer(n)
+  test[disease == 1] <- rbinom(sum(disease == 1), 1, sens)
+  test[disease == 0] <- rbinom(sum(disease == 0), 1, 1 - spec)
+  mean(disease[test == 1])
+}
+
+# --- Multiple simulations per sample size ---
+sample_sizes <- c(100, 500, 1000, 5000, 10000)
+n_sims <- 50
+
+all_results <- lapply(sample_sizes, function(n) {
+  replicate(n_sims, simulate_medical(n, p_disease, sens, spec))
+})
+
+# --- Convert to long-format data frame ---
+df_long <- data.frame(
+  n = rep(sample_sizes, each = n_sims),
+  p_given_positive = unlist(all_results)
+)
+
+# --- Summarize mean +/- SD ---
+df_summary <- df_long %>%
+  group_by(n) %>%
+  summarize(
+    mean_p = mean(p_given_positive),
+    sd_p = sd(p_given_positive)
+  ) %>%
+  ungroup() %>%
+  mutate(label = paste0(round(mean_p,3), " +/- ", round(sd_p,3)))
+
+
+# --- Plot ---
+ggplot(df_long, aes(x = n, y = p_given_positive)) +
+  geom_jitter(width = 0.1, height = 0, alpha = 0.3, color = "blue") + 
+  geom_line(data = df_summary, aes(x = n, y = mean_p), color = "darkblue", 
+  size = 1.2) +  # mean line
+  geom_errorbar(data = df_summary, 
+                aes(x = n, ymin = mean_p - sd_p, ymax = mean_p + sd_p, y = mean_p),
+                width = 0.05, color = "darkblue") +  # +/-1 SD
+  geom_text(data = df_summary, aes(x = n, y = mean_p + 0.06, label = label), 
+            size = 3.5, color = "black") +  # table overlay above points
+  scale_x_log10() +
+  geom_hline(yintercept = p_true, linetype = "dotted", color = "red", size = 1) +
+  labs(
+    title = paste0("Multiple Simulations: Probability Disease With Positive Test\n",
+                   "Parameters: Prob(disease) = ", p_disease,
+                   ", Sensitivity = ", sens,
+                   ", Specificity = ", spec),
+    subtitle = paste0(
+      "Red dotted line = true probability (Bayes): ", round(p_true,3), "\n",
+      "Blue line = mean of ", n_sims, " simulations; error bars = +/-1 SD"
+    ),
+    x = "Number of Simulated People (log scale)",
+    y = "Estimated Probability"
+  ) +
+  theme_minimal()
+
+
+# --- Print summary table ---
+print(df_summary)
+
+\end{lstlisting}
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

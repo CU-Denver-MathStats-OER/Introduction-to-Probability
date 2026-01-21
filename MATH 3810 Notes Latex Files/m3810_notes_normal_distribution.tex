@@ -1,0 +1,297 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Normal (Gaussian) Distribution}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Normal Random Variables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent The normal distribution arises naturally when we sum many independent, small random effects.  
+Suppose we have a sequence of independent, identically distributed random variables 
+$X_1, X_2, \dots, X_n$ with finite mean $\mu$ and variance $\sigma^2$.  
+By the Central Limit Theorem, for large $n$, the normalized sum
+\[
+S_n = \frac{1}{\sqrt{n}} \sum_{i=1}^{n} \frac{X_i - \mu}{\sigma} 
+\]
+approaches a \emph{standard normal distribution} $Z \sim N(0,1)$. More generally, a continuous random variable $X$ is \textbf{normal} with mean $\mu$ and variance $\sigma^2$ if its density is
+\[
+f_X(x) = \frac{1}{\sigma \sqrt{2\pi}} \exp\Big[-\frac{(x-\mu)^2}{2\sigma^2}\Big], \quad x \in \mathbb{R}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Theoretical Facts:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item \textbf{Symmetry:} The density is symmetric about $\mu$.
+\item \textbf{Standardization:} If $X\sim N(\mu,\sigma^2)$, then
+\[
+Z = \frac{X-\mu}{\sigma} \sim N(0,1).
+\]
+\item \textbf{Moment Properties:} For $X\sim N(\mu,\sigma^2)$,
+\[
+\mathbb{E}[X] = \mu, \quad \mathrm{Var}(X) = \sigma^2.
+\]
+\item \textbf{Linear transformations:} For $X\sim N(\mu,\sigma^2)$, if $a,b \in \mathbb{R}$, then
+\[
+Y = aX + b \sim N(a\mu+b, a^2\sigma^2).
+\]
+\item \textbf{Sum of independent normals:} If $X_1 \sim N(\mu_1,\sigma_1^2)$
+and $X_2 \sim N(\mu_2,\sigma_2^2)$ are independent, then
+\[
+X_1 + X_2 \sim N(\mu_1+\mu_2, \sigma_1^2 + \sigma_2^2).
+\]
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Calculations: Expectation and Variance}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Let $X\sim N(\mu,\sigma^2)$. Then, by definition,
+\[\mathbb{E}[X] = \int_{-\infty}^{\infty} x f_{_X}(x) dx
+= \int_{-\infty}^{\infty} x \frac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^2/(2\sigma^2)} dx.\]
+
+Make the substitution $y = (x-\mu)/\sigma$:
+\[x = \sigma y + \mu, \quad dx = \sigma dy\]
+
+Then
+\[\mathbb{E}[X] = \int_{-\infty}^{\infty} (\sigma y + \mu) \frac{1}{\sqrt{2\pi}} e^{-y^2/2} dy
+=\mu\underbrace{\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}} e^{-y^2/2} dy}_{\substack{\text{Integral of Density}\\ \text{Equals One}}} + \sigma\underbrace{\int_{-\infty}^{\infty} y \frac{1}{\sqrt{2\pi}} e^{-y^2/2} dy}_{\substack{\text{Integral of Odd Funnction}\\ \text{Equals Zero}}}
+= \mu.\]
+
+Similarly,
+\[\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2] = \sigma^2 \mathbb{E}[Y^2] = \sigma^2.\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Standardization and Probability Calculations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+To compute probabilities, we standardize:
+\[Z = \frac{X-\mu}{\sigma} \sim N(0,1).\]
+
+Then, for any $a<b$:
+\[\P(a \le X \le b) = \P\Big(\frac{a-\mu}{\sigma} \le Z \le \frac{b-\mu}{\sigma}\Big).\]
+
+Tables or software can then be used to evaluate probabilities for $Z$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Visualizing the Normal Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+We often visualize probabilities by shading areas under the standard normal density curve.  
+Here, $Z \sim N(0,1)$, with density
+\[f_{_Z}(z) = \frac{1}{\sqrt{2\pi}} e^{-z^2/2}, \quad z \in \mathbb{R}.\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Standard Normal Curve with Shaded Area}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[h!]
+\centering
+\begin{tikzpicture}[scale=1.1]
+
+% Axes
+\draw[->] (-4.5,0) -- (4.5,0) node[right] {$z$};
+\draw[->] (0,0) -- (0,0.45) node[above] {$f_Z(z)$};
+
+% Curve
+\draw[thick,domain=-4.0:4.0,smooth,samples=100] 
+  plot (\x,{5/sqrt(2*pi) * exp(-(\x)^2/2)});
+
+% Shaded area between z=-2 and z=2
+\fill[blue!20] 
+  plot[domain=-2:2,smooth,samples=100] (\x,{5/sqrt(2*pi) * exp(-(\x)^2/2)}) -- (2,0) -- (-2,0) -- cycle;
+
+% Labels for z
+\foreach \z in {-3,-2,-1,0,1,2,3} {
+  \draw (\z,0.01) -- (\z,-0.01) node[below] {\small $\z$};
+}
+
+% Label for shaded probability
+\node at (0,0.5) {\scriptsize $\P(-2 \le Z \le 2) \approx 0.954$};
+
+\end{tikzpicture}
+\caption{Standard normal curve with area corresponding to $\P(-2 \le Z \le 2)$ shaded.}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Key Visual Insights}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+\item About 68\% of the probability lies within one standard deviation of the mean ($\mu \pm \sigma$).  
+\item About 95\% lies within two standard deviations ($\mu \pm 2\sigma$).  
+\item About 99.7\% lies within three standard deviations ($\mu \pm 3\sigma$).  
+
+\item Symmetry: the area to the left of $\mu$ equals the area to the right.  
+\item Standardization allows us to reuse this figure for any normal $X \sim N(\mu,\sigma^2)$ by computing $z=(X-\mu)/\sigma$.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Practice Example:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Suppose $X \sim N(100, 16)$ (mean $100$, variance $16$).
+
+\begin{itemize}
+\item[(a)] Find $\P(X>108)$.
+\item[(b)] Find $\P(92 \le X \le 108)$.
+\item[(c)] Compute the standardized value $z$ for $X=108$.
+\end{itemize}
+
+\begin{solutionbox}
+\begin{itemize}
+\item[(a)] $z = (108-100)/4 = 2$, so $\P(X>108) = \P(Z>2) \approx 0.0228$.
+\item[(b)] $z_1=(92-100)/4=-2$, $z_2=(108-100)/4=2$, so $\P(92\le X\le 108) = \P(-2\le Z\le 2) \approx 0.9544$.
+\item[(c)] $z = (108-100)/4 = 2$.
+\end{itemize}
+\end{solutionbox}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{The R Code:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Here is the R code used for the above simulations.
+%\vspace*{2mm}
+%\small 
+%\begin{lstlisting}[language=R]
+%
+%
+%
+%\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,1553 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath,amssymb,amsthm,latexsym,graphicx,hyperref,bbm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\topmargin=-.5in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9in
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\abs}[1]{\lvert{#1}\rvert}
+\newcommand{\card}[1]{\lvert{#1}\rvert}
+\newcommand{\union}{\cup}
+\newcommand{\Union}{\bigcup}
+\newcommand{\inter}{\cap}
+\newcommand{\Inter}{\bigcap}
+%\newcommand{\hint}[1]{\medskip\newline\emph{Hint: #1}}
+%\newcommand{\note}[1]{\medskip\newline\emph{Note: #1}}
+\newcommand{\points}[1]{[#1 points]}
+\newcommand{\totalpoints}[1]{[#1 points total]}
+
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\beq}{\begin{eqnarray*}}
+\newcommand{\eeq}{\end{eqnarray*}}
+\newcommand{\bieq}{\begin{IEEEeqnarray}{rCl}}
+\newcommand{\bieqx}{\begin{IEEEeqnarray}{+rCl+x*}}
+\newcommand{\eieq}{\end{IEEEeqnarray}}
+\newcommand{\nn}{\nonumber}
+\renewcommand{\ni}{\noindent}
+\newcommand{\bpm}{\begin{pmatrix}}
+\newcommand{\epm}{\end{pmatrix}}
+\newcommand{\sol}{\indent{\bf\emph{Solution:}}}
+\newcommand{\ssol}{\indent{\\[2mm]\bf\emph{Solution:}}\;}
+\newcommand{\hint}{\indent{\bf\emph{Hint}:}\;}
+\newcommand{\note}{\indent{\bf\emph{Note}:}\;}
+\newcommand{\vsk}{\vskip 2mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Calculus %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\dd}[2]{\ds\frac{d}{d{#1}}\left[{#2}\right]}
+\newcommand{\der}[2]{\ds\frac{d{#1}}{d{#2}}}
+\newcommand{\lmt}[3]{\ds\lim_{{#1}\to{#2}}{#3}}
+\renewcommand{\iint}[2]{\ds\int{#1}\,d{#2}}
+\newcommand{\dint}[4]{\ds\int^{#4}_{#3}{#1}\,d{#2}}
+\renewcommand{\Delta}{\triangle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Number Sets %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\I}{\mathbcal{I}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\F}{\mathcal{F}}
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\O}{\Omega}
+\renewcommand{\o}{\omega}
+\newcommand{\E}{\mathcal{E}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Vectors %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\x}{\bar{x}}
+\renewcommand{\v}{\bar{v}}
+\newcommand{\y}{\bar{y}}
+\newcommand{\z}{\bar{z}}
+\newcommand{\w}{\bar{w}}
+\renewcommand{\u}{\bar{u}}
+\renewcommand{\b}{\bar{b}}
+\newcommand{\e}{\bar{e}}
+\renewcommand{\a}{\vec{a}}
+\renewcommand{\r}{\vec{r}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vecPQ}[2]{\overrightarrow{#1}{#2}}
+\newcommand{\vecV}[1]{\overrightarrow{#1}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Vector Spaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\rn}{\ensuremath{\mathbb{R}^n}}
+\renewcommand{\rm}{\ensuremath{\mathbb{R}^m}}
+\newcommand{\re}{\mathbb{R}}
+\newcommand{\Pn}{\mathbb{P}_n}
+\newcommand{\B}{\mathcal{B}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Graphics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cg}[2]{\begin{center}
+\includegraphics[scale={#1}]{{#2}}
+\end{center}}
+\makeatletter
+\def\imod#1{\allowbreak\mkern10mu({\operator@font mod}\,\,#1)}
+\makeatother
+\newcommand{\abmodn}[3]{#1\equiv #2\,(\mbox{mod}\,#3)}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Defined Fonts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\font\minihelv=phvr at 6pt
+\font\helv=phvr at 10pt
+\font\medhelv=phvr at 16pt
+\font\bighelv=phvr at 20pt
+\font\hugehelv=phvr at 36pt
+\font\mybigfont=phvr at 16pt
+\font\mymediumfont=phvr at 14pt
+\font\mediumhelv=phvr at 14pt
+\font\mybfit=ptmbi at 12pt
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Other Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\setlength\fboxrule{.5pt}
+%\newcommand{\latexpicborder}[3]{
+%\setlength\fboxsep{30pt}
+%\begin{figure}[hb]
+%\begin{center}
+%\fbox{
+%\input{#1}
+%}
+%\caption{#2}
+%\label{#3}
+%\end{center}
+%\end{figure}
+%\setlength\fboxsep{0pt}
+%}
+%
+%\newcommand{\latexpic}[2]{
+%\begin{figure}[hb]
+%\begin{center}
+%\input{#1}
+%\vspace*{8mm}
+%\caption{#2}
+%\end{center}
+%\end{figure}
+%}
+
+%\begin{minipage}[b]{0.6\linewidth}
+%......
+%\end{minipage}
+%\hspace{0.5cm}
+%\begin{minipage}[t]{0.4\linewidth}
+%\centering
+%\includegraphics[scale=.5]{m1401_ex3_g4.eps}
+%\end{minipage}
+%\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% IEEEeqnarray Notes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%Any number of columns can be specified with IEEEeqnarray: {c} will give only one
+%column with all entries centered, or {rCll} would add a fourth, left-justified
+%column to use for comments. Moreover, beside l, c, r, L, C, R for math mode
+%entries there are also s, t, u for left, centered, and right text mode entries.
+%Additional space can be added with . and / and ? in increasing order.
+%
+%
+%\begin{proof}
+%This is a proof that ends
+%with an equation array:
+%\begin{IEEEeqnarray*}{+rCl+x*}
+%a & = & b + c \\
+%& = & d + e. & \qedhere
+%\end{IEEEeqnarray*}
+%\end{proof}
+%Note that the + in {+rCl+x*} denotes stretchable spaces, one on the left
+%of the equations (which, if not specified, will be done automatically by
+%IEEEeqnarray!) and one on the right of the equations. But now on the right,
+%after the stretching column, we add an empty column x. This column will be
+%only needed on the last line when we will put the \qedhere command there.
+%Finally, we specify a *. This is a null-space that prevents IEEEeqnarray to
+%add another unwanted +-space!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%  Theorem Environments  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\theoremstyle{definition}
+%\theoremstyle{plain}
+%\theoremstyle{remark}
+
+\newtheorem{thm}{Theorem}[]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lemma}[]{Lemma}
+\newtheorem*{axiom*}{Axiom}
+\newtheorem{axiom}[]{Axiom}
+\newtheorem{defn}[]{Definition}
+\newtheorem{ex}[]{Example}
+\theoremstyle{remark}\newtheorem{remark}[]{Remark}
+\theoremstyle{definition}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\vspace{-1in} Probability Foundations: The Laws of Large Numbers\\
+ICB Math Colloquim Talk - Spring 2016}
+\author{College of Liberal Arts and Sciences / University of Colorado Denver}
+\date{International College at Beijing, Spring 2016, Dr. Rostermundt \vspace{-.2in}}
+
+\markright{ICB Math Colloquim Talk - The Laws of Large Numbers,\; Spring 2016,\; Dr. Rostermundt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\vskip 5mm
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ni In this talk we will investigate the Laws of Large Numbers. In particular, we will focus on the Weak Law of Large Numbers (WLLN) and the Strong Law of Large Numbers (SLLN), and then investigate the implications of the SLLN in terms of how we interpret probability and some philosophical conclusions for experimentation. We will wait until later to formally state the WLLN and SLLN.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Probability Foundations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Probability is a measure of our beliefs about the likelihood of certain events such as the likelihood that we obtain heads on single flip of a coin. Of particular interest in applications, we might want an experimental method to determine an unknown probability or likelihood. For example, consider the following simple experiment. Suppose we are given a coin and asked to determine the probability of obtaining heads on a single flip of the coin. Our experimental procedure to determine this probability might consist of multiple coin flips and dividing the number of heads by the total number of coin flips. This ratio would then be considered as an estimate of the true probability of obtaining heads. Intuitively, we believe that there is a well-defined probability for such an outcome, and we believe that the greater the number of coin flips in the above experiment the closer we should be to the actual probability (or likelihood) of obtaining heads on a single flip of the coin. We might write this formally in the following manner. Let $H_n$ be the number of heads in $n$ flips of the coin. Then
+\[\P(\text{Heads on a single coin flip})=\ds\lim_{n\to\infty}\ds\frac{H_n}{n}.\]
+This is what is known as a ``frequency interpretation" of probability. But how do we know that the above limit actually exists? Are we certain that the ratio converges to some value? If we run the process multiple times will we always converge to the same value?\\
+
+\ni In these notes we aim to verify the correctness of this experimental method using a rigorous mathematical approach to probability. (Moreover, we will see some of the consequences and applications of this frequency approach, such as simulations and Monte Carlo procedures.) To do this we will use an axiomatic mathematical framework which is built on abstract notions of probability spaces and random variables. In this section we review the foundations for such a mathematical probability theory, assuming that the reader has some familiarity with basic probability theory, as well as a basic familiarity with properties of real numbers such as cardinality (the rational numbers form a countable set and can therefore be listed in a sequence, where the real numbers are uncountable and so can not be listed in a sequence).\\
+
+\ni We start with an experiment $\E$ (such as flipping a coin, rolling dice, etc.). Then given the experiment $\E$ we first define the {\bf\emph{sample space}} $\O$ to be the set of all possible {\bf\emph{outcomes}} of the experiment $\E$. That is,
+\[\O=\{\text{all possible outcomes of the experiment}\;\E\}.\]
+We then define the {\bf\emph{event space}} $\F$ to be a collection of subsets of the sample space $\O$ that are of interest to us. We call the elements of $\F$ the {\bf\emph{events}}. We will soon revisit the event space $\F$ and consider restrictions that should be applied to this collection. It turns out that the proper way to assign probabilities is not to the individual outcomes (especially when considering uncountable sample spaces since in this case the probability of a single outcome must be equal to zero), but rather to the events of $\F$. Therefore, we will define a {\bf\emph{probability measure}} $\P$ to be a function from the event space to the interval $[0,1]$ that satisfies certain axioms. That is, a probability measure is a set-function $\P:\F\to[0,1]$ such that the following axioms are satisfied:
+\begin{enumerate}
+\item $\P(\emptyset)=0$;
+\item $\P(\O)=1$;
+\item If $A_1,A_2,A_3,\dots$ is a countably infinite sequence of mutually disjoint events in $\F$; i.e., $A_k\bigcap A_j=\emptyset$ when $k\not=j$, then $\P\left(\ds\bigcup^{\infty}_{i=1}A_i\right)=\ds\sum^{\infty}_{i=1}\P(A_i)$.
+\end{enumerate}
+
+\ni We want property(iii) for situations such as where $\O=(0,1]$ and $A_i=(1/(i+1),1/i]$ for $i=1,2,3,\dots$. Then $\cup_{i}A_i=\O$ and we would like to have $\P\big(\cup_{i}A_i\big)=\sum_{i}|1/i-1/(i+1)|=|(0,1]|=1$.\\ 
+
+\ni Now that we have defined the sample space $\O$, the event space $\F$, and a probability measure $\P$, we now can define a {\bf\emph{probability space}} to be the triple $(\O,\F,\P)$.\\
+
+\ni We are now ready to consider desired properties of our event space $\F$ (which is the domain of the function $\P$). Because we are assigning probabilities to events in a way that satisfies the probability axioms, at a minimum we would like the following to hold: (1) $\emptyset\in\F$; (2) $\Omega\in\F$; (3) if $A\in\F$, then $A^C\in\F$; (4) and if $A_1,A_2,A_3,\dots$ is a countably infinite sequence of events in $\F$, then $\cup^{\infty}_{i=1}A_i\in\F$.\\ 
+
+\ni {\bf\emph{Note}:} We want property(3) because if $A\in\F$ and we can assign $\P(A)$, we also want to be able to assign a probability $P(A^C)$ (where $A^C$ is the event that $A$ does not occur). 
+
+\begin{defn}
+We define a $\sigma$-algebra to be a non-empty collection $\F$ of subsets of $2^{\O}$ (the power set of a set $\O$) so that the following hold.
+\begin{enumerate}
+\item $\O\in\F$;
+\item If $A\in\F$, then $A^C\in\F$.
+\item If $A_1,A_2,A_3,\dots$ is a countably infinite sequence of events in $\F$, then $\bigcup^{\infty}_{i=1}A_i\in\F$.
+\end{enumerate}
+\end{defn}
+
+\ni So $\F$ is closed under compliments and under countable unions. We have the following consequences in the next theorem which we offer without proof.\\
+
+\begin{thm}
+Let $\F$ be a $\sigma$-algebra the is a collection of subsets of $\O$. Then the following hold.
+
+	\begin{enumerate}
+		\item $\emptyset\in\F$.
+		\item If $A_1,A_2,A_3,\dots,A_n$ is a finite sequence of events in $\F$, then $\bigcup^{n}_{i=1}A_i\in\F$. So $\F$ is closed under finite unions.	
+		\item If $A_1,A_2,A_3,\dots,A_n$ is a finite sequence of events in $\F$, then $\bigcap^{n}_{i=1}A_i\in\F$. So $\F$ is closed under finite intersections.
+		\item If $A_1,A_2,A_3,\dots$ is a countably infinite sequence of events in $\F$, then $\bigcap^{\infty}_{i=1}A_i\in\F$.
+	\end{enumerate}
+
+\end{thm}
+
+\ni The point is that we will want our event space $\F$ to be a $\sigma$-algebra. The simplest examples of $\sigma$-algebras would be $\F=\{\emptyset,\O\}$ or $\F=2^{\O}$. The first example is trivial and of little use. The second example contains all information from the power set of $\O$, but is often too large a $\sigma$-algebra to satisfy the probability axioms. Actually, if $\O$ is a discrete sample space (so that there are either a finite number of elements in $\O$ or a countably infinite number of elements in $\O$) will will generally choose $\F$ to be the power set of $\O$. However, if $\O$ is a continuous sample space, then we can never choose $\F$ to be the power set of $\O$. We will soon provide the reader with an explanation, but first we need some background, which we motivate with an example.\\
+
+\ni Suppose that we have the probability space $(\O,\F,\P)$, where $\O=(0,1]$ is the half-closed interval on the real line, and $\P$ is a uniform probability measure. (For a uniform probability measure we want the probability for an interval to be proportional to the length of that interval.) Then, if $(a,b]$ is a sub-interval of $(0,1]$, we will define $\P[(a,b]]=b-a$. So, in general, for any element $A\in\F$ we would like $\P(A)$ to be equal to the ``length" of $A$, denoted $|A|$. We would also like $\P$ to be invariant under translation. That is, $\P(A)=\P(A\oplus c)$, for any constant $c$ where we define the sum $A\oplus c$ to be
+\[A\oplus c=\big\{a+c:a\in A,\;\;a+c\le 1\big\}\cup
+\big\{a+c-1:a\in A,\;\;a+c\ge 1\big\}.\]
+But then what about the a set such as $A=\Q\cap(0,1]$, the set of all rational numbers in the interval $[0,1]$? How do we compute $\P(A)$ given that we want $\P(A)=|A|$? We clearly need to generalize our notion of ``length", but in a manner that is consistent with our current measure of length of intervals. We will call this generalization a {\bf\emph{measure}}, which will be a function
+\[\mu^*:2^{\R}\to[0,\infty].\]
+
+\ni{\bf\emph{Note}:} If $\mu^*(\O)<\infty$ we call $\mu^*$ a finite measure, if $\mu^*(\O)=\infty$ we call $\mu^*$ an infinite measure, and if $\mu^*(\O)=1$ we call $\mu^*$ a probability measure.\\
+
+\ni Since this is an abstraction of the notion of length we would like our measure to satisfy the following properties.
+\begin{enumerate}
+\item $\mu^*(\emptyset)=0$.
+\item If $A\subseteq B$, then $\mu^*(A)\le\mu^*(B)$. This property is called {\bf\emph{monotonicity}}.
+\item Let $A_1,A_2,A_3,\dots$ be a countable collection of sets. Then
+\[\mu^*\left(\ds\bigcup^{\infty}_{i=1}A_i\right)\le\ds\sum^{\infty}_{i=1}\mu^*(A_i).\]
+This property is called {\bf\emph{sub-additivity}}.
+\item Let $A_1,A_2,A_3,\dots$ be a countable collection of mutually disjoint sets. Then
+\[\mu^*\left(\ds\bigcup^{\infty}_{i=1}A_i\right)=\ds\sum^{\infty}_{i=1}\mu^*(A_i).\]
+This property is called {\bf\emph{countable additivity}}.
+\item $\mu^*(A)=\mu^*(A\oplus c)$. 
+This property is called {\bf\emph{translation invariance}}:
+\end{enumerate}
+
+\ni Unfortunately, as the next important theorem will show, if we want to define a uniform probability measure on the sample space $\O=(0,1]$, we will run into some problems if we let $\F=2^{(0,1]}$.
+
+\begin{thm}[Vitali]
+There does not exist a function $\mu^*:2^{\R}\to[0,\infty]$ satisfying the following properties.
+\begin{enumerate}
+\item {\bf\emph{Non-triviality}}: $\mu^*(\R)\not=0$ and $\mu^*([0,1])\not=\infty$.
+\item {\bf\emph{Translation invariance}}: $\mu^*(A)=\mu^*(A+c)$ for any $A\in 2^{\R}$ and $c\in\R$.
+\item {\bf\emph{Countable additivity}}: If $A_1,A_2,A_3,\dots$ is a countable collection of mutually disjoint sets, then
+\[\mu^*\left(\ds\bigcup^{\infty}_{i=1}A_i\right)=\ds\sum^{\infty}_{i=1}\mu^*(A_i).\]
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Suppose that such a function exists, and define an equivalence relationship on $[0,1]$ as follows:
+\[x\sim y\;\;\text{if}\;\;x-y\in\Q.\]
+This says that $x$ is equivalent to $y$ precisely when the difference between them is rational. Clearly, this equivalence relation partitions $[0,1]$ into an infinite number of equivalence classes. What's more, since every equivalence class has only countably many members, and the cardinality of $[0,1]$ is uncountable, there must be an uncountable number of such equivalence classes. Using the axiom of choice, I produce a set $E$ that contains one element from each equivalence class.\\
+
+\ni Note that $E$ can be thought of as generating $(0,1]$. Take any element in $x\in E$, and consider
+\[\Big\{x+q : q\in\Q\;\;\text{and}\;\;x+q\in(0,1]\Big\}.\]
+
+\ni This gives the entire equivalence class of $x$. Repeating this procedure with every element of $E$, we can reclaim all of the equivalence classes, and hence all of $(0,1]$. That being said, let $\Q^*=\Q\cap(0,1]$, and write
+\[(0,1]\subseteq\ds\bigcup_{q\in\Q}(E+q).\]
+So, what is the measure of $E$? We have two cases.
+
+	\begin{enumerate}
+
+		\item[]{\bf\emph{Case 1}}: $\mu^*(E)=0$. By translation invariance we have $\mu^*(E+c)=0$. Then
+\[\mu^*((0,1])\le\ds\sum_{q\in\Q}\mu^*(E+q)=\ds\sum_{q\in\Q}0=0.\]
+But then by translation invariance we also have $\mu^*\big((n,n+1]\big)=0$ for all $n\in\Z$, so that by countable additivity
+\[\mu^*(\R)=\ds\sum_{n\in\Z}\mu^*\Big((n,n+1]\Big)=\ds\sum_{n\in\Z}0=0.\]
+But this is a contradiction.		
+		
+		\item[]{\bf\emph{Case 2}}: $\mu^*(E)=\alpha>0$. Observe that $\ds\bigcup_{q\in\Q^*}(E+q)\subseteq(0,2]$. Then by translation invariance, we have $\mu^*((E+q))=\alpha>0$ and then
+\[\mu^*((0,2])\ge\ds\sum_{q\in\Q^*}\mu^*(E+q)=\ds\sum_{q\in\Q^*}\alpha=\infty.\]
+This is a contradiction.
+
+	\end{enumerate}
+
+\ni Since both cases give a contradiction we see that no such measure $\mu^*$ exists. This completes the proof.\\
+\end{proof}
+
+\ni{\bf\emph{Note}:} This theorem was controversial when first demonstrated since it required the use of the Axiom of Choice.\\
+
+\ni One consequence of this theorem is that, given the continuous sample space $\O=(0,1]$ and the choice of $\F=2^{\O}=2^{(0,1]}$ to be the power set of $\O=(0,1]$, there is no way to assign a uniform probability measure to $\O=(0,1]$. The problem is choosing the event space $\F$ to be the power set of $\O=(0,1]$, and so we need a smaller $\sigma$-algebra for the event space $\F$. We will return to this later, but for now we have seen evidence that when we have a continuous sample space $\O$ we will not be able to choose the power set of $\O$ as our event space $\F$. That means, in general, we will need to find a smaller $\sigma$-algebra that $2^{\O}$ in the case where $\O$ is not discrete.\\
+
+\ni A separate consequence of this theorem is that it implies the existence of what are called {\bf\emph{non-measureable sets}}, sets that cannot be measured in the presence of countable additivity. We say that such measurable sets do not have a concept of ``length." Such non-measureable sets are very strange and, fortunately, we will not encounter any specific examples in these notes. In order to return to the previous example, we continue our investigation into the notion of measure.
+
+\begin{defn}
+We define the {\bf\emph{Lebesgue Outer Measure}} to be the function $m_{e}:2^{R}\to[0,\infty]$ so that for any bounded set $E\subseteq[a,b]$ we have
+\[m_{e}(E)=\text{inf}\left\{\ds\sum^{\infty}_{k=1}(b_k-a_k):E\subseteq\ds\bigcup^{\infty}_{k=1}(a_k,b_k)\right\}.\]
+\end{defn}
+
+\begin{defn}
+We define the {\bf\emph{Lebesgue Inner Measure}} to be the function $m_{i}:2^{R}\to[0,\infty]$ so that for any bounded set $E\subseteq(a,b]$ we have
+\[m_{i}(E)=(b-a)-m_{e}\big((a,b]-E\,\big).\]
+\end{defn}
+
+\ni We are now ready to define the Lebesgue measure of a set.\\
+
+\begin{defn}
+Given a bounded set $E\subseteq(a,b]$, if $m_{i}(E)=m_{e}(E)$, then we say $E$ is {\bf\emph{Lebesgue measurable}}, and its Lebesgue measure is defined to be the common value:
+\[\lambda(E)=m_{i}(E)=m_{e}(E).\]
+\end{defn}
+
+\ni This is possible if and only if $m_{e}(E)+m_{i}(E)=\big|(a,b]\big|=b-a$. Moreover, we are able to be a more stringent restriction. A famous result due to Carethedory states that the notion of Lebesgue measure is equivalent to the following definition.\\
+
+\begin{defn}
+We say a set $E$ is {\bf\emph{Lebesgue measureable}} if for a set $A\in 2^{\R}$ we have
+\[m_{e}(A)=m_{e}\left(A\cap E\right)+m_{e}\left(A\cap E^C\right).\]
+We then let $\mathcal{M}$ be the set of all measurable sets in $2^{\R}$.
+\end{defn}
+
+
+\ni The set $\mathcal{M}$ is non-empty. Moreover, without digressing into the details, it can be shown that the set $\mathcal{M}$ is actually a $\sigma$-algebra. Moreover, it should be clear that $\mathcal{M}$ contains all bounded open intervals on the real line.\\
+
+\ni We now state the following theorem without proof.
+
+\begin{thm}
+Let $\mathcal{M}$ be the set of all measurable sets in $2^{\R}$. Then the Lebesgue measure $\lambda:2^{\R}\to[0,\infty]$ (as defined above) when restricted to $\mathcal{M}$ is a measure. Moreover, for any interval $(a,b)$ on the real line, $\lambda[(a,b)]=b-a$.
+\end{thm}
+
+\ni So if we assume that the event space $\F$ is a subset of $\mathcal{M}$, then the Lebesgue Outer Measure satisfies the properties of a uniform probability measure on $\O=(0,1]$, since $\lambda(\emptyset)=0$, $\lambda(\O)=\lambda((0,1])=1$, and $\lambda$ is countably additive on all of $\F$. We will show below that if $A=\Q\cap(0,1]$ then 
+$\lambda(A)=0$ and so returning to out original problem, we have surprising result that $\P(A)=0$. That is, the probability (relative to the Lebesgue measure) of randomly choosing a rational number from the interval $(0,1]$ equals zero, where we see that the probability (relative to the Lebesgue measure) of randomly drawing an irrational number from the interval $(0,1]$ equals one. Possibly even more surprising is the fact that this measure is the only possible uniform probability measure on the interval $(0,1]$. This is due to a famous theorem about measure theory due to Carethedory.\\
+
+\ni An important result follows. 
+
+\begin{thm}
+Any countable set has Lebesgue measure zero.
+\end{thm}
+\begin{proof}
+Let $\epsilon>0$, and let $\{a_n\}^{n=1}_{\infty}$ be an enumeration of a countable set $E$. Define the following open cover of $E$:
+\[\mathcal{O}=\left\{\left(a_n-\ds\frac{\epsilon}{2\cdot 2^n},a_n+\ds\frac{\epsilon}{2\cdot 2^n}\right):n\ge 1\right\}.\]
+Then $E\subseteq\mathcal{O}$.
+Then the sum of all lengths of open interval in $\mathcal{O}$ equals
+\[\ds\sum^{\infty}_{n=1}\left|\left(a_n-\ds\frac{\epsilon}{2n},a_n+\ds\frac{\epsilon}{2n}\right)\right|=\ds\sum^{\infty}_{n=1}\ds\frac{\epsilon}{2^n}=\epsilon.\]
+Since $\epsilon>0$ was arbitrary, we have
+\[|E|=\text{inf}\left\{\ds\sum^{\infty}_{k=1}(b_k-a_k):E\subseteq\ds\bigcup^{\infty}_{k=1}(a_k,b_k)\right\}=0.\]
+\end{proof}
+
+\ni The consequences of this result are that, since $A=\Q\cap(0,1]$ the set of all rational numbers in $(0,1]$ is a countable set, we have (relative to the Lebesgue measure) $|A|=\lambda(A)=0$. In fact, for any probability space $(\O,\F,\P)$ where $\O$ is a continuous sample space, and given any set $A$ of measure zero, we will have $\P(A)=0$.\\
+
+\ni {\bf\emph{Note}}: We should also be aware that there are uncountable sets which have measure zero. One example is the Cantor set, although we do not provide the details here.\\
+
+\ni Earlier in the notes we proved a theorem of Vitali which showed that it is impossible to put a uniform probability measure $\P$ on $(\O=(0,1],\F)$ when $\F=2^{\O}$. There is an even stronger result which we provide without proof.
+
+\begin{thm}
+There exists on $2^{(0,1]}$ no probability measure $\P$ such that
+$\P(\{x\})=0$ for each $x$.
+\end{thm}
+
+\ni  Since $\lambda(\{x\})=0$ and following from Caretheodory's Extension Theorem, this implies that it is impossible to define a probability measure $\P$ on $(\O,\F)=\big((0,1],2^{(0,1]}\big)$ at all.\\
+
+
+\ni This concludes this section of the notes for now. We may possibly add more content in the future. See the appendix for a formal construction of a uniform probability measure on the interval $(0,1]$.\\
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Consequences of the Probability Axioms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Given our probability axioms, for any probability space $(\O,\F,\P)$ we have the following properties, most of which are listed without proof.
+
+	\begin{enumerate}
+	
+		\item {\bf\emph{Finite Additivity}}: If $A_1,A_2,\dots,A_n$ is a list of disjoint events, then $\P\left(\ds\bigcup^{n}_{i=1}A_i\right)=\ds\sum^{n}_{i=1}\P(A_i)$.
+
+		\item {\bf\emph{Compliments}}: For any event $A\in\F$, we have $\P(A^C)=1-\P(A)$.
+		
+		\item {\bf\emph{Monotonicity}}: If $A,B\in\F$ and $A\subseteq B$, then $\P(A)\le\P(B)$.
+		
+		\item {\bf\emph{Unions}}: If $A,B\in\F$, then $\P\left(A\ds\cup B\right)=\P(A)+\P(B)-\P(A\ds\cap B)$.
+		
+		\item {\bf\emph{Inclusion-Exclusion}}: If $A_1,A_2,\dots,A_n\in\F$, then we have
+		\[\P\left(\ds\bigcup^{n}_{i=1}A_i\right)=\ds\sum^{n}_{i=1}\P(A_i)- \ds\sum_{i\not=j}\P\left(A_i\ds\cap A_j\right)+\ds\sum_{i\le j\le k}\P\left(A_i\ds\cap A_j\ds\cap A_k\right)+\cdots+ (-1)^{n-1}\P\left(\ds\bigcap^{n}_{i=1}A_i\right).\]
+		
+		\item {\bf\emph{Continuity}}: If $A_1,A_2,\dots\in\F$, then $\P\left(\ds\bigcup^{\infty}_{i=1}A_i\right)=\ds\lim_{n\to\infty}\P\left(\ds\bigcup^{n}_{i=1}A_i\right)$.\\
+		
+\ni We prove the general continuity statement.
+
+\begin{proof}
+Define the following:
+
+\beq
+B_1&=&A_1\\
+B_2&=&A_2\setminus A_1\\
+&\vdots&\\
+B_n&=&A_n\setminus \left(\ds\bigcap^{n-1}_{i=1}A_i\right)
+\eeq
+It is clear that the $B_i$'s are disjoint; i.e., $B_k\cap B_j=\emptyset$ when $k\not=j$, and $\ds\cup^{\infty}_{i=1}A_i=\ds\cup^{\infty}_{i=1}B_i$ and $\ds\cup^{n}_{i=1}A_i=\ds\cup^{n}_{i=1}B_i$. But
+\[\P\left(\ds\bigcup^{\infty}_{i=1}B_i\right)=\ds\sum^{\infty}_{i=1}\P(B_i)=\ds\lim_{n\to\infty}\ds\sum^{n}_{i=1}\P(B_i)=\ds\lim_{n\to\infty}\P\left(\ds\bigcup^{n}_{i=1}B_i\right)=\ds\lim_{n\to\infty}\P\left(\ds\bigcup^{n}_{i=1}A_i\right).\]
+Then since $\ds\cup^{\infty}_{i=1}A_i=\ds\cup^{\infty}_{i=1}B_i$ we have completed the proof.\\
+\end{proof}
+		
+\ni We also have two special cases of continuity.
+
+			\begin{enumerate}
+			
+				\item If $A_1,A_2,\dots$ is an increasing sequence of events in $\F$; i.e., $A_i\subseteq A_{i+1}$ for all $i\in\N$, then		
+				\[\P\left(\ds\bigcup^{\infty}_{i=1}A_i\right)=\ds\lim_{n\to\infty}\P(A_n).\]
+
+\ni It is easy to see that this is a special case of continuity since when $A_1,A_2,A_3,\dots$ is an increasing sequence, then $\ds\cup^{n}_{i=1}A_i=A_n$.\\ 
+				
+				\item If $A_1,A_2,\dots$ is a decreasing sequence of events in $\F$; i.e., $A_{i+1}\subseteq A_i$ for all $i\in\N$, then		
+				\[\P\left(\ds\bigcap^{\infty}_{i=1}A_i\right)=\ds\lim_{n\to\infty}\P(A_n).\]
+				
+\ni This follows from property(a) and DeMorgan's Rule.
+				
+			\end{enumerate}
+			
+		\item {\bf\emph{Union Bound}}: If $A_1,A_2,\dots\in\F$, then we have $\P\left(\ds\bigcup^{\infty}_{i=1}A_i\right)\le\ds\sum^{\infty}_{i=1}\P(A_i)$.\\
+		
+\ni We prove the union bound result, but first observe it is only useful when $\ds\sum^{\infty}_{i=1}\P(A_i)<1$.
+
+\begin{proof}
+Let $B_n=A_n\setminus \left(\ds\bigcap^{n-1}_{i=1}A_i\right)$ for all $n\in\N$, so that $\ds\cup^{\infty}_{i=1}A_i=\ds\cup^{\infty}_{i=1}B_i$. Then we have
+\[\P\left(\ds\bigcup^{\infty}_{i=1}A_i\right)=\P\left(\ds\bigcup^{\infty}_{i=1}B_i\right)=\ds\lim_{n\to\infty}\ds\sum^{n}_{i=1}\P(B_i)\le\ds\lim_{n\to\infty}\ds\sum^{n}_{i=1}\P(A_i)=\ds\sum^{\infty}_{i=1}\P(A_i),\]
+where the inequality follows because $B_i\subseteq A_i$ for each $i\ge 1$. This completes the proof.\\
+\end{proof}
+
+		\item {\bf\emph{The Borel-Cantelli Lemmas}}:
+		
+			\begin{lemma}[BC Lemma \#1] If $A_1,A_2,\dots$ is a sequence of events in $\F$ such that $\sum^{\infty}_{i=1}\P(A_i)<\infty$, then almost surely (or with probability one) only finitely many of the $A_i$ will occur.
+			\end{lemma}
+
+\ni We will prove this first lemma, but first consider an example. Consider the experiment of an infinite series of coin flips, so that $\O=\{0,1\}^{\infty}$, and let $A_n$ be the event that the $n$th toss is heads. Then if $\P$ is a probability measure on $(\O,\F)$ such that $\P(A_n)=1/n^2$ for all $n\ge 1$, we have $\sum^{\infty}_{n=1}A_n<\infty$. Then almost surely only finitely many heads will occur in the infinite string of coin tosses.
+
+\begin{proof}
+Observe that the event $A$ that infinitely many $A_i$'s occur can be written as
+\[A=\ds\bigcap^{\infty}_{n=1}\ds\bigcup^{\infty}_{i=n}A_i.\]
+Then let $B_n=\bigcup^{\infty}_{i=n}A_i$ so that $A=\bigcap^{\infty}_{n=1}B_n$. To clarify, this event is the event that, for any $n$, at least one of the $A_m$ (where $m\ge n$) will occur. Clearly, $B_i\subset B_{i+1}$, and so the sequence $B_1,B_2,\dots$ is an increasing sequence. Therefore, assuming that $\sum^{\infty}_{i=1}\P(A_i)<\infty$, we have
+\beq
+\P\left(\ds\bigcap^{\infty}_{n=1}B_n\right)&=&\ds\lim_{n\to\infty}\P(B_n)\qquad\text{(by continuity)}\\
+&=&\ds\lim_{n\to\infty}\P(\left(\ds\bigcup^{\infty}_{i=n}A_i\right)\\
+&\le&\ds\lim_{n\to\infty}\ds\sum^{\infty}_{i=n}\P(A_i)\quad\text{(by union bound)}\\
+&=&0
+\eeq
+The last inequality follows because the series converges to a finite value. This completes the proof.\\
+\end{proof}
+
+			\begin{lemma}[BC Lemma \#2] If $A_1,A_2,\dots$ is a sequence of independent events in $\F$ such that $\sum^{\infty}_{i=1}\P(A_i)=\infty$, then almost surely (or with probability one) infinitely many of the $A_i$ will occur.			
+			\end{lemma}
+			
+\ni We won't prove this result, but provide an example. 
+
+	\end{enumerate}
+
+
+\begin{ex} Consider the experiment of an infinite series of coin flips, so that $\O=\{0,1\}^{\infty}$, and let $A_n$ be the event that the $n$th toss is heads. Then if $\P$ is a probability measure on $(\O,\F)$ such that $\P(A_n)=p>0$ for all $n\ge 1$, we have $\sum^{\infty}_{n=1}A_n=\infty$. Then almost surely infinitely many heads will occur in the infinite string of coin tosses.
+\end{ex}
+
+\ni The last two Borel-Cantelli lemmas will be very important for us when talking about the WLLN and the SLLN. IN the following section of the notes we briefly discuss the basic concepts relating to random variables.\\
+
+
+\vfill\eject
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Random Variables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ni We start with the following definition.
+
+\begin{defn}
+Given a probability space $(\O,\F,\P)$, a {\bf\emph{random variable}} is an $\F$-measurable function $X:\O\to\R$.
+\end{defn}
+
+\ni {\bf\emph{Note}}: An $\F$-measureable function is a function so that for every Borel set $\mathcal{B}\in 2^{\R}$, we must have the preimage $X^{-1}(\mathcal{B})\in\F$; i.e., 
+\[X^{-1}(\mathcal{B})=\left\{\o\in\O:X(\o)=x\right\}\in\F.\]
+Recall that, if we let $\mathcal{C}_0$ be the set of all open intervals on the real line, we call the smallest $\sigma$-algebra containing 
+$\mathcal{C}_0$, denoted $\mathcal{B}(\R)$, the Borel $\sigma$-algebra. A Borel set is an element of $\mathcal{B}(\R)$. The point is we need to be able to assign probabilities to the set $X^{-1}(\mathcal{B})$, and so all such preimages must be events.\\
+
+\ni We want to assign probabilities to subsets of $Im(X)$. That is, we want to assign a {\bf\emph{probability law}}, denoted $\P_{X}$, to $X$. We do this in the following way: 
+\[\P_{X}:\mathcal{B}(\R)\to[0,1]:\mathcal{B}\mapsto\P\big(X^{-1}(\mathcal{B})\big).\]
+So $\P_{_X}=\P\circ X^{-1}$. Next consider the following definition.\\
+
+\begin{defn}
+Let $X$ be a random variable with a corresponding probability space $(\O,\F,\P)$. Then we define the {\bf\emph{distribution function}} $F_{_X}$ as
+\[F_{_X}(x)=\P_{_X}\Big((-\infty,x]\Big)=\P_{_X}\Big(\big\{\o\in\O:X(\o)\le x\big\}\Big).\]
+\end{defn}
+
+\ni {\bf\emph{Note}}: It can be shown that the distribution function $F_{X}$ completely determines the probability law $\P_{X}$; i.e., once we have defined the probability law for all sets $(-\infty,x]$, there is a unique way to extend this probability law to the Borel $\sigma$-algebra $\mathcal{B}(\R)$.\\
+
+\ni There are a few distinguishing characteristics of a distribution which we list below with proof.
+
+\begin{thm}
+Let $(\O,\F,\P)$ be a probability space and $X:\F\to\
+R$ be a random variable with distribution function $F_{_X}$. Then the following properties hold.
+
+	\begin{enumerate}
+	
+		\item $\ds\lim_{x\to-\infty}F_{_X}(x)=0$;
+		\item $\ds\lim_{x\to\infty}F_{_X}(x)=1$;
+		\item $F_{X}$ is monotonically increasing everywhere; i.e., if $x\le y$, then $F_{_X}(x)\le F_{_X}(y)$.
+		\item $F_{X}$ is right-continuous; i.e., for all $x\in\R$ we have 
+$\ds\lim_{\epsilon\to 0^+}F_{_X}(x+\epsilon)=F_{_X}(x)$. 
+		
+	\end{enumerate}
+	
+\end{thm}
+
+\begin{proof}
+For property(1) we have
+\[\ds\lim_{x\to-\infty}F_{_X}(x)=\ds\lim_{x\to-\infty}\P\Big(\left\{\o\in\O:X(\o)\le x\right\}\Big).\]
+Now let $\{x_n\}$ be a sequence of real numbers such that $x_n\to-\infty$ as $n\to\infty$. Then let $A_n$ be the event $\{\o\in\O:X(\o)\le x_n\}$ so that $\{A_n\}$ is a decreasing sequence of events. Then we have 
+\beq
+\ds\lim_{x\to-\infty}F_{_X}(x)&=&\ds\lim_{x\to-\infty}\P\Big(\left\{\o\in\O:X(\o)\le x\right\}\Big)\\
+&=&\ds\lim_{n\to\infty}\P\Big(\left\{\o\in\O:X(\o)\le x_n\right\}\Big)\\
+&=&\ds\lim_{n\to\infty}\P\Big(A_n\Big)\\
+&=&\P\left(\ds\bigcap^{\infty}_{n=1}A_n\right)\\
+&=&\P\Big(\emptyset\Big)\\
+&=&0
+\eeq
+This completes the proof of property(1). The proof of property(2) is very similar to that of property(1) and so we omit if for these notes. The proof of property(3) is trivial since if $x\le y$ we have $\{\o\in\O:X(\o)\le x\}\subseteq\{\o\in\O:X(\o)\le y\}$ and the result follows from monotonicity of probability measures. To show property(4) we let $\{\epsilon_n\}$ be any sequence so that $\epsilon_n\to 0$ as $n\to\infty$, and for a fixed $x\in\R$, let $A_n$ be the event $\{\o\in\O:X(\o)\le x+\epsilon_n\}$. Then consider
+\beq
+\ds\lim_{n\to\infty}F_{_X}(x+\epsilon_n)&=&\ds\lim_{n\to\infty}\P\Big(X\le x+\epsilon_n\Big)\\
+&=&\ds\lim_{n\to\infty}\P\Big(A_n\Big)\\
+&=&\P\left(\ds\bigcap^{\infty}_{n=1}A_n\right)\\
+&=&\P\Big(\big\{\o\in\O:X(\o)\le x\big\}\Big)\\
+&=&F_{_X}(x)\\
+\eeq
+
+\end{proof}
+
+\ni{\bf\emph{Note}}: Some distribution functions, such as for a continuous random variable, will be left-continuous; i.e., and so continuous, but many random variables, such as discrete random variables will not be left-continuous.\\
+
+
+\ni It turns out that the four properties above completely determine all distribution functions. We give the following theorem without proof.
+
+\begin{thm}
+Any function $F$ that satisfies the above four properties is a distribution function for some random variable $X$.
+\end{thm}
+
+
+\ni There are a limited number of types of random variables: discrete, continuous, singular, or a combination of the previous. In these notes, for briefness, we will only concern ourselves with the definitions of a discrete random variable and a continuous random variable.
+
+\begin{defn}
+The random variable $X:\O\to\R$ is called {\bf\emph{discrete}} if there exists a finite or countably infinite set $E\subset\R$ such that $\P_{X}(E)=1$. In which case we have, for any $\mathcal{B}\in\mathcal{B}(\R)$,
+\[\P_{_X}(\mathcal{B})=\ds\sum_{x_i\in\mathcal{B}}\P\Big(\big\{\o\in\O:X(\o)=x_i\big\}\Big)=\ds\sum_{x_i\in\mathcal{B}}\P\Big(X=x_i\Big).\]
+Here $\P_{X}$ is called the {\bf\emph{mass function}}.
+\end{defn}
+
+\ni {\bf\emph{Note}}: There could be a set $S$ of measure zero such that $X(S)\not\subseteq E$.\\
+
+\begin{defn}
+The random variable $X:\O\to\R$ is called {\bf\emph{continuous}} if the image $Im(X)$ is a continuous set or the union of continuous sets, and there exists a continuous function $f_{_X}:\R\to\R$ such that, for any $\mathcal{B}$ that is an interval or a collection of intervals, we have
+\[\P_{_X}(\mathcal{B})=\ds\int_{\mathcal{B}}f_{_X}(x)\,dx.\]
+In this case, $f_{_X}$ is called the {\bf\emph{density function}}.
+\end{defn}
+
+
+\ni Given a random variable $X$ we can define the {\bf\emph{expected value}} of $X$ as follows. This notion of expected value is included in both of the laws of large numbers.
+
+\begin{defn}
+If $X$ is a discrete random variable we define the {\bf\emph{expected value}} of $X$ to be
+\[E[X]=\ds\sum_{x_i\in Im(X)}x\cdot \P_{_X}(x_i),\]
+provided the series converges absolutely. If $X$ is a continuous random variable we define the expected value of $X$ to be
+\[E[X]=\ds\int^{\infty}_{-\infty}x\cdot f_{_X}(x)\,dx\]
+provided the improper integral converges absolutely.
+\end{defn}
+
+\ni A couple of the most important properties of the expected value are the following.
+
+	\begin{enumerate}
+
+		\item If $X$ is a random variable and $a,b\in\R$, then we have
+\[E[aX+b]=aE[X]+b.\]
+		
+		\item If $X_1,\dots,X_n$ are random variables and $c_1,\dots,c_n$ are real numbers, then we have
+\[E[c_1X_1+\cdots+c_nX_n]=c_1E[X_1]+\cdots+c_nE[X_n].\]
+		
+	\end{enumerate}
+We are almost ready to visit the Laws of Large Numbers, but we first we need to discuss the notion of convergence of random variables. In theis following section we briefly introduce this concept.\\
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Convergence of Random Variables}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We start with the notion of point-wise convergence of functions.
+
+\begin{defn}
+Let $\{f_n\}$ be a sequence of real-valued functions $f_n:\R\to\R$ and $f:\R\to\R$ be a real-valued function. We say that the sequence {\bf\emph{converges point-wise}} to $f$ if $\lim_{n\to\infty}f_n(x)=f(x)$ for all $x\in\R$ - we write $f_n\to f$ when $n\to\infty$.\\
+\end{defn}
+
+\ni Here is an example.
+
+\begin{ex} 
+Let $f_n:[0,1]\to\R:x\mapsto x^n$ and $f:[0,1]\to\R$ such that
+\[f(x)=\left\{\begin{array}{rcl}
+0&:&0\le x<1\\
+1&:&x=1\\
+\end{array}\right.\]
+Then $f_n\to f$ when $n\to\infty$.\\
+\end{ex}
+
+\ni Unfortunately, pointwise convergence is too strong a condition to be useful for probability theory. 
+
+\begin{ex}
+Let $\E$ be experiment with an infinite sequence of coin tosses so that $\O=\{0,1\}^{\infty}$, and let $X_n=1$ if the $n$th toss is heads and $X_n=0$ if the $n$th toss is heads. Then each $X_n\sim Ber(p)$ is a Bernoulli random variable with parameter $p>0$. Let $X$ be the constant random variable so that $\P(X=p)=1$ and $\overline{X}_n=\ds\frac{X_1+\cdots X_n}{n}$. Then would likely expect the sequence $\{\overline{X}_n\}$ to converge pointwise to $X$. That is,
+\[\ds\lim_{n\to\infty}\overline{X}_n(\o)=\ds\lim_{n\to\infty}\ds\frac{X_1(\o)+\cdots+X_n(\o)}{n}=p\;\;\text{for all}\;\o\in\O.\]
+But if $\o=\{T,T,T,T,\dots\}$ we have $\overline{X}_n=0$ for all $n\ge 1$ and so $\ds\lim_{n\to\infty}\overline{X}_n\not=p$, and $\overline{X}_n$ does not converge point-wise to $X$. In fact, for any $\o\in\O$ with a finite number of heads, we have $\lim_{n\to\infty}\overline{X}_n=0$.
+\end{ex} 
+
+\ni We note that the set of all outcomes with a finite number of heads is a set with measure zero. This example leads us to another, slightly weaker but more useful, notion of convergence.
+
+\begin{defn}
+Let $(\O,\F,\P)$ be a probability space and $\{X_n\}$ be a sequence of random variables and $X$ another random variable relative to this probability space. We say the sequence $\{X_n\}$ {\bf\emph{converges almost surely to}} $X$ (or converges with probability one), and denote this as $X_n\stackrel{a.s}{\longrightarrow}X$, if
+\[\P\left(\Big\{\o\in\O:\ds\lim_{n\to\infty}X_n(\o)=X(\o)\Big\}\right)=1.\]  
+\end{defn}
+
+
+\ni We will typically write this in the following way.
+\[\P(X_n\longrightarrow X\;\text{as}\;n\to\infty)=1.\]
+
+
+\ni In fact, the first example is an example of almost sure convergence. We now consider another couple of examples, one of which has almost sure convergence and another which does not.\\
+
+\begin{ex} Let $\E$ be an experiment of a single flip of a fair coin so that $\O=\{H,T\}$. Then let $X=1$ be the constant random variable and $\{X_n\}$ be a sequence of random variables defined as follows.
+\[X_n(\o)=\left\{\begin{array}{rcl}
+\ds\frac{n}{n+1}&:&\o=H\\
+\\
+(-1)^n&:&\o=T\\
+\end{array}\right.\]
+Then when $\o=H$ we have $\lim_{n\to\infty}X_n(\o)=1=X(\o)$. But when $\o=T$ the limit $\lim_{n\to\infty}X_n(\o)$ does not exist. So we have
+\[\P\left(\Big\{\o\in\O:\ds\lim_{n\to\infty}X_n(\O)=X(\o)\Big\}\right)=\P\left(\big\{H\big\}\right)=1/2.\]
+So the sequence $\{X_n\}$ does not converge to $X$ almost surely, and certainly does not converge point-wise.\\
+\end{ex}
+
+
+\begin{ex} For the next example, let $\O=[0,1]$ with a uniform probability measure, $\P([a,b])=b-a$ for all intervals $[a,b]\subseteq [0,1]$. Now consider the sequence $\{X_n\}$ and random variable $X$ defined as follows.
+\[X_n(\o)=\left\{\begin{array}{rcl}
+1&:&0\le\o<\ds\frac{n+1}{2n}\\
+\\
+0&:&\text{Otherwise}\\
+\end{array}\right.\qquad X(\o)=\left\{\begin{array}{rcl}
+1&:&0\le\o<\ds\frac{1}{2}\\
+\\
+0&:&\text{Otherwise}\\
+\end{array}\right. \]
+Next let $A=\{\o\in\O:\ds\lim_{n\to\infty}X_n(\o)=X(\o)\}$ and consider the following cases.
+
+	\begin{enumerate}
+	
+		\item[(i)] ($\o=1/2$): Here we have $X_n(\o)=1$ for all $n\ge 1$ and $X(\o)=0$ and so the sequence of function values $\{X_n(\o)\}$ does not converge to $X(\o)$ and we see that the sequence $\{X_n\}$ does not converge point-wise to $X$.\\
+		
+		\item[(ii)] ($0\le\o<1/2$): Here $X_N(\o)=1$ for all $n\ge 1$ and $X(\o)=1$, and so for all $\o\in[0,1/2)$ we have $\lim_{n\to\infty}X_n(\o)=X(\o)$.\\
+		
+		\item[(iii)] ($1/2<\o\le 1$): Here we have $X(\o)=0$. But since $2\w-1>0$ we also have $X_n(\o)=0$ for all $n>1/(2w-1)$ and so for all $\o\in(1/2,1]$, $\lim_{n\to\infty}X_n(\o)=X(\o)$.\\
+		
+	\end{enumerate}
+
+\ni So $A=\{\o\in\O:\ds\lim_{n\to\infty}X_n(\o)=X(\o)\}=[0,1/2)\cup(1/2,1]$ and $A^C=\{1/2\}$. Then since $A^C$ is a set of measure zero and $\O=[0,1]$ is a continuous sample space, we have $\P(A)=1-\P(A^C)=1-0=1$, and $X_n\stackrel{a.s}{\longrightarrow}X$.\\
+\end{ex}
+
+
+\ni Consider the following theorems.
+
+\begin{thm}
+The sequence $\{X_n\}$ does not converge almost surely to $X$ if and only if, for some non-zero $\epsilon\in\Q^{+}$, we have $|X_n-X|>\epsilon$ for infinitely many $n\in\N$.
+\end{thm}
+
+\ni This statement is true simply by definition. We should take care to show that $X_n\longrightarrow X$ as $n\to\infty$ is a valid event. To see this, 
+\[\{X_n\longrightarrow X \;\text{as}\;n\to\infty\}^C=\ds\bigcup_{\epsilon\in\Q^{+}}\limsup_{n\to\infty}\left\{|X_n-X|>\epsilon\right\},\]
+where we define the $limsup$ of a sequence of events $\{A_n\}$ to be $\limsup_{n\to\infty}A_n=\bigcap^{\infty}_{n=1}\bigcup^{\infty}_{i=n}A_n$. This is just the event that infinitely many of the $A_n$'s occur. Then $\left\{|X_n-X|>\epsilon\right\}$ is a valid event for every $\epsilon>0$ and $n\in\N$ because $X_n$ and $X$ are random variables. Then $\limsup_{n\to\infty}$ of a sequence of events is an event, and the countable union of a sequence of events is an event. Finally, the compliment of an event is an event.\\
+
+\ni So we see that convergence almost surely is equivalent to 
+\[\P\left(\ds\bigcup_{\epsilon\in\Q^{+}}\Big\{|X_n-X|>\epsilon\;\text{for infinitely many}\;n\in\N\Big\}\right)=0.\]
+
+
+\vfill\eject
+
+
+\begin{thm}
+The following statements are equivalent.
+
+	\begin{enumerate}
+	
+		\item $\P\Big(X_n\longrightarrow X\;\text{as}\;n\to\infty\Big)=1$
+		
+		\item $\P\Big(\big|X_n-X\big|>\epsilon\;\text{for infinitely many}\;n\in\N\Big)=0$ for every $\epsilon\in\Q^{+}$.
+		
+		\item $\P\Big(\big|X_n-X\big|>\epsilon\;\text{for infinitely many}\;n\in\N\Big)=0$ for every $\epsilon>0$.
+		
+		\item $\P\Big(\big|X_k-X\big|>\epsilon\;\text{for some}\;k\ge n\Big)\to 0$ as $n\to\infty$ for all $\epsilon>0$.
+		
+	\end{enumerate}
+	
+\end{thm}
+
+
+\ni We are now ready to consider another type of convergence of random variables.
+
+\begin{defn}
+We say that the sequence of random variables $\{X_n\}$ {\bf\emph{converges in probability}} to $X$ if, for all $\epsilon>0$, we have
+\[\ds\lim_{n\to\infty}\P\left(\big|X_n-X\big|>\epsilon\right)=0.\]
+We denote this as $X_n\stackrel{i.p.}{\longrightarrow}X$.
+\end{defn}
+
+\ni In these notes we are mainly concerned with the case when $X=c$ is a constant random variable. Then the statement is equivalent to the following. Let $\epsilon>0$ and consider the interval $[c-\epsilon,c+\epsilon]$. Then $X\stackrel{i.p.}{\longrightarrow}c$ if the tail probabilities $\P(X_n<c-\epsilon)+\P(X_n>c+\epsilon)$ approach zero.\\
+
+\begin{ex} Consider the following example. Let $X=0$ be the constant random variable, and let $\{X_n\}$ be a sequence of random variables such that $Im(X_n)=\{0,1\}$ with probability law $\P(X_N=1)=1/n$ and $\P(X_n=0)=1-1/n$. Then choose any $0<\epsilon<1$ and we have 
+\[\ds\lim_{n\to\infty}\P\big(|X_n-0|>e\big)=
+\ds\lim_{n\to\infty}\P\big(|X_n|>e\big)=
+\ds\lim_{n\to\infty}\P\big(X_n=1\big)=
+\ds\lim_{n\to\infty}\ds\frac{1}{n}=0.\]
+\end{ex}
+
+
+\ni The important question to ask is if, in this example, $X_n\stackrel{a.s.}{\longrightarrow}0$. Let $A_n$ be the event that $X_n=1$ so that we have an independent sequence of events $\{A_n\}$. Recalling Borel-Cantelli Lemma \#2, we see that since,
+\[\ds\sum^{\infty}_{n=1}\P(A_n)=\ds\sum^{\infty}_{n=1}\ds\frac{1}{n}=\infty,\]
+with probability one, infinitely many of the $A_n$'s will occur. But then, $X_n=1$ infinitely often. And so by definition the sequence of random variables $\{X_n\}$ do not converge almost surely to $X$. So, despite the apparent similarity, there is a fundamental difference between convergence in probability and convergence almost surely. What can be shown is that almost sure convergence (or convergence with probability one) is stronger than convergence in probability.\\
+
+\begin{thm}
+If $\{X_n\}$ is a sequence of random variables that converges almost surely to $X$, then the sequence also converges in probability.
+\end{thm}
+
+\begin{proof}
+Choose an $\epsilon>0$. Assuming that $X_n\stackrel{a.s}{\longrightarrow}X$, there exists some $N\in\N$ such that for all $n\ge N$ we have $\P(|X_n-X|>\epsilon)=0$. But this implies that $X_n\stackrel{i.p}{\longrightarrow}X$, because for all $n\ge N$ we have $|X_n-X|\le\epsilon$ with probability one. This completes the proof.\\
+\end{proof}
+
+\ni While we do not cover them in this section, there are other ways in which a sequence of random variables $\{X_n\}$ can converge to a random variable $X$. Examples could be convergence in $r$th mean or convergence in distribution. The interested reader can research these topics in the appendix on convergence of random variables.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Laws of Large Numbers}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thm}[WLLN]
+Let $X$ be a random variable with finite expected value; i.e., $\mu_{_X}=E[X]<\infty$, and $X_1,X_2,\dots,X_n$ be an independent random sample from the population with distribution $X$. If we define the sample mean $\overline{X}_n=\ds\frac{X_1+\cdots+X_n}{n}$, we have $\overline{X}_n\stackrel{i.p.}{\longrightarrow}\mu_{_X}$; i.e., the sample mean converges to the expected value $\mu_{_X}$ in probability.
+\end{thm}
+
+\ni The graphics on the following page (Figure 1 and Figure 2) should demonstrate the idea. We see running averages for 50 different simulations and an $\epsilon$ tolerance about the value $\mu_{_X}=0$. As the sample sizes increase the probability of being outside of the shown $\epsilon$ band should decreases, and so we would expect to see a lower proportion of our sample means outside of the $\epsilon$ band about $\mu_{_X}=0$.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{wlln_plot_1.jpeg}
+\caption{WLLN - Sample Sizes of $n\le 1000$}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{wlln_plot_2.jpeg}
+\caption{WLLN - Sample Sizes of $n\le 2000$}
+\end{center}
+\end{figure}
+
+
+
+\ni While this is nice to have very small probabilities of $\epsilon$-excursions for large sample means, fortunately, we have an even stronger result in the Strong Law of Large Numbers.\\
+ 
+\begin{thm}[SLLN]
+Let $X$ be a random variable with finite expected value; i.e., $\mu_{_X}=E[X]<\infty$, and $X_1,X_2,\dots,X_n$ be an independent random sample from the population with distribution $X$. If we define the sample mean $\overline{X}_n=\ds\frac{X_1+\cdots+X_n}{n}$, we have $\overline{X}_n\stackrel{a.s.}{\longrightarrow}\mu_{_X}$; i.e., the sample mean converges to the expected value $\mu_{_X}$ almost surely.\\
+\end{thm}
+
+\ni The SLLN guarantees that for any $\epsilon$ tolerance, there will only be a finite number of values of the sample mean $\overline{X}_n$ that will fall outside of the tolerance-band. Consider the following simulations to demonstrate the idea behind the SLLN.\\
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{slln_plot_1.jpeg}
+\caption{SLLN - Samples Size of $n\le 1000$}
+\end{center}
+\end{figure}
+
+
+\ni In the following graphic (Figure 3) we see that for a given $\epsilon$ tolerance, with smaller sample sizes many of the sample means fall outside the $\epsilon$ band. But as our sample sizes increase we see most of the sample means falling within the desired $\epsilon$ band as is clear below (Figure 4). In the next two simulation plots (Figure 5 and Figure 6) we can see that when our sample sizes are close to $n=10,000$ it appears that all of our sample means will fall into the desired $\epsilon$ tolerance band. This is the strength of the SLLN. While it does not tell us how large $N$ will have to be, it guarantees that there exists some value $N\in\N$ so that for all $n\ge N$ all of the sample means $\overline{X}_n$ will fall within the desired $\epsilon$ tolerance band about the mean $\mu_{_X}$.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{slln_plot_2.jpeg}
+\caption{SLLN - Sample Size of $n\le 2000$}
+\end{center}
+\end{figure}
+
+
+%\begin{figure}[h!]
+%\begin{center}
+%\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{slln_plot_3.jpeg}
+%\caption{SLLN - Sample Size of $n=5000$}
+%\end{center}
+%\end{figure} 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.24]{wlln_plot_3.jpeg}
+\caption{SLLN - Multiple Samples Size of $n\le 10,000$}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.24]{slln_plot_4.jpeg}
+\caption{SLLN - Sample Size of $n\le 10,000$}
+\end{center}
+\end{figure}
+
+\ni {\bf\emph{Note}}: Of course the SLLN implies the WLLN and so we only need to prove the SLLN. We give the proof here.
+
+\begin{proof}(SLLN) We prove the SLLN under the assumption that we have a finite variance $\sigma^2=E[(X-E[X])^2]<\infty$, but note that a more general proof is possible without the assumption of a finite variance.\\
+
+\ni We first assume that $X$ is a non-negative random variable; i.e., $X\ge 0$ for all $\o\in\O$. Then if $X$ is non-negative we can write $X=X^{+}-X^{-}$, where $X^{+}=\text{max}\{X,0\}$ and $X^{-}=\text{min}\{X,0\}$, and reduce the general case to the difference of two non-negative random variables. Then we use the fact that $E[X]=E[X^{+}-X^{-}]=E[X^{+}]-E[X^{-}]$ to complete the result.\\
+
+\ni Let $\overline{X}_n=(X_1+\cdots+X_n)/n$. Given that $X\ge 0$ choose the sequence $\{n^2\}^{\infty}_{n=1}$ and consider the sequence $\{M_{n^2}\}$. Then by Chebyshev's inequality we have for any $\epsilon$
+\[\P\left(\big|\overline{X}_{n^2}-\mu_{_X}\big|>\epsilon\right)\le\ds\frac{\sigma^2}{n^2\epsilon^2}.\]
+But then $\ds\sum\ds\frac{\sigma^2}{n^2\epsilon^2}<\infty$ and so by the Borel-Cantelli Lemma \#1 we have 
+\[\P\left(\big|\overline{X}_n-\mu_{_X}\big|>\epsilon\;\text{for infinitely many}\;n\in\N\right)=0.\]
+So $\overline{X}_{n^2}\stackrel{a.s}{\longrightarrow}\mu_{_X}$. Now let $k_n$ be the unique positive integer such that $k^2_n\le n<(k_n+1)^2$. Then if we let $S_n=X_1+\cdots+X_n$ we have
+\[S_{k^2_n}\le S_n\le S_{(k_n+1)^2}\Longrightarrow
+\ds\frac{S_{k^2_n}}{(k_n+1)^2}\le\ds\frac{S_n}{n}\le\ds\frac{S_{(k_n+1)^2}}{k^2_n}.\]
+But
+\[\ds\frac{S_{k^2_n}}{(k_n+1)^2}=\ds\frac{k_n^2}{(k_n+1)^2}\cdot\ds\frac{S_{k^2_n}}{k^2_n}=\left[\ds\frac{k_n^2}{(k_n+1)^2}\overline{X}_{n^2}\right]\longrightarrow\mu_x\;\text{as}\;n\to\infty\] 
+with probability one, since $k^2_n/(k_n+1)^2$ approaches one as $n$ gets large. Similarly, 
+\[\ds\frac{S_n}{n}\le\ds\frac{S_{(k_n+1)^2}}{k^2_n}\longrightarrow\mu_x\;\text{as}\;n\to\infty\]
+with probability one. Therefore, by the squeeze theorem we have
+\[\overline{X}_n=\ds\frac{S_n}{n}\longrightarrow\mu_{_X}\]
+with probability one. Now if we write $X=X^{+}-X^{-}$ as above we have
+\[\overline{X}_n=\ds\frac{1}{n}\left[X^{+}-X^{-}\right]\stackrel{a.s}{\longrightarrow}E[X^{+}]-E[X^{-}]=E[X^{+}-X^{-}]=E[X]=\mu_{_X}.\]
+
+\ni This completes the proof.\\
+\end{proof}
+
+\ni We next consider some of the consequences of the two Laws of Large Numbers.\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Consequences of the WLLN and the SLLN}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ni One of the main consequences of the SLLN is that (philosophically) with probability one, we can estimate any parameter to within any tolerance $\epsilon$ we choose. If $X_1,X_2,\dots$ are independent random measurements where the error in the measurements can be assumed to have a standard normal distribution, for any $\epsilon>0$ and for large enough $n$ we are guaranteed, with probability one, that the value of
+\[\ds\frac{X_1+\cdots+X_n}{n}\]
+will be within $\epsilon$ of the true value of the parameter $E[X]$. Philosophically, this is much better than just having with WLLN, which would just say there is a very small non-zero probability of being outside the $\epsilon$ tolerance band.\\
+
+\ni Additionally, this gives us an interpretation of the expected value $E[X]$ as the value that the sample means will converge to as our sample sizes become larger. This gives good reason to interpret the expected value $E[X]$ an ``average" value.\\
+
+\ni Even more fundamentally, the SLLN justifies out ``frequency" interpretation of probabilities. To see this, let $X$ be the outcome random variable for an experiment $\E$ where we have a probability space $(\O,\F,\P)$. If we repeat the experient infinitely many times we get a sequence of independent random variables $X_1,X_2,X_3,\dots$. Now, for any $A\in\F$, define
+\[\P_n(A)=\ds\frac{1}{n}\ds\sum^{n}_{i=1}\mathbbm{1}(X_i\in A),\]
+where $\mathbbm{1}$ is the indicator random variable. Then $\ds\sum^{n}_{i=1}\mathbbm{1}(X_i\in A)\sim Binom(n,\P(A))$ and so we have 
+\[E\left[\ds\sum^{n}_{i=1}\mathbbm{1}(X_i\in A)\right]=\P(A).\]
+
+\ni But then the SLLN says that $\P_n(A)\stackrel{a.s}{\longrightarrow}\P(A)$ and so (with probability one) as $n$ gets larger $\P_n(A)$ will approach the true probability $\P(A)$. This is exactly what we expected when we hoped to determine the probability of an event by taking the average over repeated observations.\\
+
+\ni As a simple applied example, consider building a 95\% confidence interval for a population mean, where we have a small sample drawn from a normal population with unknown variance. The statistic
+\[T=\ds\frac{\overline{X}_n-\mu_x}{S/\sqrt{n}}\]
+has a $t$-distribution with $n-1$ degrees of freedom. So we have the following.
+\[\P\left(\bar{x}-t_{.025,n-1}\ds\frac{s}{\sqrt{n}}<\mu_x<\bar{x}+t_{.025,n-1}\ds\frac{s}{\sqrt{n}}\right)=0.95.\]
+That is, if we form the interval $(\bar{x}-t_{.025,n-1}\cdot s/\sqrt{n},\bar{x}+t_{.025,n-1}\cdot s/\sqrt{n})$, then we expect the true mean $\mu_x$ to be in the confidence interval approximately $95\%$ of the time. Moreover, we know that
+\[\P\left(\bar{x}-z_{.025}\ds\frac{s}{\sqrt{n}}<\mu_x<\bar{x}+z_{.025}\ds\frac{s}{\sqrt{n}}\right)<0.95\]
+since we have uncertainty from our estimation of the unknown parameter $s$. We can see this in the following simulation plot (Figure 7).\\
+
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 0cm, clip=true, scale=0.32]{ttest_vs_ztest_efficiency.jpeg}
+\caption{Efficiency of $t$-distribution for Confidence Intervals}
+\end{center}
+\end{figure}
+
+\ni In the plot, notice that no matter how small the sample size, we have approximately 95\% of our confidence intervals containing the actual parameter $\mu_x$ when we use the $t$-distribution. But if we use the standard normal distribution we have lower proportions, as expected. It seems as if for $n=2$ we have
+\[\P\left(\bar{x}-z_{.025}\ds\frac{s}{\sqrt{n}}<\mu_x<\bar{x}+z_{.025}\ds\frac{s}{\sqrt{n}}\right)\approx 0.80.\]
+
+\ni {\bf\emph{Note}}: Some readers might know that as $n$ is large enough, say $n>60$ when the underlying population is normal, we will have similar probabilities using the $t$-distribution as when we use the $z$-distribution (the standard normal). This is because if $\{T_n\}$ is a sequence of random variables, each $T_n$ having $n$ degrees of freedom, then $\{T_n\}$ {\bf\emph{converges in distribution}} to the standard normal distribution. Interested readers should look to the other forms of convergence, as they play important roles, especially in major theorems such as The Central Limit Theorem.\\
+
+\ni Back to the simulation, the reason that we can make such statements only follows from our ``frequency" approach to probability. And while this is an intuitive way to think about probability, our intuition can often be very wrong. But taking our rigorous mathematical approach we see that this is an appropriate way to think about probability given the SLLN. It also should give us comfort that our mathematical framework is delivering results that are consistent with what we want probability to mean.\\
+
+\ni As another example of simulation called a {\bf\emph{Monte Carlo procedure}}. It is sometimes desirable to estimate quantities whose exact values are difficult or impossible to calculate exactly. In some of these cases, a procedure involving chance, called a Monte Carlo procedure, can be used to provide such an estimate. In these notes we will see how probability simulations can be used to estimate the area of plane figures - which can often be difficult or impossible to calculate directly. Suppose that we program our computer to provide a pair of numbers $(x,y)$, each chosen independently and at ``random" from the interval $[0,1]$. Then we can interpret the pair as the coordinates of a point $(x,y)$ from the unit square in the plane. So our sample space is
+\[\O=\{(x,y):0\le x,y,\le 1\}.\]
+We let our event space be (measurable) regions from the unit square. Then since the area of the unit square is equal to one, the probability of a point falling in a specific region is simply the area of that region. Then to estimate the area of that region we simply need to estimate the probability that a randomly chosen point falls in that region. This estimate will depend on our knowledge of the SLLN.\\
+
+\ni As a simple example, consider the function with equation $f(x)=x^2$ on the interval $[0,1]$. We want to evaluate the Reimann integral
+\[\ds\int^{1}_{0}x^2\,dx.\] 
+Of course, this is an easy integral to evaluate with value $\int^{1}_{0}x^2\,dx=1/3$, but this should convince us that the process is worthwhile. We run the Monte Carlo process calculating the ration of points that land in the desired region under the graph of $f(x)=x^2$ with $n=20, 50, 100, 1000, 10,000, 50,000$ trials and get the following approximations as can be visualized in figure 8 and figure 9 on the following page.\\
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_20.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_50.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_100.pdf}
+\caption{Monte Carlo Approximation to $\int^{1}_{0}x^2\,dx$ for n=20, 50, 100}
+\end{center}
+\end{figure}
+
+
+
+\ni In the approximations we get the following estimates for the probability of a point landing in the region, and thus the area under the graph.
+\[n=20 \Longrightarrow p\approx 0.6;\quad n=50 \Longrightarrow p\approx 0.4;\quad n=100 \Longrightarrow p\approx 0.3\]
+As you can see, as $n$ increases were are getting better and better approximations to the area. 
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_1000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_10000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_50000.pdf}
+\caption{Monte Carlo Approximation to $\int^{1}_{0}x^2\,dx$ for n=1000, 10000, 50000}
+\end{center}
+\end{figure}
+
+\ni In the above approximations we get the following estimates for the probability of a point landing in the region, and thus the area under the graph.
+\[n=1000 \Longrightarrow p\approx 0.351;\quad n=10,000 \Longrightarrow p\approx 0.3256;\quad n=50,000 \Longrightarrow p\approx 0.33234\]
+
+\ni Keep in mind that we do not know the actual error for each approximation, but the SLLN guarantees that (with probability one) beyond some  $n$ all approximations will be within a desired tolerance.\\
+
+\ni This example might seem too trivial, and so we consider the following improper integral.
+\[\ds\int^{\infty}_{-\infty}e^{-x^2/2}\,dx\]
+It can be shown that there is no elementary anti-derivative for the function $f(x)=e^{-x^2/2}$ and so we may not use the Fundamental Theorem of Calculus to help us evaluate this improper integral. Now, while there is a relatively easy way to evaluate this integral using polar coordinates and techniques from mutivariable calculus we will take a Monte Carlo approach and estimate the value of the integral. Now we have a couple of problems. We can not use Monte Carlo over the entire real line, and so we choose a suitable rectangle with $x\in[-8,8]$ and $y\in[0,1]$. We can do this for an estimate since we can show that the area under the tails of the graph is extremely small since the graph of $f(x)=e^{-x^2/2}$ approached the axis very quickly; i.e., we can show that the tail areas will be negligible. Then to estimate the area under the curve in the interval $[-8,8]$ we will use the ratio of points in the desired region (the approximate probability of a random point being in the reqion) and multiply this by the area of the box $[-8,8]\times[0,1]$. We use $n=1000, 10000, 50000$ whose plots can be seen in figure 10 on the following page.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int2_monte_carlo_1000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int2_monte_carlo_10000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int2_monte_carlo_50000.pdf}
+\caption{Monte Carlo Approximation to $\int^{1}_{0}e^{-x^2/2}\,dx$ for n=1000, 10000, 50000}
+\end{center}
+\end{figure}
+
+\ni Here we get the following estimates for the area under the graph.
+\[n=1000 \Longrightarrow \text{Area}\approx 2.24;\quad n=10,000 \Longrightarrow \text{Area}\approx 2.4944;\quad n=50,000 \Longrightarrow \text{Area}\approx 2.53824\]
+Using other techniques is is possible to show that the true value of the integral is 
+\[\ds\int^{\infty}_{-\infty}e^{-x^2/2}\,dx=\sqrt{2\pi}\approx 2.50663.\]
+In fact, this is the normalizing constant for the standard Gaussian Normal Distribution. In other words, in order to have a valid probability density function it must integrate to one on the entire real line. So the density function is given by 
+\[f_{_Z}(x)=\ds\frac{1}{\sqrt{2\pi}}e^{-x^2/2}.\]
+Back to the Monte Carlo simulation. If we were not able to calculate this integral directly using other techniques our approximation would then be a useful tool, especially if we had enough computing power to estimate the value to a very high degree of precision.\\
+
+\ni We finally consider the famous Buffon Needle problem and use a probability simulation as a way to estimate the value of $\pi$. Suppose that we take a card table and draw across the top surface a set of parallel lines a unit distance apart. We then drop a common needle of unit length at random on this surface and observe whether or not the needle lies across one of the lines. (You can see a simulation in Figure 11 on the following page.)
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 0cm, clip=true, scale=0.4]{buffon_simulation.jpg}
+\caption{Buffon Needle Experiment Simulation}
+\end{center}
+\end{figure}
+We can describe the possible outcomes of this experiment
+by coordinates as follows: Let $d$ be the distance from the center of the needle to the nearest line. Next, let $L$ be the line determined by the needle, and define $\theta$ as the acute angle that the line $L$ makes with the set of parallel lines. Using this description, we have $0\le d\le 1/2$, and $0\le\theta\le \pi/2$. Moreover, we see that the needle lies across the nearest line if and only if the hypotenuse of the triangle is less than half the length of the needle. That is,
+\[\ds\frac{d}{\sin\theta}<\ds\frac{1}{2}.\]
+Now we assume that when the needle drops, the pair $(\theta,d)$ is chosen at random from the rectangle $[0,\pi/2]\times[0,1/2]$. We observe whether the needle lies across the nearest line. The probability of this event $E$ is the fraction of the area of the rectangle which lies under the graph of $\sin(\theta)/2$. We estimate this fraction using a Monte Carlo simulation (see Figure 12). The area of the rectangle $[0,\pi/2]\times[0,1/2]$ equals $\pi/4$. Moreover, we can calculate directly that
+\[\ds\frac{1}{2}\ds\int^{\pi/2}_{0}\sin\theta\,d\theta=\ds\frac{1}{2}.\]
+Therefore, we have $\pi=2/P(E)$ and using our approximate probabilities we have the following. (See the plotted simulations in Figure 12 on the next page.)
+
+\beq
+n=1000 &\Longrightarrow&  \pi\approx 3.30579\quad  \text{error}=0.164192\\ n=10,000 &\Longrightarrow& \pi\approx 3.10270\quad \text{error}=0.038893\\  n=50,000 &\Longrightarrow& \pi\approx 3.14723\quad \text{error}=0.005634\\
+\eeq
+
+\ni It can be shown that we can expect to have an error of not more than $5/\sqrt{n}$ about 95 percent of the time. Here $n$ is the number of needles dropped. Thus for 10,000 needles we should expect an error of no more than 0.05. We see that a large number of experiments is necessary to get a decent estimate for $\pi$. Even still, this is a classic example and shows how we can use the SLLN and Monte Carlo procedures to estimate unknown values or solutions to problems with intractable solutions.\\
+
+\ni Of course, there are circumstances where a frequency approach to probability is not possible. In light of this thought, we finish this section with a quote from the text ``Introduction to Probability" written by Bertsekas and Tsitsiklis.\\
+
+\ni ``{\em While there are many situations involving uncertainty in which the frequency interpretation is appropriate, there are other situations in which it is not. Consider, for example, a scholar who asserts that the Iliad and the Odyssey were composed by the same person, with probability 90\%. Such an assertion conveys some information, but not in terms of frequencies, since the subject is a one-time event. Rather, it is an expression of the scholar's subjective belief. One might think that subjective beliefs are not interesting, at least from a mathematical or scientific point of view. On the other hand, people often have to make choices in the presence of uncertainty, and a systematic way of making
+use of their beliefs is a prerequisite for successful, or at least consistent, decision making.}"\\
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int3_monte_carlo_1000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int3_monte_carlo_10000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int3_monte_carlo_50000.pdf}
+\caption{Monte Carlo Approximation to $\ds\frac{1}{2}\int^{\pi/2}_{0}\sin x\,dx$ for n=1000, 10000, 50000}
+\end{center}
+\end{figure}
+
+
+\vfill\eject
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix 1: Other Types of Convergence}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ni In this section we briefly discuss some other ways in which random variables converge. Recall that we have already mentioned the following: point-wise convergence, convergence almost surely, and convergence in probability one.\\
+
+\begin{defn}
+We say the sequence of random variables $\{X_n\}$ {\bf\emph{converges in}} $\mathbf{r}^{\text{{\bf\emph{th}}}}$ {\bf\emph{mean}} to $X$, denoted $X_n\stackrel{m.s.}{\longrightarrow}X$, if
+\[\ds\lim_{n\to\infty}E\Big[\,\big|X_n-X\big|^r\,\Big]=0.\]
+\end{defn}
+
+\ni In particular, when $r=2$, the convergence is a widely used one. In this case it goes by the special name of {\bf\emph{convergence in the mean-squared}}.\\
+
+
+\begin{defn}
+We say the sequence of random variables $\{X_n\}$ {\bf\emph{converges in distribution}} to $X$, denoted $X_n\stackrel{D}{\longrightarrow}X$, if 
+\[\ds\lim_{n\to\infty}F_{X_n}=F_X\;\text{for all}\;x\;\text{where}\;F_X\;\text{is continuous}.\]
+\end{defn}
+
+\ni This last notion of convergence is crucial to understanding the {\bf\emph{Central Limit Theorem}} (CLT), which is possibly the most important theorem in probability theory. We will state the classical version of the CLT (without proof) later in these notes in Appendix \#3.\\
+
+\ni The following diagram represents the relationships between the different modes of convergence. We state these relationships in the following theorem.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=5]{diff_types_convergence.jpg}
+\end{center}
+\caption{Relationship Between Different Modes of Convergence}
+\end{figure}
+
+\begin{thm} The following relationships hold.
+
+	\begin{enumerate}
+	
+		\item $X_n\stackrel{p.w.}{\longrightarrow}X\Longrightarrow X_n\stackrel{a.s}{\longrightarrow}X$
+		
+		\item $X_n\stackrel{a.s}{\longrightarrow}X\Longrightarrow X_n\stackrel{i.p.}{\longrightarrow}X$
+		
+		\item $X_n\stackrel{m.s.}{\longrightarrow}X\Longrightarrow X_n\stackrel{i.p.}{\longrightarrow}X$
+		
+		\item $X_n\stackrel{i.p.}{\longrightarrow}X\Longrightarrow X_n\stackrel{D}{\longrightarrow}X$
+		
+	\end{enumerate}
+	
+\end{thm}
+
+\begin{proof}
+\ni The proof of (1) is trivial. So we will prove statements (2),(3), and (4).\\
+
+	\begin{itemize}
+	
+		\item[(3):] We show the stronger result that convergence in $r$th mean, for $r\ge 1$, implies convergence in probability. Choose an arbitrary $\epsilon>0$. Then by Markov Inequality (see appendix \#2) we have
+\[\ds\lim_{n\to\infty}\P\Big(|X_n-X|^r>\epsilon^r\Big)\le\ds\lim_{n\to\infty}\ds\frac{E\Big(|X_n-X|^r\Big)}{\epsilon^r}=0,\] 
+from which it follows that 
+\[\ds\lim_{n\to\infty}\P\Big(|X_n-X|>\epsilon\Big)=0.\]
+The statement(3) is proved.\\
+		
+		\item[(4):] Fix $\epsilon>0$. Then $F_{_{X_n}}(x)=\P(X_n\le x)$ gives
+\beq
+F_{_{X_n}}(x)&=&\P\Big(X_n\le x,\,X\le x+\epsilon\Big)+\P\Big(X_n\le x,\,X> x+\epsilon\Big)\\
+&=&F_{_X}(x+\epsilon)+\P\Big(|X_n-X|>\epsilon\Big)\\
+&\Downarrow&\\
+F_{_{X_n}}(x+\epsilon)&\le&F_{_X}(x)+\P\Big(|X_n-X|>\epsilon\Big).
+\eeq
+Similarly we have,
+\beq
+F_{_X}(x-\epsilon)&=&\P(X\le x-\epsilon)\\
+&=&\P\Big(X\le x-\epsilon,\,X_n\le x\Big)+\P\Big(X\le x-\epsilon,\,X_n> x\Big)\\
+&\le&F_{_{X_n}}(x)+\P\Big(|X_n-X|>\epsilon\Big).
+\eeq
+Therefore, assuming convergence in probability, we have
+\[F_{_X}(x-\epsilon)-\P\Big(|X_n-X|>\epsilon\Big)\le F_{_{X_n}}(x)\le 
+F_{_X}(x+\epsilon)+\P\Big(|X_n-X|>\epsilon\Big).\]	
+Then as $n\to\infty$ we have
+\[F_{_X}(x-\epsilon)\le \ds\liminf_{n\to\infty}F_{_{X_n}}(x)\le \ds\limsup_{n\to\infty}F_{_{X_n}}(x) \le F_{_X}(x+\epsilon).\]	
+If $F_{_X}$ is continuous at $x$ we have
+\[F_{_X}(x-\epsilon)\uparrow F_{_X}(x)\quad\text{and}\quad F_{_X}(x-\epsilon)\downarrow F_{_X}(x),\]	
+and by the squeeze theorem statement(4) is proved.\\
+
+	\item[(2):] To prove this statement we first prove a sufficient condition for $X_n\stackrel{a.s.}{\longrightarrow}X$ and also a necessary and sufficient condition.
+	
+\begin{lemma}
+If for all $\epsilon>0$ we have $\sum^{\infty}_{n=1}\P\Big(|X_n-X|>\epsilon\Big)<\infty$, then $X_n\stackrel{a.s.}{\longrightarrow}X$.
+\end{lemma}
+\begin{proof}
+\ni Since $\sum^{\infty}_{n=1}\P\big(|X_n-X|>\epsilon\big)<\infty$ we must have $lim_{n\to\infty}\P\big(|X_n-X|>\epsilon\big)=0$. Let $A_n(\epsilon)=\{\o:|X_n(\o)-X(\o)|>\epsilon\}$. Then by BC Lemma \#1 only finitely many of the $A_N(\epsilon)$ occur with probability one. That means, for all $n\ge N_0\in\N$, $\P\big[|X_n-X|\le\epsilon\big]=1$ which is equivalent to almost sure convergence. This completes the proof of the lemma.\\
+\end{proof}
+
+
+\begin{lemma}
+If $A_n(\epsilon)=\{\o:|X_n(\o)-X(\o)|>\epsilon\}$ and $B_m(\epsilon)=\bigcup_{n\ge m}A_n(\epsilon)$, then $X_n\stackrel{a.s.}{\longrightarrow}X$ if and only if $\ds\lim_{m\to\infty}\P\big[B_{m}(\epsilon)\big]=0$ for all $\epsilon>0$.
+\end{lemma}
+\begin{proof}
+\ni Let $A(\epsilon)=\{\o\in\O:\o\in A_n(\epsilon)\;\text{for infinitely many}\;n.\}$. Then if $X_n\stackrel{a.s.}{\longrightarrow}X$ it is clear that $\P\big[A(\epsilon)\big]=0$ for all $\epsilon>0$. Then we have
+\[\P\left(\ds\bigcap^{\infty}_{m=1}B_m\right)=0.\]
+Then since $\{B_m\}$ is a decreasing nested sequence of events, by the continuity of probability measures we have
+\[\ds\lim_{m\to\infty}\P\big[B_{m}(\epsilon)\big]=0.\]
+Conversely, let $C=\{\o\in\O:X_n(\o)\to X(\o)\;\text{as}\;n\to\infty\}$. Then
+\beq
+\P\left(C^C\right)&=&\P\left(\ds\bigcup_{\epsilon>0}A(\epsilon)\right)\\
+&=&\P\left(\ds\bigcup^{\infty}_{m=1}A\left(\ds\frac{1}{m}\right)\right)\\
+&\le&\ds\sum^{\infty}_{m=1}\P\left[A\left(\ds\frac{1}{m}\right)\right].\\
+\eeq
+Also, $P\big[A(\epsilon)\big]=\lim_{m\to\infty}\P\big[B_m(\epsilon)\big]=0$. So consider
+\[\P\left[A\left(\ds\frac{1}{k}\right)\right]=\P\left[\ds\bigcap^{\infty}_{m=1}B_m\left(\ds\frac{1}{k}\right)\right]=\ds\lim_{m\to\infty}\P\left[B_m\left(\ds\frac{1}{k}\right)\right]=0\;\text{for all}\;k.\]
+Therefore, $\P\big(C^C\big)=0$ and so $P(C)=1$ which completes the proof of the lemma.\\
+\end{proof}
+
+\ni Now to return to the proof of statement (2) we have $X_n\stackrel{a.s.}{\longrightarrow}$ implies $\lim_{m\to\infty}\P\big[B_{m}(\epsilon)\big]=0$. But as $A_m(\epsilon)\subseteq B_m(\epsilon)$ we have $\lim_{m\to\infty}A_m(\epsilon)=0$ and so $X_n\stackrel{i.p.,}{\longrightarrow}X$. Thus statement (2) is proved.\\
+			
+	\end{itemize}
+
+\ni Since each statement (2),(3),and (4) have been shown to be true, this completes the proof of the theorem.\\
+\end{proof}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix 2: Other Basic Properties of the Expected Value}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thm}[Markov Inequality] If $X$ is a non-negative random variable with expected value $E[X]<\infty$, then for all $a\ge 0$
+\[\P\big(X\ge a \big)\le\ds\frac{E[X]}{a}.\]
+\end{thm}
+\begin{proof}
+To justify this result for a discrete random variable fix a real number $a\ge 0$ and let $Y_a$ be the random variable defined as
+\[Y_a=\left\{\begin{array}{rlc}
+0&:&X<a\\
+a&:&X\ge a\\
+\end{array}\right.\]
+Then $Y_a\le X$ and so $E[Y_a]\le E[X]$. But we also have
+\[E[Y_a]=a\cdot\P\big(Y_a=a\big)=a\cdot\P\big(X\ge a \big)\]
+from which the result follows.\\
+\end{proof}
+
+\ni Markov's inequality is a useful tool in proving the next important result.
+
+\begin{thm}[Chebyshev's Inequality] If $X$ is a random variable with mean $\mu_{_X}$ and variance $\sigma^{2}_{_X}$, then for all $c>0$
+\[\P\big(|X-\mu_{_X}|\ge c\big)\le\ds\frac{\sigma^{2}_{_X}}{c^2}.\]
+\end{thm}
+\begin{proof}
+Consider the non-negative random variable $(X-\mu_{_X})^2$ and apply Markov inequality with $a=c^2$ to get
+\[\P\Big((X-\mu_{_X})^2\ge c\Big)\le\ds\frac{E[(X-\mu_{_X})^2]}{c^2}=\ds\frac{\sigma^{2}_{_X}}{c^2}.\]
+We then simply observe that the event $(X-\mu_{_X})^2\ge c^2$ is the same as the event $|X-\mu_{_X}|\ge c$. This completes the proof.\\
+\end{proof}
+
+\ni We observe that the bound in the probability given by Chebyshev's inequality is very conservative (and sometimes not even useful). Consider the following examples.
+
+\begin{ex}
+Let $X$ have a uniform distribution on $[0,4]$ and we want to bound the probability $\P\big(|X-2|\ge 1\big)$. We have $\sigma^{2}_{_X}=4/3$ and so by Chebyshev's inequality we have 
+\[\P\Big(|X-2|\ge 1\Big)\le\ds\frac{4}{3}.\]
+This is a useless upper bound on the probability because it is greater than one.
+\end{ex}
+
+\begin{ex}
+Suppose that $X$ takes on values in the range $[a,b]$. Then we know that $\sigma^{2}_{_X}\le(b-a)^2/4$ and so by Chebyshev's we have
+\[\P\Big(|X-\mu_{_X}|\ge c\Big)\le\ds\frac{(b-a)^2}{4c^2}.\]
+To verify the bound on the variance we see that
+\[E[(X-\alpha)^2]=E[X^2]-2\alpha\cdot E[X]+\alpha^2\]
+which is minimized when $\alpha=E[X]$. Letting $\alpha=(a+b)/2$ we have
+\[\sigma^{2}_{_X}\le E\left[\left(X-\ds\frac{a+b}{2}\right)^2\right]=E\Big[(X-a)(X-b)\Big]+\ds\frac{(b-a)^2}{4}\le \ds\frac{(b-a)^2}{4}.\]
+\end{ex}
+
+\vfill\eject
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix 3: The Central Limit Theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ni We now revisit the CLT because of its importance in the field of probability.\\
+
+\begin{thm}[Lindeberg-Levy CLT]
+Let $X_1,X_2,X_3,\dots$ be a sequence of i.i.d. random variables with finite $E[X_i]=\mu_{_X}$ and finite $\text{Var}[X_i]=\sigma^{2}_{_X}$, and let $\overline{X}_n=(X_1+\cdots+X_n)/n$. Then the sequence of random variables $\sqrt{n}\big(\overline{X}_n-\mu_{_X}\big)$ converges in distribution to a normal distribution $N(0,\sigma^{2}_{_X})$;
+\[\sqrt{n}\left(\ds\frac{1}{n}\ds\sum^{n}_{i=1}X_i-\mu_{_X}\right)\stackrel{D}{\longrightarrow}N(0,\sigma^{2}_{_X}).\]
+\end{thm}
+
+\ni To be clear, in the case where $\sigma^{2}_{_X}>0$ this says that the distribution function of $\sqrt{n}\big(\overline{X}_n-\mu_{_X}\big)$ converges pointwise to the distribution of $N(0,\sigma^{2}_{_X})$. That means, for any $z\in\R$ we have
+\[\lim_{n\to\infty}\P\Big(\sqrt{n}\big(\overline{X}_n-\mu_{_X}\big)\le z\Big)=\Phi(z/\sigma_{_X}).\]
+Alternately, if $\sigma^{2}_{_X}>0$, we could state that a standardized sample mean converges in distribution to a standard normal. That is,
+\[\ds\frac{\overline{X}_n-\mu_{_X}}{\sigma_{X}/\sqrt{n}}\stackrel{D}{\longrightarrow}N(0,1).\]
+
+\ni Then we have the following:
+\[\lim_{n\to\infty}\P\left(\ds\frac{\overline{X}_n-\mu_{_X}}{\sigma_{X}/\sqrt{n}}\right)\le z\Big)=\Phi(z).\]
+
+\ni The usefulness of the theorem is that the distribution of $\sqrt{n}\big(\overline{X}_n-\mu_{_X}\big)$ approaches normality regardless of the shape of the distribution of the individual $X_i$'s. Moreover, for large enough $n$ the random variable $S_n=X_1+\cdots+X_n$ will be approximately normal. This justifies to common assumption of normality when the randomness or a process can be attributed to a sum of random processes. Let's consider a couple of examples, one continuous example and one discrete example. We start with a random variable $X$ with a probability density function that is a piecewise polynomial, with pieces of degrees 0 and 1. (See figure 9.) The mean of this distribution is 0 and its standard deviation is 1.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_1.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $X$}
+\end{figure}
+
+\vfill\eject
+
+\ni Then assuming $X_1,X_2,X_3,X_4$ are i.i.d. each having the same distribution as $X$, using convolution we compute the density functions for $Y_2=X_1+X_2$, $Y_3=X_1+X_2+X_3$ and $Y_4=X_1+X_2+X_3+X_4$ (and then scale each so that they have variance one). You can see the corresponding graphs below in figure 10, figure 11, and figure 12.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_2.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $Y_2=X_1+X_2$}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_3.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $Y_3=X_1+X_2+X_3$}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_4.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $Y_4=X_1+X_2+X_3+X_4$}
+\end{figure}
+
+\vfill\eject
+
+\ni This density appears qualitatively very similar to a normal density after only summing four copies of the random variable $X$.\\
+
+\ni We next consider a discrete example. Suppose that $X$ is a discrete uniform random variable with $Im(X)=\{1,2,3\}$. Then we have
+\[p_{_X}(x)=\left\{\begin{array}{rcl}
+1/3&:&x=1,2,3\\
+0&:&\text{Otherwise}
+\end{array}\right.\]
+Then let $Y=X_1+X_2$ and $W=X_1+X_2+X_3$ where $X_1,X_2,X_3$ are i.i.d having the same distribution as $X$. Then we have
+\[p_{_Y}(y)=\left\{\begin{array}{rcl}
+1/9&:&y=2,6\\
+2/9&:&y=3,4\\
+3/9&:&y=5\\
+0&:&\text{Otherwise}
+\end{array}\right.\]
+and
+\[p_{_W}(w)=\left\{\begin{array}{rcl}
+1/27&:&w=3,9\\
+3/27&:&w=4,8\\
+6/27&:&w=5,7\\
+7/27&:&w=6\\
+0&:&\text{Otherwise}
+\end{array}\right.\]
+The degree of the resemblance to the bell-shaped curve can be quantified as follows. Consider
+\[\P(W\le 7)=\P(X_1+X_2+X+3\le 7)=\ds\frac{1}{27}+\ds\frac{3}{27}+\ds\frac{6}{27}+\ds\frac{7}{27}+\ds\frac{6}{27}=\ds\frac{23}{27}\approx 0.85185.\]
+Then since $E[W]=6$ and $\text{Var}[W]=2$ we use a continuity correction, (using the fact that $\P(W\le7.5)=\P(W\le 7)$) and compute
+\[0.85185\approx\P(W\le 7.5)=\P\left(\ds\frac{W-6}{\sqrt{2}}\le\ds\frac{7.5-6}{\sqrt{2}}\right)=\P\left(\ds\frac{W-6}{\sqrt{2}}\le 1.0606602\right).\]
+Then if $Z\sim N(0,1)$ we have.
+\[\P(Z\le 1.0606602)=\Phi(1.0606602)\approx 0.85558.\]
+So the cumulative probability for the standardized $\big(W-E[W]\Big)/\sigma_{_W}$ has probabilities very close to those of the standard normal distribution.
+
+\vfill\eject
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Appendix 4: Formal Construction of Uniform Distribution on $[0,1]$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ni Recall our discussion from the main body of the notes. We have the pair $(\O,\F)$, where $\O=[0,1]$ is the closed interval on the real line, and we want to assign a measure $\P$ that is a uniform probability measure. (For a uniform probability measure we want the probability for an interval to be proportional to the length of that interval.) Then, if $(a,b)$ is a sub-interval of $[0,1]$, we will define $\P[(a,b)]=b-a$. So, in general, for any element $A\in\F$ we would like $\P(A)$ to be equal to the ``length" of $A$, denoted $|A|$. We would also like $\P$ to be invariant under translation. That is, $\P(A)=\P(A\oplus c)$, for any constant $c$ where we define the sum $A\oplus c$ to be
+\[A\oplus c=\big\{a+c:a\in A,\;\;a+c\le 1\big\}\cup
+\big\{a+c-1:a\in A,\;\;a+c\ge 1\big\}.\]
+But we already know that we can not choose $\F=2^{[0,1]}$. So what is $\F$? Then what about assigning probabilities to general elements of $\F$?\\
+
+\ni Recall that $\F$ must be a $\sigma$-algebra. That is, it is a collection of subsets of $\O$ so that at least the following hold.
+
+	\begin{enumerate}
+		\item $\emptyset\in\F$.
+		\item $\O\in\F$.
+		\item If $A_1,A_2,A_3,\dots,$ is a countable sequence of events in $\F$, then $\bigcup^{\infty}_{i=1}A_i\in\F$.
+		\item If $A_1,A_2,A_3,\dots$ is a countably infinite sequence of events in $\F$, then $\bigcap^{\infty}_{i=1}A_i\in\F$.
+	\end{enumerate}
+
+\ni We definitely want $\F$ to contain all sub-intervals and unions of sub-intervals, so we start be letting $\O=(0,1]$ and letting $\mathcal{C}_0$ be the set containing all unions of open intervals in $\O$. Observe that $\mathcal{C}_0$ is not a $\sigma$-algebra since, for example, $A=(0,1/2)\cup(1/2,1)\in\mathcal{C}_0$, but $\{1/2,1\}=A^C\not\in\mathcal{C}_0$. That is, $\mathcal{C}_0$ is not closed under set complement.\\
+
+\ni We next let $\sigma(\mathcal{C}_0)$ be the smallest $\sigma$-algebra containing $\mathcal{C}_0$; i.e., if $\mathcal{H}$ is a $\sigma$-algebra on $(0,1]$, then $\sigma(\mathcal{C}_0)\subseteq\mathcal{H}$. We should first ask how do we know that $\sigma(\mathcal{C}_0)\not= 2^{(0,1]}$? It can be shown that $|\sigma(\mathcal{C}_0)|<\left|2^{(0,1]}\right|$ and so the sets can not be equal. We now call $\sigma(\mathcal{C}_0)$ the {\bf\emph{Borel}} $\sigma${\bf\emph{-algebra}}, and denote it as $\mathcal{B}\big((0,1]\big)$. All elements of $\mathcal{B}\big((0,1]\big)$ are called {\bf\emph{Borel sets}}. We offer the following theorem without proof.
+
+\begin{thm}
+Every Borel set is a measureable set.
+\end{thm}
+
+\newcommand{\Bs}{\mathcal{B}\big((0,1]\big)}
+
+\ni A few important properties can be shown. First, for every $b\in(0,1]$ we have $\{b\}in\Bs$. To see this, observe that
+\[\{b\}=\ds\bigcap^{\infty}_{n=1}\left[\left(b-\ds\frac{1}{n},b+\ds\frac{1}{n}\right)\cap(0,1]\right]\] 
+which is the intersection of a countable number of open intervals in $(0,1]$. Therefore, since $\Bs$ is a $\sigma$-algebra it must contain $\{b\}$. Given this result we know have that if $(a,b)\in\Bs$, then each of $(a,b]$, $[a,b]$, and $[a,b)$ are also in $\Bs$. So $\Bs$ is the smallest $sigma$-algebra on $(0,1]$ that contains all sub-intervals of $(0,1]$.\\
+
+\ni We are now ready to assign a probability measure $\P:\Bs\to[0,1]$ on $(\O,\Bs)$. Recall that we want $\P\big((a,b)\big)=b-a$ (from which it will later follow that $\P\big((a,b)\big)=\P\big([a,b)\big)=\P\big((a,b]\big)=\P\big([a,b)]\big)=b-a$). We also want translation invariance. To do this let $\F_0$ be the collection of all finite unions of disjoint sub-intervals $(a,b]$ in $(0,1]$ adjoined with the empty set. So a typical element of $\F_0$ looks like
+\[x=(a_1,b_1]\cup(a_2,b_2]\cup\cdots\cup(a_n,b_n].\] 
+Then it is easy to show that $\F_0$ is an algebra (but it is not a $\sigma$-algebra). Moreover we have the measure $\P_0:\F_0\to[0,1]$ where
+\[\P\Big((a_1,b_1]\cup(a_2,b_2]\cup\cdots\cup(a_n,b_n]\Big)=(b_1-a_1)+(b_2-a_2)+\cdots+(b_n-a_n)\]
+and $\P_0(\emptyset)=0$. Here we employ a very powerful theorem which we provide without proof.
+
+\begin{thm}[Carethedory Extension Theorem] Let $\F_0$ be an algebra of sets in $2^{\O}$ and $\F=\sigma(\F_0)$ be the smallest $sigma$-algebra containing $\F_0$. Suppose that $\P_0:\F\to[0,1]$ is a countably additive measure with $\P_0(\O)=1$. Then $\P_0$ can be uniquely extended to a probability measure $\P$ on $(\O,\F)$ so that $\P(A)=\P_0(A)$ for all $A\in\F_0$.
+\end{thm}
+
+\ni It should be clear that in this case $\sigma(\F_0)=\Bs$. We then let 
+$\P_0$ be the Lebesgue measure (which we earlier defined as the outer measure) on $(\O,\F_0)$. We already know that the Lebesgue measure is countably additive, translation invariant, and that $\P_0(\emptyset)=0$ and $\P_0(\O)=\P_0\big((0,1]\big)=1$. Therefore, the Lebesgue measure can be uniquely extended from $(\O,\F_0)$ to a probability measure $\P$ on $(\O,\F)$. That is, the Lebesgue measure $\lambda:\F\to[0,1]$ is the unique uniform probability measure on $\big((0,1],\F\big)$.\\
+
+\ni A few important facts can now be shown. First let $b\in(0,1]$ and, for any $n\in\N$, define the interval
+\[B_n=\left(b-\ds\frac{1}{n},b+\ds\frac{1}{n}\right)\cap(0,1]\]
+so that the sequence $\{B_n\}$ is a decreasing sequence of sets. Then we have
+
+\beq
+\P\big(\{b\}\big)&=&\P\left(\ds\bigcap^{\infty}_{n=1}B_n\right)\\
+&=&\ds\lim_{n\to\infty}\P\Big(B_n\Big)\\
+&=&\ds\lim_{n\to\infty}\ds\frac{2}{n}\\
+&=&0
+\eeq
+It follows that the probability of a single point equals zero. Then, as promised earlier, for any interval $(a,b)\subseteq(0,1]$, we have
+\[\P\Big((a,b)\Big)=\P\Big([a,b)\Big)=\P\Big((a,b]\Big)=
+\P\Big([a,b]\Big)=b-a.\]
+Moreover, by countable additivity, if $A\in\F$ is a countable set we must have $\P(A)=0$. Therefore, since $A=Q\cap(0,1]$ is countable we have $P(A)=0$ and then we must have $\P\left(A^C\right)=1$. So as promised earlier, the probability of randomly choosing a rational number from the interval $[0,1]$ equals zero, and the probability of randomly choosing an irrational number equals one.\\
+
+\ni{\bf\emph{Note}:} While it is true that any countable set will have probability zero, there are many uncountable sets that also have zero probability (or zero measure). As an example, the Cantor set is an uncountable set with measure zero, and therefore zero probability.\\
+
+\ni Our next step might be to assign a measure to the entire real line. (This is not a probability measure.) We follow a similar path and let $\B(\R)$ be the Borel set on $\R$, which is the smallest $\sigma$-algebra on $\R$ that contains all open intervals of $\R$ - this is simply the intersection of all $\sigma$-algebras that contain all open intervals in $\R$. Then it can be shown that for
+\[\mathcal{D}=\big\{(-\infty,x]:x\in\R\big\}\]
+that $\sigma(\mathcal{D})=\B(\R)$. We then follow a similar process as before to define the Lebesgue measure on $\big(\R,\B(\R)\big)$. Observe that in this case the Lebesgue measure is an infinite measure.\\
+
+\ni To close this section we take a look at another scenario of an uncountable sample space that is not a subset of $\R$. We will consider the model of an infinite string of coin tosses so that
+\[\O=\{0,1\}^{\infty}=\{\o_1,\o_2,\o_3,\dots:\o_i\in\{0,1\}\}\] 
+which is easily shown to be an uncountable set. Our first goal is to place a $\sigma$-algebra on $\O$.\\
+
+\ni We start by letting $\F_n$ be the collection of subsets of $\O$ whose occurence can be decided by looking at the first $n$ coin tosses. More formally, $A\in\F_n$ if there exists some $A^{(n)}\subseteq\{0,1\}^{n}$ such that $A\in\{\o:(\o_1,\o_2,\dots,\o_n)\in A^{(n)}\}$. For example, the event that half of the first 20 tosses are heads would be an element of $\F_{20}$. It is then easy to see that when $n\le m$ we have $\F_n\subseteq\F_m$. We can also show that $\F_n$ is a $\sigma$-algebra. However, we will not choose to assign a probability measure to $(\O,\F_n)$ since we could not then assign probabilities to elements of $\F_m$ when $m>n$. Instead, we define
+\[\F_0=\ds\bigcup_{i\in\N}\F_i\]
+which is the collection of all outcomes whose occurences can be decided in some finite sum of coin tosses.\\
+
+\begin{lemma}
+The collection $F_0$ is an algebra, but it is not a $\sigma$-algebra.
+\end{lemma}
+\begin{proof}
+It is clear that $\F_0$ is an algebra. To show it s not a $\sigma$-algebra, let $A_i$ be the subset of $\O$ such that the $i^{th}$ toss is a head. Then let $E$ be the subset of $\O$ such that all even-indexed tosses are heads. Then $A_i\in\F_i$ and so $A_i\in\F_0$ for all $i\in\N$. But $E=\cap_{i=2k}A_i$ and $E\not\in\F_0$. So $\F_0$ is not closed under countable intersections and is therefore not a $\sigma$-algebra.\\
+\end{proof}
+
+\ni We will now put a measure $\P_0$ on $(\O,\F_0)$ and extend to a probability measure on $(\O,\sigma(\F_0))$ as before. Define $\P_0:\F_0\to[0,1]$ to correspond to ``fair coin tosses." If $A\in\F_0$ it is difficult to assign a probability $\P(A)$. But if $A\in\F_i$ for some $i\in\N$ we must have $A=\{\o\in\O:(\o_1,\o_2,\dots,\o_i)\in A^{(i)}\}$ and we can define 
+\[\P_0(A)=\ds\frac{\left|A^{(i)}\right|}{2^i}.\]
+Also define $\P_0(\emptyset)=0$. Then it can be shown that $\P_0(\O)=1$ and $\P_0$ is countably additive (which is non-trivial), and by Carethedory Extension Theorem we can uniquely extend this to a probability measure $\P$ on $(\O,\sigma(\F_0))$.\\
+
+\ni going back to our example where $E$ was the event that all even-indexed tosses are heads. The using continuity of probability measures we have the following.
+\[\P(E)=\P\left(\ds\bigcap_{i=2k}A_i\right)=
+\ds\lim_{n\to\infty}\P\left(\ds\bigcap^{n}_{i=1}A_{2i}\right)= 
+\ds\lim_{n\to\infty}\ds\frac{1}{2^n}=0.\]
+
+
+\ni This concludes this section of the notes for now. However, at some time in the future we might complete these notes to define a probability measure on an arbitrary uncountable sample space $\O$ which is not a subset of the real line. Until then, the reader is encouraged to research this topic.\\
+
+
+
+
+\vfill\eject
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{R Code for Demonstrations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ni {\bf\emph{\underline{Strong law of Large Numbers - Convergence Almost Surely}}}:\\
+
+\ni $\text{n} <- 2000;\;\;\text{m}\;<-\;50;\;\text{e}\;<-\;0.01$\\
+\ni $\text{s}\;<-\;\text{cumsum}(2*(\text{rbinom}(\text{n},\;\text{size}=1,\;\text{prob}=0.5) - 0.5))$\\
+\ni $\text{plot}(\text{s}/\text{seq.int}(n),\;\text{type}\;=\;"\text{l}",\;\text{ylim}\;=\; c(-0.4, 0.4))$\\
+\ni $\text{abline}(\text{h}\;=\;\text{c}(-\text{e,e}),\;\text{lty = 2})$\\
+
+\vskip 5mm
+
+\ni{\bf\emph{\underline{Weak Law of Large Numbers - Convergence in Probability}}}:\\
+
+\ni $\text{k}\;<-\;1000;\;\text{j}\;<-\;50;\;\text{e}\;<-\;0.04$\\
+\ni $\text{x}\;<-\;\text{matrix}(2*(\text{rbinom}(\text{k}*\text{j},\;\text{size}=1,\;\text{prob}=0.5\;-\;0.5),\;\text{ncol}\;=\;\text{j})$\\
+\ni $\text{y}\;<-\;\text{apply}(\text{x},\;2,\;\text{function}(\text{z})\; \text{cumsum}(\text{z})/\text{seq}\_\text{along}(\text{z}))$\\
+\ni $\text{matplot}(\text{y},\;\text{type}\;=\;"\text{l}",\;\text{ylim}\;=\; \text{c}(-0.4,0.4))$\\
+\ni $\text{abline}(\text{h}\;=\;\text{c(-e,e)},\;\text{lty}\;=\;2,\;\text{lwd}\;=\;2)$\\
+
+\vskip 5mm
+
+\ni{\bf\emph{\underline{Efficiency of Using $t$-Distribution for Small Sample Confidence Intervals}}}:\\
+
+
+\ni is.between $<-$ function(x, a, b) {\\
+\ni  x $>$ a \& x $<$ b\\
+\ni \}\\
+\ni set.seed(09101165)\\
+\ni population$<-$rnorm(n=10000, mean=100, sd =10)\\
+\ni \#\#population$<-$runif(n=10000, min=50,max=100)\\
+\ni \#\# you can use runif() instead of rnorm for generating an evenly\\ 
+\ni  distributed population\\
+\ni mean\_of\_population$<-$mean(population)\\
+\ni var(population)\\
+\ni \#\# var = 102.5493\\
+\ni master\_of\_sample$<-$list()\\
+\ni for (ss in 3:50){\\
+\ni  group\_of\_sample$<-$list()\\
+\ni  for (i in 1:1000)\{\\
+\ni    group\_of\_sample[[i]]$<-$sample(population,size=ss)\\
+\ni  \}\\
+\ni  master\_of\_sample[[ss]]$<-$group\_of\_sample\\
+\ni \}\\
+\ni Mean$<-$vector()\\
+\ni Variance$<-$vector()\\
+\ni upper\_interval$<-$vector()\\
+\ni lower\_interval$<-$vector()\\
+\ni upper\_interval2$<-$vector()\\
+\ni lower\_interval2$<-$vector()\\
+\ni within\_confidence\_interval$<-$logical()\\
+\ni within\_confidence\_interval2$<-$logical()\\
+\ni finalt$<-$vector()\\
+\ni finalz$<-$vector()\\
+
+\ni for (ss in 3:50)\{\\
+\ni   Mean$<-$vector()\\
+\ni   Variance$<-$vector()\\
+\ni   upper\_interval$<-$vector()\\
+\ni   lower\_interval$<-$vector()\\
+\ni   within\_confidence\_interval$<-$logical()\\
+\ni   for (i in 1:1000)\{Mean[i]$<-$mean(master\_of\_sample[[ss]][[i]])\\
+\ni                    Variance[i]<-var(master\_of\_sample[[ss]][[i]])\\
+\ni                     upper\_interval[i]$<-$Mean[i]\\
+\ni   +qt(0.975,df=(ss-1))*(sqrt(Variance[i]/ss))\\
+\ni                    lower\_interval[i]$<-$Mean[i]-\\
+\ni qt(0.975,df=(ss-1))*(sqrt(Variance[i]/ss))\\
+\ni                   upper\_interval2[i]$<-$Mean[i]\\
+\ni +qnorm(0.975)*(sqrt(Variance[i]/ss))\\
+\ni                    lower\_interval2[i]$<-$Mean[i]-\\
+\ni qnorm(0.975)*(sqrt(Variance[i]/ss))\\
+\ni                    within\_confidence\_interval[i]$<-$\\
+\ni is.between(mean\_of\_population,lower\_interval[i],upper\_interval[i])\\
+\ni                    within\_confidence\_interval2[i]$<-$\\
+\ni is.between(mean\_of\_population,lower\_interval2[i],upper\_interval2[i])\\
+\ni \}\\
+\ni  finalt[ss]$<-$sum(within\_confidence\_interval)/\\
+\ni length(within\_confidence\_interval)\\
+\ni  finalz[ss]$<-$sum(within\_confidence\_interval2)/\\
+\ni length(within\_confidence\_interval2)\\
+\ni \}\\
+
+\ni plot(y=finalt[3:50], x=3:50,ylim=c(0.8,1),type="n", ylab="population\\ 
+\ni mean lying within sample's confidence interval (proportion)", \\
+\ni xlab="sample size", \\
+\ni     main="efficiency of calculating confidence interval using z and t\\ \ni distribution for unknown population variance" )\\
+\ni points(y=finalt[3:50], x=3:50,col="green",pch=3)\\
+\ni fort$<-$smooth.spline(finalt[3:50]~3:50,df=3)\\
+\ni lines(fort,col="green")\\
+\ni points(y=finalz[3:50], x=3:50,col="blue",pch=2 )\\
+\ni forz<-smooth.spline(finalz[3:50]~3:50,df=3)\\
+\ni lines(forz,col="blue")\\
+\ni legend("topleft",legend=c("using t distribution","using z\\ 
+\ni distribution"),pch=c(3,2),col=c("green","blue"))\\
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\vfill\eject
+
+\vskip 5mm
+\hrule
+\vskip 5mm
+\begin{center}{\bf Please let me know if you have any questions, comments, or corrections!}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vfill\eject
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{1}
+
+	\bibitem{Bertsekis} Dimitri P. Bertsekas and John N. Tsitsiklis, {\em Introduction to Probability}, Athena Scientific, Second Edition, 2008.
+
+	\bibitem{Durrett} Richard T. Durrett, {\em The Essentials of Probability (Statistics)}, Duxbury Press, 1st edition, 1993.
+	
+	\bibitem{Grinstead} Charles M. Grinstead and J. Laurie Snell, {\em Introduction to Probability}, Available on the web at http://www.dartmouth.edu/˜chance. 
+
+
+	\bibitem{Jacod} J. Jacod and P. Protter, {\em Probability Essentials}, Springer, 2004. 
+
+
+	\bibitem{Jagannathan} Krishna Jagannathan, {\em Course Lecture Notes: EE5110: Probability Foundations for Electrical Engineers}, Indian Institute of Technology, Lecturer: Dr. Krishna Jagannathan, Spring 2015.
+
+
+	\bibitem{Pishro-Nik} Hossein Pishro-Nik, {\em Introduction to Probability, Statistic and Random Processes}, Web address: https://www.probabilitycourse.com/chapter7.
+		
+	
+	\bibitem{Solomon} Solomon, Issac, {\em Course Notes: Math317 - Measure Theory and Lebesgue Integration: An Introductory Course}, University of Alberta, Canada, 2014.
+
+	
+	\bibitem{Unknown} Unknown, {\em Random (formerly Virtual Laboratories in Probability and Statistics)}, Web Address: http://www.math.uah.edu/stat/index.html
+
+	
+	\bibitem{Unknown} Unknown, {\em Convergence in Probability vs. Almost Sure Convergence: Stackexchange discussion}, Web address: http://stats.stackexchange.com/questions/2230/convergence-in-probability-vs-almost-sure-convergence. 
+	 
+
+	
+	
+	
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

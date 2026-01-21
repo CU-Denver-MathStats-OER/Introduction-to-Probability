@@ -1,0 +1,331 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: More Expectation Through Conditioning}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent A professor has accidentally scheduled two different appointments at the same time. One student show up on time and the other student shows up 5 minutes late. Assume that both appointment times are independent and each is modeled by an exponential distribution with average time 30 minutes. If $T$ is the elapsed time from the first student arrival until the end of the second appointment, find the expectation $E[T]$.
+\vskip 2mm
+Let $X_1$ be the time of the first appointment and $X_2$ be the time of the second appointment. Then we have $X_1\sim exp\big(\lambda=1/30\big)$ and $X_2\sim exp\big(\lambda=1/30\big)$ and $X_1\perp X_2$. We want to find
+\[E[T]=\ds\int^{\infty}_{-\infty}t\cdot f_{_T}(t)\,dt.\]
+However, at this point we do not know the distribution of $T$ and do not know it's density function $f_{_T}$. Before we make any theoretical calculations lets simulate the process and see if we can gain any insight.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R. Below are graphics from four different simulations with number trials $n=50, 100, 1000, 100000$. The R code is provided the end of the document.
+\vskip 1cm
+
+\includegraphics[scale=0.48]{exp_waiting_simulation_50.jpeg}\quad
+\includegraphics[scale=0.48]{exp_waiting_simulation_100.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.48]{exp_waiting_simulation_1000.jpeg}\quad
+\includegraphics[scale=0.48]{exp_waiting_simulation_100000.jpeg}\\
+\vskip 5mm
+\vskip 5mm
+Each simulation is labeled with the true theoretical mean, but without this theoretical information these simulations might give us a sense for the desired expected value $E[T]$. 
+\vskip 5mm
+Next are a couple of comparisons of our simulations of the density function $f_{_T}$ with the density function of the sum $X_1+X_2$. Here we can see how the late arrival is affecting the expected elapsed time.
+\vskip 8mm
+\includegraphics[scale=0.48]{exp_waiting_compare_gr2.jpeg}\quad
+\includegraphics[scale=0.48]{exp_waiting_compare_gr3.jpeg}\\
+
+\vfill\eject
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We will compute this expectation in two ways by conditioning on the following events:
+
+	\begin{itemize}
+		\item[] $A:=\big\{0<X_1<5\big\}$ which is the event that the first appointment lasts less than 5 minutes.
+		\item[] $B:=\big\{5\le X_1\big\}$ which is the event that the first appointment lasts at least 5 minutes.
+	\end{itemize} 
+
+Then since $A$ and $B$ partition the sample space we can compute the expected value as
+\[E[T]=\P(A)\cdot E\big[\,T\,|\,A\,\big]+\P(B)\cdot E\big[\,T\,|\,B\,\big].\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We first make the easy calculations 
+\beq
+\P(A)&=&\P(0<X_1\le 5)=F_{_{X_1}}(5)=1-e^{-5/30}\\
+\P(B)&=&1-\P(A)=e^{-5/30}\\
+\eeq
+We need to find $E\big[\,T\,|\,A\,\big]$ and $E\big[\,T\,|\,B\,\big]$. So 
+\[E\big[\,T\,|\,A\,\big]=E\big[\,5+X_2\,\big|\,0<X_1<5\,\big]=5+E\big[\,X_2\,\big|\,0<X_1<5\,\big]=5+E[X_2]=35.\]
+Similarly,
+\[E\big[\,T\,|\,B\,\big]=E\big[\,X_1+X_2\,\big|\,5\le X_1\,\big]=E\big[\,X_1\,\big|\,5\ge X_1\,\big]+E\big[\,X_2\,\big|\,5\ge X_1\,\big]=5+E[X_1]+E[X_2]=65.\]
+To see this, recall that the exponential random variable $X_1$ is memoryless. The following plot should help to see that the conditional distribution $X_1\,|\,X_1>5$ is identical to the distribution of $X_1$ but with all mass shifted to the right 5 units.
+\begin{center}
+\includegraphics[scale=0.3]{conditional_density_plot.jpg}
+\end{center}
+\vskip 8mm
+Putting the pieces together we have
+\[E[T]=\underbrace{\P(A)}_{\text{\textcolor{red}{$1-e^{-5/30}$}}}\cdot\underbrace{E\big[\,T\,|\,A\,\big]}_{\text{\textcolor{red}{35}}}+\underbrace{\P(B)}_{\text{\textcolor{red}{$e^{-5/30}$}}}\cdot\underbrace{E\big[\,W\,|\,B\,\big]}_{\text{\textcolor{red}{65}}}\]
+So the expected waiting time is 60.394 minutes.
+\vskip 1cm
+
+
+\paragraph{The R Code:} Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+# Simulated density and expectation of total elapsed time T
+
+set.seed(123)
+# parameters
+n <- 100000          # number of simulated trials
+lambda <- 1/30       # Exp rate, mean = 30 minutes
+
+
+
+# simulate appointment durations
+x1 <- rexp(n, rate = lambda)
+x2 <- rexp(n, rate = lambda)
+
+# second student arrives 5 minutes late
+lateness <- 5
+
+# compute relevant times for each trial
+start1 <- rep(0, n)
+end1   <- x1
+arrive2 <- rep(lateness, n)
+start2  <- pmax(end1, arrive2)
+end2    <- start2 + x2
+T <- end2   # total time from first arrival to second departure
+
+# empirical mean
+mean_T <- mean(T)
+
+# print summary
+cat("Estimated E[T] =", mean_T, "minutes\n")
+
+# per-trial comparison (first 10)
+results <- data.frame(
+  trial = 1:10,
+  X1 = round(x1[1:10], 2),
+  X2 = round(x2[1:10], 2),
+  end1 = round(end1[1:10], 2),
+  start2 = round(start2[1:10], 2),
+  end2 = round(end2[1:10], 2),
+  Total = round(T[1:10], 2)
+)
+print(results)
+
+
+
+# summary statistics
+cat("\nMean(X1) =", mean(x1), "  Mean(X2) =", mean(x2), "\n")
+cat("Mean(max(X1,5)) =", mean(pmax(x1,5)), "\n")
+cat("Mean(Total)     =", mean_T, "\n")
+
+# plot with n and empirical mean in legend
+hist(T, breaks = 100, freq = FALSE,  col = "lightblue",
+     main = paste("Simulated Distribution of Total Time (n =", n, ")"),
+     xlab = "Minutes from first arrival to second departure")
+
+abline(v = mean_T, col = "red", lwd = 2)
+abline(v = 60.394, col = "blue", lwd = 2, lty = 2)
+
+legend("topright",
+       legend = c(
+         paste0("Empirical mean = ", round(mean_T, 3)),
+         "Theoretical mean = 60.394"
+       ),
+       col = c("red", "blue"),
+       lwd = 2,
+       lty = c(1, 2))
+
+#########################################################################
+#########################################################################
+# Same simulation except comparison to Density of X1+X2 without Late Arrival
+
+
+set.seed(123)
+
+# parameters
+n <- 200000
+lambda <- 1/30     # Exp(mean=30)
+lateness <- 5      # second student 5 minutes late
+
+# simulate appointment durations
+x1 <- rexp(n, rate = lambda)
+x2 <- rexp(n, rate = lambda)
+
+# total time from first arrival (0) to second departure
+T <- pmax(x1, lateness) + x2
+
+# compute means
+emp_mean <- mean(T)
+theory_mean <- 2 / lambda   # mean of X1 + X2
+
+# histogram of simulated totals
+hist(T, breaks = 100, freq = FALSE, col = "lightblue",
+     main = paste("Total Time with Lateness =", lateness, "min  (n =", n, ")"),
+     xlab = "Total time (minutes)", border = "white")
+
+# overlay theoretical Gamma(2, rate=lambda) density
+tseq <- seq(0, max(T), length.out = 1000)
+lines(tseq, dgamma(tseq, shape = 2, rate = lambda), col = "blue", lwd = 2)
+
+# overlay empirical density curve
+lines(density(T), col = "red", lwd = 2, lty = 2)
+
+# add vertical lines for means
+abline(v = emp_mean, col = "red", lwd = 2, lty = 2)
+abline(v = theory_mean, col = "blue", lwd = 2, lty = 3)
+
+# legend
+legend("topright",
+       legend = c(
+         paste0("Empirical density (mean = ", round(emp_mean, 3), ")"),
+         paste0("Theoretical X1+X2 mean = ", theory_mean)
+       ),
+       col = c("red", "blue"),
+       lwd = 2,
+       lty = c(2, 3),
+       bg = "white")
+\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

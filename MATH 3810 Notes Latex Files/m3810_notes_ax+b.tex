@@ -1,0 +1,382 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Derived Distribution for $Y=aX+b$}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent Let $X$ be a continuous random variable with probability density function (PDF) $f_{_X}(x)$. We define a new random variable:
+\[Y = aX + b,\]
+where $a \neq 0$ and $b$ are constants. We are interested in the distribution and density function $f_{_Y}(y)$ for the random variable $Y$.
+The PDF of $Y$ can be found using the change-of-variable formula:
+\[f_{_Y}(y) = f_{_X}\Big( \frac{y - b}{a} \Big) \cdot \frac{1}{|a|}.\]
+\vskip 2mm
+Or the derivation can be completed using the distribution function $F_{_Y}(y)$.
+
+\begin{align*}
+F_{_Y}(y) &= P(Y \le y) = P(aX + b \le y) \\
+&= P\Big(X \le \frac{y - b}{a}\Big), \quad \text{if } a > 0,\\
+&= F_{_X}\Big(\frac{y - b}{a}\Big),
+\end{align*}
+or
+\begin{align*}
+F_{_Y}(y) &= P(Y \le y) = P(aX + b \le y) \\
+&= P\Big(X \ge \frac{y - b}{a}\Big), \quad \text{if } a < 0,\\
+&= 1-F_{_X}\Big(\frac{y - b}{a}\Big).
+\end{align*}
+And then we have using the chain rule that
+\[f_{_Y}(y) = \frac{d}{dy} F_{_Y}(y) = f_{_X}\Big(\frac{y - b}{a}\Big) \cdot \frac{1}{|a|}.\]
+
+Then by properties of expected value and variance we have
+\[E[Y] = aE[X] + b,\quad Var(Y) = a^2Var(X).\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\noindent 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Special Example: Normal Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Suppose that $X\sim N(\mu,\sigma^2)$. Then
+\[Y=aX+b\sim N(a\mu+b,a^2\sigma^2).\]
+To see this, using the formula above we have for all $y\in\R$ that
+\beq
+f_{_Y}(y)&=&\ds\frac{1}{|a|}f_{_X}\left(\ds\frac{y-b}{a}\right)\\
+&=&\ds\frac{1}{|a|\sigma\sqrt{2\pi}}Exp\left[-\ds\frac{\left(\frac{y-b}{a}-\mu\right)^2}{2\sigma^2}\right]\\
+&=&\ds\frac{1}{|a|\sigma\sqrt{2\pi}}Exp\left(-\ds\frac{\Big(y-(a\mu+b)\Big)^2}{2a^2\sigma^2}\right)\\
+\eeq
+which is the density for a normal distribution $N\big(a\mu+b,a^2\sigma^2\big)$. We see that the normal distribution is closed under this affine transformation $Y=aX+b$.
+
+\paragraph*{Example 1: Simple Transformation}
+
+Let $X \sim N(10, 4)$ and define $Y = 3X - 5$.
+
+\begin{itemize}
+    \item Mean: $\mathbb{E}[Y] = 3 \cdot 10 - 5 = 25$  
+    \item Variance: $\text{Var}(Y) = 3^2 \cdot 4 = 36$  
+    \item Standard deviation: $\sigma_Y = \sqrt{36} = 6$  
+    \item Conclusion: $Y \sim N(25, 36)$
+\end{itemize}
+
+\paragraph*{Example 2: Negative Scaling}
+
+Let $X \sim N(5, 9)$ and $Y = -2X + 7$.
+
+\begin{itemize}
+    \item Mean: $\mathbb{E}[Y] = -2 \cdot 5 + 7 = -3$  
+    \item Variance: $\text{Var}(Y) = (-2)^2 \cdot 9 = 36$  
+    \item Standard deviation: $\sigma_Y = 6$  
+    \item Conclusion: $Y \sim N(-3, 36)$
+\end{itemize}
+
+\paragraph*{Example 3: Standardizing a Normal Random Variable}
+
+Let $X \sim N(\mu, \sigma^2)$ and define
+\[Z = \frac{X - \mu}{\sigma}.\]
+
+\begin{itemize}
+    \item Mean: $\mathbb{E}[Z] = \frac{\mathbb{E}[X] - \mu}{\sigma} = 0$  
+    \item Variance: $\text{Var}(Z) = \frac{\text{Var}(X)}{\sigma^2} = 1$  
+    \item Conclusion: $Z \sim N(0,1)$, the standard normal variable.
+\end{itemize}
+
+Let's use this for 
+\[X \sim N(\mu=12, \sigma^2=16)\] 
+so that $\sigma = 4$. We want to compute
+\[P(X < 15).\]
+Then let
+\[Z = \frac{X - \mu}{\sigma} = \frac{X - 12}{4} \sim N(0,1)\]
+and we have
+\[P(X < 15) = P\left(\frac{X - 12}{4} < \frac{15 - 12}{4}\right) = P(Z < 0.75)\]
+\[P(Z < 0.75) = \Phi(0.75) \approx 0.7734\]
+
+Answer:
+\[\boxed{P(X < 15) \approx 0.773}\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Summary:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{itemize}
+    \item An affine transformation $Y = aX + b$ scales and shifts the distribution of $X$.
+    \item Mean and variance transform as $\mathbb{E}[Y] = a\mathbb{E}[X]+b$, $\text{Var}(Y) = a^2 \text{Var}(X)$.
+    \item The normal distribution is closed under affine transformations: $Y \sim N(a\mu + b, a^2 \sigma^2)$.
+    \item Special cases include scaling by negatives and standardization.
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We will simulate the density and distribution after the transformation $Y=aX+b$ using R.
+\vskip 1cm
+
+\includegraphics[scale=0.4]{y=ax+b_density_50.jpeg}\quad
+\includegraphics[scale=0.4]{y=ax+b_density_100.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.4]{y=ax+b_density_1000.jpeg}\quad
+\includegraphics[scale=0.4]{y=ax+b_density_50000.jpeg}\\
+\vskip 5mm
+Here are simulations for the distribution function.
+\vskip 5mm
+\includegraphics[scale=0.4]{y=ax+b_dist_50.jpeg}\quad
+\includegraphics[scale=0.4]{y=ax+b_dist_100.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.4]{y=ax+b_dist_1000.jpeg}\quad
+\includegraphics[scale=0.4]{y=ax+b_dist_50000.jpeg}\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+#################################################
+# This simulates a linear transformation Y=aX+b
+# for a normal variable X
+
+set.seed(123)
+
+mu <- 5
+sigma <- 2
+a <- -3
+b <- 2
+n <- 50000
+
+X <- rnorm(n, mu, sigma)
+Y <- a * X + b
+
+### X density range and maximum height
+x_density_range <- c(mu - 4*sigma, mu + 4*sigma)
+max_density_X <- dnorm(mu, mean = mu, sd = sigma)
+
+### Combine ranges so x-axis covers BOTH X density and Y histogram
+x_min <- min(x_density_range[1], min(Y), min(X))
+x_max <- max(x_density_range[2], max(Y), max(X))
+
+### --- FIRST HISTOGRAM: X ---
+hist(X, breaks = 50, prob = TRUE,
+     main = paste0(
+       "Simulated Histograms: (n = ", n, ")\n",
+       "X ~ N(", mu, ", ", sigma^2, ") versus Y = aX + b,\n",
+       "where a = ", a, " and b = ", b
+     ),
+     xlab = "Values",
+     col = "blue",
+# rgb(0.2, 0.4, 1, 0.4),   # transparent blue
+     border = "white",
+     xlim = c(x_min, x_max),
+     ylim = c(0, max_density_X * 1.2))
+
+### --- SECOND HISTOGRAM: Y (OVERLAY) ---
+hist(Y, breaks = 50, prob = TRUE,
+     col = rgb(1, 0.2, 0.5, 1),   # transparent pink
+     border = "white",
+     add = TRUE)                   # <-- the missing piece!
+
+### --- OVERLAY DENSITY OF X ---
+curve(dnorm(x, mean = mu, sd = sigma),
+      from = x_min, to = x_max,
+      add = TRUE, lwd = 3, col = "black")
+
+legend("topright",
+       legend = c("Histogram X", "Histogram Y", "Density of X"),
+       fill = c("blue", rgb(1,0.2,0.5,1), NA),  # fill for histograms
+       border = c("white", "white", NA),
+       lty = c(0, 0, 1),       # solid line for the density
+       col = c(NA, NA, "black"), # black color for density line
+       lwd = c(NA, NA, 2),     # optional: make the density line thicker
+       bty = "n")
+
+
+#########################################################################
+# This simulates the distrbution functions of X and Y=aX+b
+########################################################################
+
+
+mu <- 5
+sigma <- 2
+a <- 3
+b <- 2
+n <- 50000
+
+X <- rnorm(n, mu, sigma)
+Y <- a * X + b
+
+
+### --- EMPIRICAL CDFs ---
+ecdf_X <- ecdf(X)
+ecdf_Y <- ecdf(Y)
+
+
+### --- RANGE FOR PLOT ---
+x_min <- min(X, Y)
+x_max <- max(X, Y)
+x_vals <- seq(x_min, x_max, length.out = 1000)
+
+
+### --- PLOT CDFs ---
+plot(x_vals, ecdf_X(x_vals), type = "l", lwd = 2, col = "blue",
+     ylim = c(0,1), xlab = "Values", ylab = "CDF",
+     main = paste0("Simulated CDFs: (n = ", n, ")\n",
+                   "X ~ N(", mu, ", ", sigma^2, ") versus Y = aX + b,\n",
+                   "where a = ", a, " and b = ", b))
+lines(x_vals, ecdf_Y(x_vals), lwd = 3, col = "red")
+
+
+### --- THEORETICAL CDFs ---
+lines(x_vals, pnorm(x_vals, mean = mu, sd = sigma), lwd = 4, 
+col = "black", lty = 2)        # X
+lines(x_vals, pnorm(x_vals, mean = a*mu + b, sd = a*sigma), lwd = 4, 
+col = "darkgreen", lty = 2)  # Y
+
+
+legend("bottomright",
+       legend = c("Empirical CDF X", "Empirical CDF Y", "Theoretical CDF X", 
+       "Theoretical CDF Y"),
+       col = c("blue", "red", "black", "darkgreen"), lwd = 3, 
+       lty = c(1,1,2,2), bty = "n")
+
+
+\end{lstlisting}
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

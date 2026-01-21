@@ -1,0 +1,330 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Bayes' and Monte Hall}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent We consider now a problem called the {\bf\emph{Monty Hall problem}}. This problem but was made popular by a letter from Craig Whitaker to Marilyn vos Savant for consideration in her column in Parade Magazine. In his letter to the column, Craig wrote:
+\vskip 1mm
+\begin{quotation}
+\noindent "Suppose you're on Monty Hall's {\emph Let's Make a Deal!} You are given the choice of three doors, behind one door is a car, the others, goats. You pick a door, say 1, Monty opens another door, say 3, which has a goat. Monty says to you 'Do you want to pick door 2?' Is it to your advantage to switch your choice of doors?"\\
+\vskip 1mm 
+\noindent -- 1Marilyn vos Savant, Ask Marilyn, Parade Magazine, 9 September; 2 December; 17 February
+1990, reprinted in Marilyn vos Savant, Ask Marilyn, St. Martins, New York, 1992
+\end{quotation}
+\vskip 1mm
+\noindent The solution given by Marilyn vos Savant implicitly assumes the following: the car was put behind a door by rolling a three-sided die which made all three choices equally likely; Monty knows where the car is and always opens a door with a goat behind it; finally, we assume that if Monty has a choice of doors (i.e., the contestant has picked the door with the car behind it), he chooses each door with probability 1/2. We ask, under these assumptions, what is the probability of winning the car if we to switch to door 2?
+\vskip 1mm
+Consider the following events:
+\beq
+D_i&=&\{\o\in\O:\;\text{the car is behind door}\;i\}\\
+C_i&=&\{\o\in\O:\;\text{the contestant chooses door}\;i\}\\
+M_i&=&\{\o\in\O:\;\text{Monte Hall chooses door}\;i\}\\
+\eeq
+So we want to compute $\P\big(D_2\,|\,C_1\cap M_3\big)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R and the R code is provided the end of the document. The simulation shows the running proportion of successes given a switch of doors strategy and also the running proportion of successes given a stay strategy.
+\vskip 5mm
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.48]{monte_hall_simulation.jpeg}
+\caption{Simulation of Monte Hall Probability}
+\end{center}
+\end{figure}
+\vskip 5mm
+Given these simulations and our frequency approach to probability theory we might suspect that the true probability of winning given a switch strategy is about $p=2/3$.
+\vskip 5mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent 
+
+	\begin{itemize}
+		\item {\bf\emph{Conditional Probability:}} Let $(\Omega,\mathcal{F},\P)$ be a probability space and $A,B\in\mathcal{F}$ where $\P(B)\not=0$. Then we define the conditional probability of $A$ given $B$ as
+\[\P\big(A\,|\,B\big)=\ds\frac{\P\big(A\cap B\big)}{\P(B)}.\]
+We note that from this we can write 
+\[\P\big(A\cap B\big)=\P\big(B\big)\cdot\P\big(A\,|\,B\big)\quad\text{and}\quad\P\big(A\cap B\big)=\P\big(A\big)\cdot\P\big(B\,|\,A\big).\]
+\vskip 2mm
+		\item {\bf\emph{Total Probability:}} Let $(\Omega,\mathcal{F},\P)$ be a probability space where $B\in\mathcal{F}$ is a non-zero probability event. Moreover suppose $A_1,A_2,\dots,A_n$ forms a partition of the sample space $\Omega$ where $\P(A_k)\not=0$ when $1\le k\le n$. Then we can write
+\[\P\big(B\big)=\P\big(A_1\big)\cdot\P\big(B\,|\,A_1\big)+\P\big(A_2\big)\cdot\P\big(B\,|\,A_2\big)+\cdots+\P\big(A_n\big)\cdot\P\big(B\,|\,A_n\big).\]
+This is one of the main tools in a ``divide and conquer" strategy in evaluating probability.
+\vskip 2mm
+		\item {\bf\emph{Baye's Rule:}} Let $(\Omega,\mathcal{F},\P)$ be a probability space where $B\in\mathcal{F}$ is a non-zero probability event. Moreover suppose $A_1,A_2,\dots,A_n$ forms a partition of the sample space $\Omega$ where $\P(A_k)\not=0$ when $1\le k\le n$. Then we can write
+\[\P\big(A_k\,|\,B\big)=\ds\frac{\P\big(A_k\big)\P\big(B\,|\,A_k\big)}{\ds\sum^{n}_{k=1}\P\big(A_k\big)\cdot\P\big(B\,|\,A_k\big)}\]		
+Bayes' Rule is simply a combination of conditional probability and total probability, but it is important when trying to make probabalistic inference. In particular, we can think of $A_1,A_2,\dots,A_n$ as $n$ possible states of the world and event $B$ as evidence obtained from experiment. Then $\P(A_k\,|\,B)$ can be interpreted as follows: what is the probability that we are in the state $A_k$ given the evidence outcome in event $B$?		
+	\end{itemize} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent The following is the Venn diagram of the event $E=C_1\cap M_3$.
+\vskip 2mm
+\begin{center}
+\fbox{\includegraphics[scale=0.25]{monte_hall_event.jpg}}
+\end{center}
+\vskip 2mm
+Under the assumptions stated above, we draw a probability tree diagram that includes all possible single outcome events $\{\omega\}\in\mathcal{F}$ with non-zero probability. We will ignore all single outcome events $\{\omega\}\in\mathcal{F}$ with zero probability. The probability tree diagram follows.\\
+\vskip 5mm		
+\begin{center}
+\includegraphics[scale=0.35]{monte_hall_prob_tree1_color.jpg}
+\end{center}
+
+We determine the path probabilities by multiplying all conditional probabilities on the highlighted paths shown in the probability tree. The contestant winning after switching to door 2 is the event $D_2\cap C_1\cap M_3$, and we see by multiplying probabilities that 
+\[\P\big(D_2\cap C_1\cap M_3\big)=(1/3)\cdot(1/3)\cdot(1)=1/9.\] 
+The contestant winning after staying with door 1 is the event $D_1\cap C_1\bigcap M_3$, and we see by multiplying probabilities that 
+\[\P\big(D_1\cap C_1\cap M_3\big)=(1/3)\cdot(1/3)\cdot(1/2)=1/18.\] 
+Moreover, it is clear that
+\[\P\big(D_3\cap C_1\cap M_3\big)=0\]
+since this event would violate the rules of the game. We can then, using total probability (the additive property of probability), easily calculate that
+\[\P(C_1\cap M_3)=\P\big(D_1\cap C_1\cap M_3\big)+\P\big(D_2\cap C_1\cap M_3\big)+\P\big(D_3\cap C_1\cap M_3\big)=\ds\frac{1}{9}+\ds\frac{1}{18}+0=\ds\frac{3}{18}.\]
+Then by a variation of Bayes' Rule we have
+\[\P\big(D_2\,|\,C_1\cap M_3\big)=\ds\frac{\P\big(D_2\cap C_1\cap M_3\big)}{\sum^{3}_{k=1}\P\big(D_k\cap C_1\cap M_3\big)}=\ds\frac{1/9}{1/9+1/18+0}=\ds\frac{2}{3}.\]
+It is clear that switching to door 2 is advantageous for the contestant.
+	
+\vskip 2mm
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+set.seed(1)
+n <- 20000
+
+# Random prize and initial choice
+prize <- sample(1:3, n, replace = TRUE)
+choice <- sample(1:3, n, replace = TRUE)
+
+# Initialize host vector
+host <- integer(n)
+
+# Case 1: choice != prize -> only one door host can open
+diff_idx <- which(choice != prize)
+host[diff_idx] <- 6 - choice[diff_idx] - prize[diff_idx]  # deterministic
+
+# Case 2: choice == prize -> host chooses randomly among the other two doors
+same_idx <- which(choice == prize)
+remaining_doors <- t(sapply(choice[same_idx], function(x) setdiff(1:3, x)))
+# Pick randomly between the two options
+host[same_idx] <- remaining_doors[cbind(seq_along(same_idx), 
+				  sample(1:2, length(same_idx), replace = TRUE))]
+
+# Switched door = the remaining unopened door
+switch_choice <- 6 - choice - host
+
+# Switching win probability
+mean(switch_choice == prize)
+
+
+########################################################
+# Create a Table and graphic for different trial sizes
+###################################################
+
+# install.packages("tidyr")
+library(ggplot2)
+library(tidyr)
+
+# Simulation function
+simulate_monty <- function(n) {
+  prize  <- sample(1:3, n, replace = TRUE)
+  choice <- sample(1:3, n, replace = TRUE)
+  
+  host <- integer(n)
+  
+  diff_idx <- which(choice != prize)
+  host[diff_idx] <- 6 - choice[diff_idx] - prize[diff_idx]
+  
+  same_idx <- which(choice == prize)
+  remaining_doors <- t(sapply(choice[same_idx], function(x) setdiff(1:3, x)))
+  host[same_idx] <- remaining_doors[cbind(seq_along(same_idx),
+                    sample(1:2, length(same_idx), replace = TRUE))]
+  
+  switch_choice <- 6 - choice - host
+  
+  c(stay = mean(choice == prize),
+    switch = mean(switch_choice == prize))
+}
+
+# Different trial sizes
+trial_sizes <- c(10,100, 500, 1000, 5000, 10000, 50000, 1e5)
+results <- t(sapply(trial_sizes, simulate_monty))
+df <- data.frame(
+  trials = trial_sizes,
+  stay = results[, "stay"],
+  switch = results[, "switch"]
+)
+
+# --- Print table ---
+# print(df)
+
+# Convert to long format for ggplot
+df_long <- pivot_longer(df, cols = c("stay", "switch"),
+                        names_to = "strategy", values_to = "win_prob")
+
+# Plot with horizontal dotted lines
+ggplot(df_long, aes(x = trials, y = win_prob, color = strategy)) +
+  geom_line(size = 1.2) +
+  geom_point() +
+  scale_x_log10() +
+  scale_y_continuous(limits = c(0,1)) +
+  geom_hline(yintercept = 1/3, linetype = "dotted", color = "blue", size = 1) +
+  geom_hline(yintercept = 2/3, linetype = "dotted", color = "red", size = 1) +
+  labs(title = "Monty Hall Simulation: Stay vs Switch",
+       x = "Number of Trials (log scale)",
+       y = "Win Probability",
+       color = "Strategy") +
+  theme_minimal()
+
+# --- Print table ---
+ print(df)
+
+
+\end{lstlisting}
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

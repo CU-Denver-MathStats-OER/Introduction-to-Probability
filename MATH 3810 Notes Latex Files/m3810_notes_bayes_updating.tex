@@ -1,0 +1,312 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Bayesian Updating}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent We have an unknown parameter $\theta$ satisfying $0\le\theta\le2\pi$ and we want to use empirical data to make probabilistic arguments about the true value of $\theta$. So let $r$ be our observation where there is some random noise $n\sim N(0,\sigma^2)$. So $\theta=r+n$. Assuming we have no prior knowledge about $\theta$ we will start with the prior distribution $\theta\sim Uni[0,2\pi]$. We want to determine the conditional distribution $f\big(\theta\,|\,r\big)$. This is our posterior distribution reflecting our updated beliefs about $\theta$ given the observed data.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Here are the basic tools for this problem.
+
+	\begin{itemize}
+		\item[$\bullet$] {\bf\emph{Continuous Bayes' Rule}}: Let $X,Y$ be continuous jointly distributed random variables. Then
+\[f_{_{Y|X}}\big(y,x\big)=\ds\frac{f_{_Y}(y)\cdot f_{_{X|Y}}(x,y)}{\ds\int^{\infty}_{-\infty}f_{_Y}(y)\cdot f_{_{X|Y}}(x,y)\,dy}\]
+We are not providing a derivation of this rule, but this can be found in most textbooks on the subject. Noticing that the denominator is constant we will often write
+\[f_{_{Y|X}}\big(y,x\big)\propto f_{_Y}(y)\cdot f_{_{X|Y}}(x,y)\]
+where the symbol $\propto$ means ``proportional to."
+
+		\item[$\bullet$] {\bf\emph{Transformation of $N(\mu,\sigma^2)$}}: Let $X\sim N(\mu,\sigma^2)$ and $Y=aX+b$. Then $Y\sim N\big(a\mu+b,a^2\sigma^2\big)$. This is a result that we proved in class. This means, in our example, that we can easily describe the following conditional distribution: 
+\[r\,\big|\,\theta\sim N\big(\theta,\sigma^2\big).\]
+To see this, $r=-n+\theta$ is a transformation of $an+b$ the normal random variable $n\sim N(0,\sigma^2)$ with $a=-1$ and $b=\theta$. So we have
+\[f_{_{r|\theta}}(r,\theta)=\ds\frac{1}{\sigma\sqrt{2\pi}}exp\left[-\ds\frac{(r-\theta)^2}{2\sigma^2}\right]\]
+	\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We start with the formula for continuous Bayes' Rule.
+\[f_{_{\theta|r}}(\theta,r)=\ds\frac{f_{_{\theta}}(\theta)\cdot f_{_{r|\theta}}(r,\theta)}{\ds\int^{\infty}_{-\infty}f_{_{\theta}}(\theta)\cdot f_{_{r|\theta}}(r,\theta)\,d\theta}=\ds\frac{\ds\frac{1}{2\pi}\cdot\ds\frac{1}{\sigma\sqrt{2\pi}}e^{-(r-\theta)^2/2\sigma^2}}{\ds\frac{1}{\sigma(2\pi)^{3/2}}\ds\int^{\theta=2\pi}_{\theta=0}e^{-(r-\theta)^2/2\sigma^2}\,d\theta}\]
+So we have
+\[f_{_{\theta|r}}(\theta,r)\propto e^{-(r-\theta)^2/2\sigma^2} \]
+where $0\le\theta\le 2\pi$. This is a truncated, scaled, density of a normal distribution $N\big(\theta,\sigma^2\big)$. We will lot this in the simulation section below.
+\vskip 5mm
+We can continue to update by using the above posterior distribution as our new prior distribution. For various reasons, we would typically denote $f_{_{r|\theta}}(r,\theta)=L(r\;|\;\theta)$ the ``likelihood function." We now simplify notation and let
+\[f_1\big(\theta\,|\,r_1\big)=\ds\frac{f(\theta)\cdot L(r\;|\;\theta)}{\ds\int^{\infty}_{-\infty}f(\theta)\cdot L(r\;|\;\theta)\,d\theta}=\ds\frac{\ds\frac{1}{2\pi}\cdot\ds\frac{1}{\sigma\sqrt{2\pi}}e^{-(r_1-\theta)^2/2\sigma^2}}{\ds\frac{1}{\sigma(2\pi)^{3/2}}\ds\int^{\theta=2\pi}_{\theta=0}e^{-(r_1-\theta)^2/2\sigma^2}\,d\theta}\]
+\vskip 2mm
+Next we make observation $r_2$ to get
+\[f_2\big(\theta\,|\,r_1,r_2\big)\propto f_1(\theta\,|\,r_1)L\big(r_2\,|\,\theta\big).\]
+\vskip 2mm
+That is,
+\[f_2\big(\theta\,|\,r_1,r_2\big)=\ds\frac{f_1(\theta\,|\,r_1)L\big(r_2\,|\,\theta\big)}{\ds\int^{\theta=2\pi}_{\theta=0}f(\theta\,|\,r_1)L\big(r_2\,|\,\theta\big)\,d\theta}\]
+\vskip 2mm
+\[f_2\big(\theta\,|\,r_1,r_2\big)\propto exp\left[-\ds\frac{(r_1-\theta)^2}{2\sigma^2}\right]\times exp\left[-\ds\frac{(r_2-\theta)^2}{2\sigma^2}\right]=exp\left[-\ds\frac{(r_1-\theta)^2+(r_2-\theta)^2}{2\sigma^2}\right].\]
+After completing the square we get
+\[f_2\big(\theta\,|\,r_1,r_2\big)\propto exp\left[-\ds\frac{(\theta-\bar{r}_2)^2}{2\sigma^2}\right],\]
+where $\bar{r}_2=(r_1+r_2)/2$ is the average of the previous two observations $r_1$ and $r_2$. Hence 
+$f_2\big(\theta\,|\,r_1,r_2\big)$ is a truncated normal centered at the average of the previous observations, with variance $\sigma^2/2$. If we continue we will have
+\[\theta\,|\,r_1,r_2,\cdots, r_n\sim N\left(\bar{r}_n,\ds\frac{\sigma^2}{n}\right).\]
+centered at the average of all observations and truncated to $[0,2\pi]$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R. Below are graphics from the same overall simulation showing the number updates $n=1, 2, 5, 8$. The R code is provided the end of the document.
+\vskip 1cm
+
+\includegraphics[scale=0.48]{bayes_simulation_1.jpeg}\quad
+\includegraphics[scale=0.48]{bayes_simulation_2.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.48]{bayes_simulation_5.jpeg}\quad
+\includegraphics[scale=0.48]{bayes_simulation_8.jpeg}\\
+\vskip 5mm
+One thing to notice is that the variance of the normal posterior distribution (before truncation and normalization) is $\sigma^2/n$. We can clearly see this with each updated posterior. 
+\vskip 5mm
+
+
+\vfill\eject
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+# Simulated Bayesian Updating
+
+# -----------------------------
+# User settings
+# -----------------------------
+
+# Option 1: manually specify observed values
+#r_obs <- c(2.58, 3.28, 4.6, 3.92, 2.73)  
+#r_obs <- c(2.58, 3.28, 4.6, 3.92, 2.73, 3.02, 3.16, 3.21)
+
+
+# Option 2: simulate n_trials from a true theta
+theta_true <- pi       # true underlying theta (radians)
+sigma <- 0.5           # noise standard deviation
+n_trials <- 8          # number of trials
+r_obs <- theta_true + rnorm(n_trials, mean=0, sd=sigma) # generate noisy observations
+
+
+# -----------------------------
+# Setup
+# -----------------------------
+theta_grid <- seq(0, 2*pi, length.out = 1000)
+phi <- function(x) dnorm(x)
+prior_vals <- rep(1/(2*pi), length(theta_grid))   # uniform prior
+
+
+# Safe, visually distinct colors for posteriors
+posterior_colors <- c("blue", "green", "purple", "orange", "brown", "cyan", 
+"magenta", "darkgreen", "darkred", "darkblue")
+line_types <- 1:length(r_obs)
+
+# -----------------------------
+# Compute sequential posteriors and store
+# -----------------------------
+posterior_vals <- prior_vals
+all_posteriors <- list(prior_vals)  # include prior
+
+for (r in r_obs) {
+  posterior_vals <- posterior_vals*phi((r - theta_grid)/sigma)
+  posterior_vals <- posterior_vals/sum(posterior_vals)*length(theta_grid)/(2*pi)
+  all_posteriors <- append(all_posteriors, list(posterior_vals))
+}
+
+# -----------------------------
+# Determine max density for plotting
+# -----------------------------
+ymax <- max(sapply(all_posteriors, max)) * 1.1
+
+# -----------------------------
+# Detailed plot title
+# -----------------------------
+plot_title <- paste0(
+  "Bayesian Posterior Updates\n",
+  "Number of Observations = ", length(r_obs),
+  "  and  Noise SD = ", sigma, "\n",
+  "True Theta = ", round(theta_true, 3),
+  "  with  Prior ~ Uni[0, 2*pi]"
+)
+
+# -----------------------------
+# Base R plot
+# -----------------------------
+plot(theta_grid, prior_vals, type='l', col='red', lwd=2,
+     ylim=c(0, ymax),
+     xaxt='n', xlab=expression(theta), ylab='Density',
+     main=plot_title)
+
+# x-axis multiples of pi
+axis(side=1,
+     at=c(0, pi/2, pi, 3*pi/2, 2*pi),
+     labels=c(expression(0), expression(pi/2), expression(pi),
+           expression(3*pi/2), expression(2*pi)))
+
+# Plot sequential posteriors
+for (i in seq_along(r_obs)) {
+  lines(theta_grid, all_posteriors[[i + 1]], col=posterior_colors[i], 
+  lwd=2, lty=line_types[i])
+}
+
+# -----------------------------
+# Add legend with observation values
+# -----------------------------
+legend_labels <- c("Prior", paste0("Obs ", seq_along(r_obs), 
+" (r=", round(r_obs, 2), ")"))
+legend("topright",
+       legend=legend_labels,
+       col=c("red", posterior_colors[1:length(r_obs)]),
+       lwd=2, lty=c(1, line_types))
+
+\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

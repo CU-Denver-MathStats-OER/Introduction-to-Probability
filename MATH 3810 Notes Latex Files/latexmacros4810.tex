@@ -1,0 +1,285 @@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%  Colors  %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{Green}{rgb}{0,.5,0}
+%use for definitions
+\definecolor{Red}{rgb}{.8,.2,0}
+%use for emphasis
+\definecolor{Yellow}{rgb}{.6,.6,.1}
+%use for part titles
+\definecolor{Cyan}{rgb}{.2,.6,.7}
+%use for comments
+\definecolor{Purple}{rgb}{.4,0,1}
+%use for examples
+\definecolor{deepred}{rgb}{.53,.29,.24}
+%use for important points
+\definecolor{Black}{rgb}{0,0,0}
+%use for washout
+\definecolor{Grey}{rgb}{.45,.45,.45}
+% use for theorems
+\newcommand{\tred}[1]{\textcolor{Red}{#1}}
+\newcommand{\tgreen}[1]{\textcolor{Green}{#1}}
+\newcommand{\tcyan}[1]{\textcolor{Cyan}{#1}}
+\newcommand{\tyellow}[1]{\textcolor{Yellow}{#1}}
+\newcommand{\tpurple}[1]{\textcolor{Purple}{#1}}
+\newcommand{\tblack}[1]{\textcolor{Black}{#1}}
+\newcommand{\tgrey}[1]{\textcolor{Grey}{#1}}
+\newcommand{\tdeepred}[1]{\textcolor{deepred}{#1}}
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%  Theorem Environments  %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}
+\newtheorem{axiom}{Axiom}
+\newtheorem{cor}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{ques}{Question}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\theoremstyle{definition}
+\newtheorem{ex}{Example}
+\numberwithin{equation}{section}
+\newtheorem{prob}{Problem}
+\numberwithin{equation}{section}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%  Math    %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\abs}[1]{\left\lvert{#1}\right\rvert}
+\newcommand{\card}[1]{\lvert{#1}\rvert}
+\newcommand{\union}{\cup}
+\newcommand{\Union}{\bigcup}
+\newcommand{\inter}{\cap}
+\newcommand{\Inter}{\bigcap}
+%\newcommand{\hint}[1]{\medskip\newline\emph{Hint: #1}}
+%\newcommand{\note}[1]{\medskip\newline\emph{Note: #1}}
+\newcommand{\points}[1]{[#1 points]}
+\newcommand{\totalpoints}[1]{[#1 points total]}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\beq}{\begin{eqnarray*}}
+\newcommand{\eeq}{\end{eqnarray*}}
+\newcommand{\bieq}{\begin{IEEEeqnarray}{rCl}}
+\newcommand{\bieqx}{\begin{IEEEeqnarray}{+rCl+x*}}
+\newcommand{\eieq}{\end{IEEEeqnarray}}
+\newcommand{\nn}{\nonumber}
+%\renewcommand{\i}{\item}
+\newcommand{\bpm}{\begin{pmatrix}}
+\newcommand{\epm}{\end{pmatrix}}
+\newcommand{\sol}{\indent{\bf\emph{Solution:}}}
+\newcommand{\ssol}{\indent{\\[2mm]\bf\emph{Solution:}}\;}
+\newcommand{\hint}{\indent{\bf\emph{Hint}:}\;}
+\newcommand{\note}{\indent{\bf\emph{Note}:}\;}
+\newcommand{\vsk}{\vskip 2mm}
+%%%%%%%%%%%%%%%%%%%%%%%%% Calculus %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\dd}[2]{\ds\frac{d}{d{#1}}\left[{#2}\right]}
+\newcommand{\der}[2]{\ds\frac{d{#1}}{d{#2}}}
+\newcommand{\lmt}[3]{\ds\lim_{{#1}\to{#2}}{#3}}
+\renewcommand{\iint}[2]{\ds\int{#1}\,d{#2}}
+\newcommand{\dint}[4]{\ds\int^{#4}_{#3}{#1}\,d{#2}}
+\renewcommand{\Delta}{\triangle}
+%%%%%%%%%%%%%%%%%%%%%%%%% Number Sets %%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\F}{\mathcal{F}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\E}{\mathcal{E}}
+\renewcommand{\o}{\omega}
+\renewcommand{\O}{\Omega}
+%%%%%%%%%%%%%%%%%%%%%%%%% Vectors %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\x}{\bar{x}}
+\renewcommand{\v}{\bar{v}}
+\newcommand{\y}{\bar{y}}
+\newcommand{\z}{\bar{z}}
+\newcommand{\w}{\bar{w}}
+\renewcommand{\u}{\bar{u}}
+\renewcommand{\b}{\bar{b}}
+\newcommand{\e}{\bar{e}}
+\renewcommand{\a}{\vec{a}}
+\renewcommand{\r}{\vec{r}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vecPQ}[2]{\overrightarrow{#1}{#2}}
+\newcommand{\vecV}[1]{\overrightarrow{#1}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Vector Spaces %%%%%%%%%%%%%%%%%%%%
+\newcommand{\rn}{\ensuremath{\mathbb{R}^n}}
+\renewcommand{\rm}{\ensuremath{\mathbb{R}^m}}
+\newcommand{\re}{\mathbb{R}}
+\newcommand{\Pn}{\mathbb{P}_n}
+\newcommand{\B}{\mathcal{B}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Graphics %%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\cg}[2]{\begin{center}
+\includegraphics[scale={#1}]{{#2}}
+\end{center}}
+\makeatletter
+\def\imod#1{\allowbreak\mkern10mu({\operator@font mod}\,\,#1)}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Defined Fonts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\font\minihelv=phvr at 6pt
+\font\helv=phvr at 10pt
+\font\medhelv=phvr at 16pt
+\font\bighelv=phvr at 20pt
+\font\hugehelv=phvr at 36pt
+\font\mybigfont=phvr at 16pt
+\font\mymediumfont=phvr at 14pt
+\font\mediumhelv=phvr at 14pt
+\font\mybfit=ptmbi at 12pt
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Other Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\setlength\fboxrule{.5pt}
+%\newcommand{\latexpicborder}[3]{
+%\setlength\fboxsep{30pt}
+%\begin{figure}[hb]
+%\begin{center}
+%\fbox{
+%\input{#1}
+%}
+%\caption{#2}
+%\label{#3}
+%\end{center}
+%\end{figure}
+%\setlength\fboxsep{0pt}
+%}
+%
+%\newcommand{\latexpic}[2]{
+%\begin{figure}[hb]
+%\begin{center}
+%\input{#1}
+%\vspace*{8mm}
+%\caption{#2}
+%\end{center}
+%\end{figure}
+%}
+
+%\begin{minipage}[b]{0.6\linewidth}
+%......
+%\end{minipage}
+%\hspace{0.5cm}
+%\begin{minipage}[t]{0.4\linewidth}
+%\centering
+%\includegraphics[scale=.5]{m1401_ex3_g4.eps}
+%\end{minipage}
+%\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%% IEEEeqnarray Notes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%Any number of columns can be specified with IEEEeqnarray: {c} will give only one
+%column with all entries centered, or {rCll} would add a fourth, left-justified
+%column to use for comments. Moreover, beside l, c, r, L, C, R for math mode
+%entries there are also s, t, u for left, centered, and right text mode entries.
+%Additional space can be added with . and / and ? in increasing order.
+%
+%
+%\begin{proof}
+%This is a proof that ends
+%with an equation array:
+%\begin{IEEEeqnarray*}{+rCl+x*}
+%a & = & b + c \\
+%& = & d + e. & \qedhere
+%\end{IEEEeqnarray*}
+%\end{proof}
+%Note that the + in {+rCl+x*} denotes stretchable spaces, one on the left
+%of the equations (which, if not specified, will be done automatically by
+%IEEEeqnarray!) and one on the right of the equations. But now on the right,
+%after the stretching column, we add an empty column x. This column will be
+%only needed on the last line when we will put the \qedhere command there.
+%Finally, we specify a *. This is a null-space that prevents IEEEeqnarray to
+%add another unwanted +-space!
+
+
+% The following environments enable custom numbering of theorems so that the numbers agree % with the numbering in the textbook being used. 
+%
+%  Usage examples:
+%\begin{customthm}{2.2}\label{eight}
+%Every theorem must be numbered by hand.
+%\end{customthm}
+%
+%Here is a reference to theorem~\ref{eight}.
+%
+%\begin{customthm}{2.3}[Parenthetical comment]\label{nine}
+%Statement
+%\end{customthm}
+%
+%Here is a reference to theorem~\ref{nine}
+
+
+\newtheorem{innercustomthm}{Theorem}
+\newenvironment{customthm}[1]
+  {\renewcommand\theinnercustomthm{#1}\innercustomthm}
+  {\endinnercustomthm}
+  
+  \newtheorem{innercustomprop}{Proposition}
+\newenvironment{customprop}[1]
+  {\renewcommand\theinnercustomprop{#1}\innercustomprop}
+  {\endinnercustomprop}
+  
+    \newtheorem{innercustomlem}{Lemma}
+\newenvironment{customlem}[1]
+  {\renewcommand\theinnercustomlem{#1}\innercustomlem}
+  {\endinnercustomlem}
+  
+    \newtheorem{innercustomconj}{Conjecture}
+\newenvironment{customconj}[1]
+  {\renewcommand\theinnercustomconj{#1}\innercustomconj}
+  {\endinnercustomconj}
+  
+    \newtheorem{innercustomclaim}{Claim}
+\newenvironment{customclaim}[1]
+  {\renewcommand\theinnercustomclaim{#1}\innercustomclaim}
+  {\endinnercustomclaim}
+  
+    \newtheorem{innercustomcor}{Corollary}
+\newenvironment{customcor}[1]
+  {\renewcommand\theinnercustomcor{#1}\innercustomcor}
+  {\endinnercustomcor}
+  
+    \newtheorem{innercustomdef}{Definition}
+\newenvironment{customdef}[1]
+  {\renewcommand\theinnercustomdef{#1}\innercustomdef}
+  {\endinnercustomdef}
+  
+    \newtheorem{innercustomex}{Example}
+\newenvironment{customex}[1]
+  {\renewcommand\theinnercustomex{#1}\innercustomex}
+  {\endinnercustomex}
+  
+    \newtheorem{innercustomass}{Assumption}
+\newenvironment{customass}[1]
+  {\renewcommand\theinnercustomass{#1}\innercustomass}
+  {\endinnercustomass}
+  
+      \newtheorem{innercustomax}{Axiom}
+\newenvironment{customax}[1]
+  {\renewcommand\theinnercustomax{#1}\innercustomax}
+  {\endinnercustomax}
+  

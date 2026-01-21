@@ -1,0 +1,266 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Conditional Density and Expectation}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent We break a stick of length $l$ twice at random. First at length $y$, and then the second break of length $x$. Find the expected length of the stick after the second break. We let $Y$ be the length after the first break, and $X$ be the length after the second break. Then $Y\sim Uni(0,l)$ and $X\sim Uni(0,Y)$ and we are searching for $E[X]$. Since we don't initially have a density function $f_{_X}$ we will use some theoretical tools to build this density function and then compute $E[X]=\ds\int^{\infty}_{-\infty}x\cdot f_{_X}(x)\,dx$.
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[scale=0.4]{stick_break_simulation_gr1.jpeg}
+		\end{center}
+		\caption{Simulated Stick Breaking $(n=10)$}
+	\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Here are the basic tools for this problem.
+
+	\begin{itemize}
+		\item[$\bullet$] {\bf\emph{Joint Density Function}}: Let $X,Y$ be continuous jointly distributed random variables. Then we can describe the joint density 
+function as
+\[f_{_{X,Y}}(x,y)=f_{_Y}(y)f_{_{X|Y}}(x|y)\]
+where $f_{_Y}(y)$ is the marginal density of $Y$ and $f_{_{X|Y}}(x|y)$ is a conditional density function.
+
+		\item[$\bullet$] {\bf\emph{Marginal Density Function}}: Given a joint density function $f_{_{X,Y}}$ we can compute the marginal density functions of $X$ and $Y$ as follows:
+\beq
+f_{_X}(x)&=&\ds\int^{\infty}_{-\infty}f_{_{X,Y}}(x,y)\,dy\\
+f_{_Y}(y)&=&\ds\int^{\infty}_{-\infty}f_{_{X,Y}}(x,y)\,dx\\
+\eeq
+
+	\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Since $Y\sim Uni(0,l)$ we have $f_{_Y}(y)=1\l$ when $0<y<l$. Then $f_{_{X|Y=y}}(x|y)=1/y$, when $0<x<y$. From this and the above formula for the joint density function we have
+\[f_{_{X,Y}}(x,y)=\left\{\begin{array}{ccl}
+\ds\frac{1}{ly}&:&0<y<l,\,0<x<y\\
+0&:&\text{Otherwise}.
+\end{array}
+\right.\]
+Here is the support for the joint distribution. The horizontal arrow is a setup aid for integration with respect to $y$.
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[scale=0.5]{stick_break_region.jpg}
+		\end{center}
+		\caption{Support for the Joint Distribution}
+	\end{figure}
+	\vskip 1mm
+Now we have that, for $0<x<l$,
+\[f_{_X}(x)=\ds\int^{\infty}_{-\infty}f_{_{X,Y}}(x,y)\,dy=\ds\int^{y=l}_{y=x}\ds\frac{1}{ly}\,dy=\ds\frac{1}{l}\ln\left(\ds\frac{l}{x}\right).\]
+Now we are ready to compute the expectation.
+\[E[X]=\ds\int^{\infty}_{-\infty}x\cdot f_{_X}(x)\,dx=\ds\int^{x=l}_{x=0}\ds\frac{x}{l}\cdot\ln\left(\ds\frac{l}{x}\right)\,dx=\cdots=\ds\frac{l}{4}\]
+where the integral is calculated using integration by parts. So we have, as intuition would suggest, that
+\[E[X]=\ds\frac{l}{4}.\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R with a $l=1$ unit length stick. So the theoretical expectation is $E[X]=1/4$. Below are graphics from the simulation showing the number updates $n=50, 500, 5000, 10000$. The R code is provided the end of the document.
+\vskip 1cm
+
+\includegraphics[scale=0.48]{stick_break_simulation_50.jpeg}\quad
+\includegraphics[scale=0.48]{stick_break_simulation_500.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.48]{stick_break_simulation_5000.jpeg}\quad
+\includegraphics[scale=0.48]{stick_break_simulation_10000.jpeg}\\
+\vskip 5mm
+
+
+
+\vfill\eject
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+set.seed(123)
+
+n <- 10000   # number of experiments
+l <- 1     # stick length
+
+# Step 1: first break (uniform on 0..l)
+y <- runif(n, 0, l)
+
+# Step 2: second break (uniform on 0..y)
+x <- runif(n, 0, y)
+
+# Three resulting pieces
+piece1 <- x
+piece2 <- y - x
+piece3 <- l - y
+
+cat("Sample means:\n")
+cat("E[piece1] ~", mean(piece1), "  theoretical l/4 =", l/4, "\n")
+cat("E[piece2] ~", mean(piece2), "  theoretical l/4 =", l/4, "\n")
+cat("E[piece3] ~", mean(piece3), "  theoretical l/2 =", l/2, "\n")
+
+# Plot histograms with n in the title
+par(mfrow=c(1,3))
+hist(piece1, breaks=60, col="skyblue",
+     main=paste0("piece1 = x, n=", n), xlim=c(0,l))
+hist(piece2, breaks=60, col="lightgreen",
+     main=paste0("piece2 = y - x, n=", n), xlim=c(0,l))
+hist(piece3, breaks=60, col="salmon",
+     main=paste0("piece3 = l - y, n=", n), xlim=c(0,l))
+par(mfrow=c(1,1))
+
+# Theoretical density of X (first break on first piece)
+xx <- seq(1e-6, l-1e-6, length.out=400)
+fX_theory <- (1/l) * log(l/xx)
+
+hist(piece1, breaks=80, probability=TRUE, col="lightgray",
+     main=paste0("Final Length X with Theoretical Density f(x)  (n=", n,")"),
+     xlab="x", xlim=c(0,l))
+lines(xx, fX_theory, col="blue", lwd=2)
+
+# Add empirical mean of X as vertical line
+abline(v = mean(piece1), col = "red", lwd = 2, lty = 2)
+text(mean(piece1), max(hist(piece1, plot=FALSE)$density)*0.9,
+     labels = paste0("Mean = ", round(mean(piece1), 3)), col = "red", pos = 4)
+\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

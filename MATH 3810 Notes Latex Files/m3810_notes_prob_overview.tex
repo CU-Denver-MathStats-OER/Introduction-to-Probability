@@ -1,0 +1,216 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Overview of Probability Approaches}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section*{Introduction:}
+Probability is a measure of uncertainty or likelihood of events. There are several approaches to defining and interpreting probability, each with its own advantages and limitations. This document summarizes four common approaches: Classical, Frequentist, Bayesian, and Intuitive.
+
+\section*{Classical (A Priori) Probability:}
+	\begin{itemize}
+		\item\textbf{Idea:} Probability is based on \emph{symmetry} or \emph{equally likely outcomes}.  
+
+		\item\textbf{Definition:} If an experiment has $n$ equally likely outcomes and an event $A$ contains $k$ of them:
+\[P(A) = \frac{k}{n}.\]
+
+		\item\textbf{Example:} Rolling a fair six-sided die. The probability of rolling an even number is
+\[P(\text{even}) = \frac{3}{6} = 0.5.\]
+
+		\item\textbf{Advantages:} Simple, intuitive for games of chance.
+		
+		\item\textbf{Limitations:} Only valid when outcomes are truly equally likely.
+		
+	\end{itemize}
+
+\section*{Frequentist (Empirical) Probability:}
+	\begin{itemize}
+		\item\textbf{Idea:} Probability is the \emph{long-run relative frequency} of an event.  
+
+		\item\textbf{Definition:} Repeating an experiment $n$ times, if event $A$ occurs $k_n$ times:
+\[P(A) = \lim_{n \to \infty} \frac{k_n}{n}.\]
+
+		\item\textbf{Example:} Flipping a coin 10,000 times and observing 5,020 heads gives
+\[P(\text{head}) \approx \frac{5020}{10000} = 0.502.\]
+
+		\item\textbf{Advantages:} Objective, grounded in data.  
+
+		\item\textbf{Limitations:} Requires repeated trials; not suitable for unique events.
+	\end{itemize}
+
+\section*{Bayesian Probability:}
+	\begin{itemize}
+		\item\textbf{Idea:} Probability represents a \emph{degree of belief} and can be updated with new evidence.  
+
+		\item\textbf{Definition:} Given prior belief $p(\theta)$ and data $x$, the posterior is
+\[p(\theta \mid x) = \frac{p(x \mid \theta) \, p(\theta)}{p(x)}.\]
+
+		\item\textbf{Example:} Suppose a medical test has sensitivity $95\%$ and specificity $90\%$, and the disease prevalence is $5\%$. The probability that a person who tests positive actually has the disease can be computed using Bayes' theorem:
+\[P(\text{disease} \mid \text{positive}) = \frac{0.05 \cdot 0.95}{0.05 \cdot 0.95 + 0.95 \cdot 0.05} \approx 0.50.\]
+
+		\item\textbf{Advantages:} Handles single events, updates with data.  
+
+		\item\textbf{Limitations:} Requires a prior, which can be subjective.
+	\end{itemize}
+	
+\section*{Intuitive / Subjective Probability:}
+	\begin{itemize}
+		\item\textbf{Idea:} Probability represents a \emph{personal degree of belief} or intuition.  
+
+		\item\textbf{Example:} "Based on experience, I estimate a 70\% chance it will rain tomorrow."  
+
+		\item\textbf{Advantages:} Flexible, can incorporate expert knowledge and one-off events.  
+
+		\item\textbf{Limitations:} Highly subjective; may vary between people.
+	\end{itemize}
+	
+\section*{Summary Table}
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Approach} & \textbf{Core Idea} & \textbf{Example} & \textbf{Limitation} \\
+\hline
+Classical & Equally likely outcomes &Die roll, card draw& Only works with symmetry \\
+\hline
+Frequentist & Long-run frequency & Coin flips, simulations & Needs repeated trials \\
+\hline
+Bayesian & Degree of belief and  & Medical tests, predictions & Requires prior knowledge \\
+&updated by data&&\\
+\hline
+Intuitive & Personal belief / intuition & Rain tomorrow, & Subjective; not verifiable \\
+&&sports outcome&\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

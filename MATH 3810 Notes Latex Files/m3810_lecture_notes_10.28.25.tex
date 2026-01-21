@@ -1,0 +1,373 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Expectation and Densities\\
+	Through Conditioning}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent The train leave the station every fifteen minutes starting on the hour. We arrive at the train station at a random time between 7:10am and 7:30am. What is our expected waiting time for the train?
+\vskip 2mm
+Let $W$ equal the waiting time until our train leaves the station and let $T$ be the time we arrive at the train station. Then $Im(W)=[0,15)$ with, as of yet, an unknown distribution. If we let $T=0$ correspond to 7:10am we see that $T\sim Uni(0,20)$. And so we are looking for $E[W]$. Our definition of expected value is
+\[E[W]=\ds\int^{\infty}_{-\infty}w\cdot f_{_W}(w)\,dw.\]
+However, at this point we do not know the distribution of $W$ and do not know it's density function $f_{_W}$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We will compute this expectation in two ways by conditioning on the following events:
+
+	\begin{itemize}
+		\item[] $A:=\big\{0<T\le 5\big\}$ which is the event that we arrive between 7:10am and 7:15am.
+		\item[] $B:=\big\{5<T< 20\big\}$ which is the event that we arrive between 7:15am and 7:30am.
+	\end{itemize} 
+
+Then since $A$ and $B$ partition the sample space we can compute the expected value as
+\[E[W]=\P(A)\cdot E\big[\,W\,|\,A\,\big]+\P(B)\cdot E\big[\,W\,|\,B\,\big].\]
+Alternatively, we can describe the density for $W$ using conditional densities as
+\[f_{_W}(w)=\P(A)\cdot f_{_{W|A}}(w)+\P(B)\cdot f_{_{W|B}}(w).\]
+From here we can use integration to directly compute the expectation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We first make the easy calculations 
+\beq
+\P(A)&=&\P(0<T\le 5)=F_{_{T}}(5)=\ds\frac{5-0}{20-0}=\ds\frac{1}{4}\\
+\P(B)&=&1-\P(A)=\ds\frac{3}{4}\\
+\eeq
+\paragraph{Method \#1:}
+We need to find $E\big[\,W\,|\,A\,\big]$ and $E\big[\,W\,|\,B\,\big]$. To do this we will find the relationship between $T$ and $W$. In particular,
+\[W=\left\{\begin{array}{ccl}
+5-T&:&0<T\le 5\\
+20-T&:&5<T<20\\
+\end{array}\right.\]
+Then
+\[E\big[\,W\,|\,A\,\big]=E\big[\,5-T\,\big|\,0<T\le 5\,\big]=5-E\big[\,T\,\big|\,0<T\le 5\,\big]=5-\ds\frac{5}{2}.\]
+To see this, we have the conditional distribution $T\,\big|\,0<T\le 5\sim Uni(0,5)$ and so $E\big[\,T\,|\,0<T\le 5\,\big]=5/2$. That gives us
+\[E\big[\,W\,|\,A\,\big]=\ds\frac{5}{2}.\]
+Similarly,
+\[E\big[\,W\,|\,B\,\big]=E\big[\,20-T\,\big|\,5<T<20\,\big]=20-E\big[\,T\,\big|\,5<T<20\,\big]=20-\ds\frac{25}{2}.\]
+To see this, we have the conditional distribution $T\,\big|\,5<T<20\sim Uni(5,20)$ and so $E\big[\,T\,|\,5<T<20\,\big]=25/2$. That gives us
+\[E\big[\,W\,|\,A\,\big]=\ds\frac{15}{2}.\]
+Putting the pieces together we have
+\[E[W]=\underbrace{\P(A)}_{\text{\textcolor{red}{1/4}}}\cdot\underbrace{E\big[\,W\,|\,A\,\big]}_{\text{\textcolor{red}{5/2}}}+\underbrace{\P(B)}_{\text{\textcolor{red}{3/4}}}\cdot\underbrace{E\big[\,W\,|\,B\,\big]}_{\text{\textcolor{red}{15/2}}}=\ds\frac{50}{8}\]
+So the expected waiting time is 6.25 minutes.
+\vskip 1cm
+\paragraph{Method \#2:}
+Alternatively we compute the density function as
+\[f_{_W}(w)=\underbrace{\P(A)}_{\text{\textcolor{red}{1/4}}}\cdot f_{_{W|A}}(w)+\underbrace{\P(B)}_{\text{\textcolor{red}{3/4}}}\cdot f_{_{W|B}}(w)\]
+and then integrate. Letting $w(t)=5-t$, with the inverse relationship $t(w)=5-w$, we have from our change of variables formula that
+\[f_{_{W|A}}(w)=f_{_{T|A}}\big(\,t(w)\,\big)\cdot\left|\ds\frac{dt}{dw}\right|=f_{_{T|A}}(5-w)\cdot|-1|=\ds\frac{1}{5},\;\text{when}\;0<w\le 5.\]
+Similarly, letting $w(t)=20-t$, with the inverse relationship $t(w)=20-w$, we again have from our change of variables formula that
+\[f_{_{W|B}}(w)=f_{_{T|B}}\big(\,t(w)\,\big)\cdot\left|\ds\frac{dt}{dw}\right|=f_{_{T|B}}(20-w)\cdot|-1|=\ds\frac{1}{15},\;\text{when}\;0<w\le 15.\]
+Putting these pieces together, and seeing that $f_{_{W|A}}$ only has a non-zero contribution to $f_{_W}(w)$ when $0\le w\le 5$, we have
+\[f_{_W}(w)=\underbrace{\P(A)}_{\text{\textcolor{red}{1/4}}}\cdot\underbrace{f_{_{W|A}}(w)}_{\stackrel{\text{\textcolor{red}{1/5 when}}}{\text{\textcolor{red}{$0\le w\le 5$}}}}+\underbrace{\P(B)}_{\text{\textcolor{red}{3/4}}}\cdot \underbrace{f_{_{W|B}}(w)}_{\stackrel{\text{\textcolor{red}{1/15 when}}}{\text{\textcolor{red}{$0\le w\le 15$}}}}\]
+\vskip 5mm
+%\vfill\eject
+
+Finally we have the density function $f_{_W}$.
+\vskip 5mm
+\begin{multicols}{2}
+\[f_{_W}(w)=\left\{\begin{array}{ccl}
+\ds\frac{1}{10}&:&0\le w\le 5\\
+\\
+\ds\frac{1}{20}&:&5<w<15\\
+\\
+0&:&\text{Otherwise}.
+\end{array}\right.\]
+\columnbreak
+\begin{center}
+\includegraphics[scale=0.6]{density_of_w.jpg}
+\end{center}
+\end{multicols}
+\vskip 5mm
+A quick check verifies that
+\vskip 1mm
+\[\ds\int^{\infty}_{-\infty}f_{_W}(w)\,dw=1\]
+\vskip 1mm
+and $f_{_W}$ is a valid density function. We can now compute
+\[E[W]=\ds\int^{\infty}_{-\infty}w\cdot f_{_W}(w)\,dw=\ds\int^{w=5}_{w=0}\ds\frac{w}{10}\,dw+\ds\int^{w=15}_{w=5}\ds\frac{w}{20}\,dw=\ds\frac{250}{40}=6.25\]
+as we saw in our previous calculations.
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R. Below are graphics from four different simulations with number trials $n=50, 100, 1000, 100000$. The R code is provided after the graphics.
+\vskip 1cm
+
+\includegraphics[scale=0.48]{w-density_simulation_50.jpeg}\quad
+\includegraphics[scale=0.48]{w-density_simulation_100.jpeg}\\
+\vskip 5mm
+Notice how the empirical mean differs noticeably from the theoretical mean with relatively small sample sizes $n=50$ and $n=100$. 
+\vskip 5mm
+\includegraphics[scale=0.48]{w-density_simulation_1000.jpeg}\quad
+\includegraphics[scale=0.48]{w-density_simulation_100000.jpeg}\\
+\vskip 5mm
+Notice that the empirical mean differs very little from the theoretical mean with larger sample sizes $n=1000$ and $n=100000$. Also, the empirical density fits the theoretical density quite nicely for ``large" sample sizes.
+\vskip 5mm
+
+Next are a couple of simulations of the distribution function of $W$ with sample sizes $n=1000$ and $n=10,000$.
+\vskip 5mm
+\includegraphics[scale=0.45]{w-distribution_simulation_1000.jpeg}\quad
+\includegraphics[scale=0.45]{w-distribution_simulation_10000.jpeg}\\
+\vskip 5mm
+
+\paragraph{The R Code:} Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+# Code to Simulate the Density Function and Expectation of the Waiting Time
+
+set.seed(123)
+n <- 100000  # number of simulations
+
+# Step 1: Simulate random arrival times (in minutes after 7:10)
+T <- runif(n, 0, 20)
+
+
+# Step 2: Compute waiting times
+W <- ifelse(T < 5, 5 - T, 20 - T)
+
+
+# Step 3: Define theoretical PDF of W
+f_W <- function(w) {
+  ifelse(w < 0, 0,
+         ifelse(w < 5, 1/10,
+                ifelse(w <= 15, 1/20, 0)))
+}
+
+
+# Step 4: Compute theoretical quantities
+E_theory <- (1/10)*integrate(function(w) w, 0, 5)$value +
+  (1/20)*integrate(function(w) w, 5, 15)$value
+E_W2 <- (1/10)*integrate(function(w) w^2, 0, 5)$value +
+  (1/20)*integrate(function(w) w^2, 5, 15)$value
+Var_theory <- E_W2 - E_theory^2
+
+
+# Step 5: Empirical stats
+E_sim <- mean(W)
+Var_sim <- var(W)
+
+# Step 6: Plot simulated vs. theoretical density
+hist(W, breaks = 50, freq = FALSE, col = "lightblue",
+     main = sprintf("Density of Waiting Time W (n = %d)", n),
+     xlab = "w (minutes)", ylab = "f_W(w)", xlim = c(0, 15))
+curve(f_W(x), from = 0, to = 15, add = TRUE, col = "red", lwd = 2, lty = 2)
+
+# Add mean lines
+abline(v = E_sim, col = "blue", lwd = 2, lty = 3)
+abline(v = E_theory, col = "darkgreen", lwd = 2, lty = 2)
+
+# Add legend
+legend("topright",
+       legend = c("Empirical density (simulation)",
+                  "Theoretical PDF",
+                  sprintf("Empirical mean = %.2f", E_sim),
+                  sprintf("Theoretical mean = %.2f", E_theory)),
+       col = c("lightblue", "red", "blue", "darkgreen"),
+       lwd = c(10, 2, 2, 2), lty = c(1, 2, 3, 2), bty = "n")
+
+# Step 7: Print summary results
+cat("=== Simulation Summary ===\n")
+cat(sprintf("Number of trials: %d\n", n))
+cat(sprintf("Empirical mean E[W] = %.4f\n", E_sim))
+cat(sprintf("Theoretical mean E[W] = %.4f\n", E_theory))
+cat(sprintf("Empirical variance Var(W) = %.4f\n", Var_sim))
+cat(sprintf("Theoretical variance Var(W) = %.4f\n", Var_theory))
+
+
+
+##############################################################################
+##############################################################################
+
+
+
+#Code to Simulate the Distribution Function of the Waiting Time
+
+set.seed(123)
+n <- 10000  # number of simulations
+
+# Step 1: Simulate random arrival times
+T <- runif(n, 0, 20)
+
+# Step 2: Compute waiting times
+W <- ifelse(T < 5, 5 - T, 20 - T)
+
+# Step 3: Theoretical CDF of W
+F_W <- function(w) {
+  ifelse(w < 0, 0,
+         ifelse(w < 5, w/10,
+                ifelse(w <= 15, (w + 5)/20, 1)))
+}
+
+
+# Step 4: Plot empirical and theoretical CDFs
+plot(
+  ecdf(W),
+  col = "blue", lwd = 2,
+  pch = ".", cex = 0.5,  # smaller dots
+  main = sprintf("Distribution Function of Waiting Time W (n = %d)", n),
+  xlab = "w (minutes)", ylab = "F_W(w)", xlim = c(0, 15)
+)
+curve(F_W(x), from = 0, to = 15, add = TRUE, col = "red", lwd = 2, lty = 2)
+
+legend(
+  "bottomright",
+  legend = c("Empirical CDF (simulation)", "Theoretical CDF"),
+  col = c("blue", "red"),
+  lwd = 2, lty = c(1, 2)
+)
+
+\end{lstlisting}
+
+%# Step 7: Print summary results
+%cat("=== Simulation Summary ===\n")
+%cat(sprintf("Number of trials: %d\n", n))
+%cat(sprintf("Empirical mean E[W] ≈ %.4f\n", E_sim))
+%cat(sprintf("Theoretical mean E[W] = %.4f\n", E_theory))
+%cat(sprintf("Empirical variance Var(W) ≈ %.4f\n", Var_sim))
+%cat(sprintf("Theoretical variance Var(W) = %.4f\n", Var_theory))
+
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

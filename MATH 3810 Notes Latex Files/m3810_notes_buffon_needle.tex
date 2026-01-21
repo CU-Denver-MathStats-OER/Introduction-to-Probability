@@ -1,0 +1,312 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Buffon Needle Experiment}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We have a sheet with parallel and equally-spaced lines and also have a needle whose length is less than the distance between the lines. We randomly drop the needle onto the piece of paper. What is the probability that the needle crosses one of the lines?
+\vskip 5mm
+Let $l$ be the length of the needle and $d$ be the distance between the lines. We define two random variables: $X$ equals the distance from the center of the needle to the closest line and $\Theta$ equal the acute angle between the needle and one of the lines. Then $X\sim Uni[0,d/2]$ and $\Theta\sim Uni[0,\pi/2]$. Looking at the diagram below we see that for the needle to cross a line we need $X\le \frac{l}{2}\sin\Theta$.
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[trim= 0cm 0cm 0cm 0cm, clip=true, scale=0.35]{buffon_needle_diagram.jpg}
+		\end{center}
+		\caption{Criteria For Needle to Cross a Line}	
+	\end{figure}
+\vskip 5mm
+So the probability that a needle crosses a line is given as 
+\[\P\left(X\le \ds\frac{l}{2}\sin\Theta\right).\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Here are the basic tools for this problem.
+
+	\begin{itemize}
+	
+		\item[$\bullet$] {\bf\emph{Calculating Probabilities}}: Let $\S$ be a region in the $(x,\theta)$-plane. Then
+\[\P\big[(X,\Theta)\in\S\big]=\ds\int\ds\int_{_\S}f_{_{X,\Theta}}(x,\theta)\,dA.\]
+We can, of course, evaluate this double integral as an iterated integral.
+\vskip 5mm
+
+		\item[$\bullet$] {\bf\emph{Independent Continuous Random Variables}}: We say that two continuous random variables $X$ and $\Theta$, with density functions $f_{_X}$ and $f_{_\Theta}$, are independent if the joint density function $f_{_{X,\Theta}}$ is the product of the marginal densities. That is, 
+\[f_{_{X,\Theta}}(x,\theta)=f_{_X}(x)\cdot f_{_\Theta}(\theta)\;\;\text{for all }x,\theta\in\R.\]
+
+	\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We integrate over the region $\S$ shown below.
+\begin{figure}[h!]
+	\begin{center}
+		\includegraphics[scale=0.38]{buffon_needle_integral_region.jpg}
+	\end{center}
+\caption{Region of Integration $\S$}
+\end{figure}
+\vskip 5mm
+Using the independence of $X$ and $\Theta$, we calculate 
+\beq
+\ds\int\ds\int_{_\S}f_{_{X,\Theta}}(x,\theta)\,dA&=&\ds\int\ds\int_{_\S}f_{_{X}}(x)\cdot f_{_{\Theta}}(\theta)\,dA\\
+\\
+&=&\ds\int^{\theta=\pi/2}_{\theta=0}\ds\int^{x=l/2\sin\theta}_{x=0}\ds\frac{4}{d\pi}\,dx\,d\theta\\
+\\
+&=&\ds\frac{2l}{d\pi}\ds\int^{\theta=\pi/2}_{\theta=0}\sin\theta\,d\theta\\
+\\
+&=&\ds\frac{2l}{d\pi}\Big[-\cos\theta\Big]^{\theta=\pi/2}_{\theta=0}\\
+\\
+&=&\ds\frac{2l}{d\pi}\big[-\cos(\pi/2)+\cos(0)\big]\\
+\\
+&=&\ds\frac{2l}{d\pi}\\
+\eeq
+
+Now if we set the needle length to half the distance between the lines, $l=d/2$, then we have
+\[\P\left(X\le \ds\frac{l}{2}\sin\Theta\right)=\ds\frac{1}{\pi}.\]
+Then any empirical approximation of this probability will also serve as an approximation of $1/\pi$, and thus serves as an approximation of $\pi$.
+  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Here are simulations of this process in R letting $l=d$ so that the theoretical probability of the needle crossing a line equals $2/\pi$. Below are graphics with $n=100, 1000, 10000, 100000$. For larger values of $n$, only a fraction of the lines are plotted for visual clarity. The R code is provided at the end of the document.
+\vskip 1cm
+
+\includegraphics[scale=0.3]{buffon_needle_100.jpeg}\quad
+\includegraphics[scale=0.3]{buffon_needle_1000.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.3]{buffon_needle_10000.jpeg}\quad
+\includegraphics[scale=0.3]{buffon_needle_100000.jpeg}\\
+\vskip 1cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+set.seed(1)  # for reproducibility
+
+#### Parameters ####
+n <- 1000000          # number of trials
+linelength <- 1
+boxlength <- 10
+skip <- 500           # plot every skip-th needle
+
+dev.new(width = 6, height = 6)
+
+
+#### Random midpoints and angles ####
+x <- runif(n, 0, boxlength)
+y <- runif(n, 0, boxlength)
+angles <- runif(n, 0, pi)
+
+
+#### Compute endpoints ####
+dx <- (linelength / 2) * cos(angles)
+dy <- (linelength / 2) * sin(angles)
+endpts1 <- cbind(x - dx, y - dy)
+endpts2 <- cbind(x + dx, y + dy)
+
+
+#### Determine crossings ####
+y_up_dist <- ceiling(y) - y
+y_down_dist <- y - floor(y)
+dist <- pmin(y_up_dist, y_down_dist)
+cross <- (sin(angles) / 2 >= dist)
+prob_cross <- mean(cross)
+pi_est <- 2 / prob_cross
+
+
+#### Subset for plotting ####
+idx <- seq(1, n, by = skip)
+
+
+#### Plot setup ####
+plot(
+  NA, xlim = c(0, boxlength), ylim = c(0, boxlength),
+  xlab = "x position", ylab = "y position",
+  asp = 1,
+  main = sprintf(
+  "Buffon's Needle Simulation (n = %d)",  
+    n, prob_cross, pi_est
+  )
+)
+
+
+# Draw horizontal lines
+abline(h = 0:boxlength, col = "gray80", lwd = 1)
+
+#### Plot midpoints ####
+points(
+  x[idx], y[idx],
+  pch = 16, cex = 0.5,
+  col = rgb(0, 0, 0, 0.4)
+)
+
+#### Draw line segments ####
+for (i in idx) {
+  col <- if (cross[i]) rgb(1, 0, 0, 0.6) else rgb(0, 0, 1, 0.4)
+  lines(rbind(endpts1[i, ], endpts2[i, ]), col = col, lwd = 1.1)
+}
+
+#### Add legend ####
+legend(
+  "topright",
+  legend = c("Crossing", "Non-crossing", "Midpoints"),
+  col = c("red", "blue", "black"),
+  pch = c(NA, NA, 16), lwd = c(2, 2, NA),
+  pt.cex = 0.7, bg = "white"
+)
+
+#### Print fraction of line segments crossing horizontal lines
+prob_cross
+
+#### Print output estimate of pi
+pi_est
+
+#### Print approximation error
+abs(pi - pi_est)
+
+
+\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

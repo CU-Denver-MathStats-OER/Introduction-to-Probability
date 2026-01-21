@@ -1,0 +1,459 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Central Limit Theorem}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\noindent In probability, and especially statistics, we are interested in the distribution of the sample mean. That is, if we choose a random sample $X_1, X_2, X_3,\dots, X_n$ from a population described by a random variable $X$ with defined expectation $E[X]=\mu$ and variance $Var[X]=\sigma^2$, we would like to understand the distribution of the random variable
+\[\overline{X}_n=\ds\frac{X_1+X_2+X_3+\cdots+X_n}{n}.\]
+As an example, consider the pollster problem. Suppose the true proportion of the population that supports candidate A is $p$. In order to estimate the true proportion, a polling company asks $n$ randomly selected voters whether they’ll vote for candidate A (say, ``Yes" or ``No"). Let
+\[X_i=\left\{\begin{array}{ccl}
+1&:&\text{The }i^{th}\text{ person surveyed answers yes},\\
+0&:&\text{The }i^{th}\text{ person surveyed answers no}.\\
+\end{array}
+\right.\]
+Then $X_i\sim Ber(p)$ and the sample proportion is the random variable
+\[\hat{p}_{_n}=\ds\frac{X_1+X_2+\cdots+X_n}{n}.\]
+
+
+We already know that $E[\hat{p}_{_n}]=p$ and $Var(\hat{p}_{_n})=\sqrt{p(1-p)}/n$. We also know from the Weak law of Large Numbers that $\hat{p}_{_n}$ converges in probability to $p$. That is, we know $\hat{p}_{_n}\stackrel{p}{\longrightarrow}p$. But that doesn't tell us about the actual distribution of $\hat{p}_{_n}$. Fortunately, the Central Limit Theorem will help with this.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent As a reminder, the Weak Law of Large Numbers states that $\overline{X}_n$ converges in probability to $\mu=E[X]$. What is convergence in probability? It is a notion of a sequence of random variables $\{X_n\}$ becoming ``close to" another ransom variable $X$. Here is the formal definition.
+
+\begin{defn}
+We say that the sequence of random variables $\{X_n\}$ {\bf\emph{converges in probability}} to $X$ if, for all $\epsilon>0$, we have
+\[\ds\lim_{n\to\infty}\P\left(\big|X_n-X\big|>\epsilon\right)=0.\]
+We denote this as $X_n\stackrel{p}{\longrightarrow}X$.
+\end{defn}
+\vskip 5mm
+For the Weak law of Large Numbers the sequence $\{\overline{X}_n\}$ is converging to a constant random variable $\mu$.
+\vskip 5mm
+\begin{thm}[WLLN]
+Let $X$ be a random variable with finite expected value; i.e., $\mu=E[X]<\infty$, and $X_1,X_2,\dots,X_n$ be an independent random sample from the population with distribution $X$. If we define the sample mean $\overline{X}_n=\ds\frac{X_1+\cdots+X_n}{n}$, we have $\overline{X}_n\stackrel{p}{\longrightarrow}\mu$; i.e., the sample mean converges in probability to the expected value $\mu$.
+\end{thm}
+
+\ni The following graphics (Figure 1 and Figure 2) should demonstrate the idea. We see running averages for 50 different simulations and an $\epsilon$ tolerance about the value $\mu=0$. As the sample sizes increase the probability of being outside of the shown $\epsilon$ band should decreases, and so we would expect to see a lower proportion of our sample means outside of the $\epsilon$ band about $\mu=0$.\\
+
+\vskip 5mm
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{wlln_plot_1.jpeg}
+\caption{WLLN - Sample Sizes of $n\le 1000$}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 2cm 0cm 2cm, clip=true, scale=0.22]{wlln_plot_2.jpeg}\\
+\caption{WLLN - Sample Sizes of $n\le 2000$}
+\end{center}
+\end{figure}
+
+\vskip 2mm
+But there are many other ways to talk about convergence of random variables. One of them is convergence in distribution.
+\vskip 2mm
+
+\begin{defn}
+We say the sequence of random variables $\{X_n\}$ {\bf\emph{converges in distribution}} to $X$, denoted $X_n\stackrel{D}{\longrightarrow}X$, if 
+\[\ds\lim_{n\to\infty}F_{_{X_n}}=F_X\;\text{for all}\;x\;\text{where}\;F_X\;\text{is continuous}.\]
+\end{defn}
+\vskip 5mm
+Now for the main theorem.
+\vskip 5mm
+\begin{thm}[Lindeberg-Levy CLT]
+Let $X_1,X_2,X_3,\dots$ be a sequence of i.i.d. random variables with finite $E[X_i]=\mu_{_X}$ and finite $\text{Var}[X_i]=\sigma^{2}_{_X}$, and let $\overline{X}_n=(X_1+\cdots+X_n)/n$. Then the sequence of random variables $\sqrt{n}\big(\overline{X}_n-\mu_{_X}\big)$ converges in distribution to a normal distribution $N(0,\sigma^{2}_{_X})$;
+\[\sqrt{n}\left(\ds\frac{1}{n}\ds\sum^{n}_{i=1}X_i-\mu_{_X}\right)\stackrel{D}{\longrightarrow}N(0,\sigma^{2}_{_X}).\]
+\end{thm}
+\vskip 2mm
+Alternately, if $\sigma^{2}_{_X}>0$, we could state that a standardized sample mean converges in distribution to a standard normal. That is,
+\[\ds\frac{\overline{X}_n-\mu_{_X}}{\sigma_{X}/\sqrt{n}}\stackrel{D}{\longrightarrow}N(0,1).\]
+That means, for any $z\in\R$ we have
+\[\lim_{n\to\infty}\P\Big(\ds\frac{\big(\overline{X}_n-\mu_{_X}}{\sigma_x/\sqrt{n}}\le z\Big)=\Phi(z)\]
+where $\Phi$ is the distribution function for the standard normal distribution.
+\vskip 5mm
+Here are some simulations of the density of the standardized $\overline{X}_n=X_1+X_2+\cdots+X_n$ with an exponential random variable $X\sim exp(2)$ for $n=3, 10, 100, 1000$. 
+\vskip 5mm
+\includegraphics[scale=0.42]{m3810_expdensity_clt_3.jpeg}\quad
+\includegraphics[scale=0.42]{m3810_expdensity_clt_10.jpeg}
+\vskip 5mm
+\includegraphics[scale=0.42]{m3810_expdensity_clt_100.jpeg}\quad
+\includegraphics[scale=0.42]{m3810_expdensity_clt_1000.jpeg}
+\vskip 5mm
+The statement about the Central Limit Theorem concerns the distribution function of the standardized sample mean. Here are some simulations of the distribution function of the standardized sample mean $\overline{X}_n=X_1+X_2+\cdots+X_n$ with an exponential random variable $X\sim exp(2)$ for $n=3, 10, 100, 1000$. 
+\vskip 5mm
+\hspace*{8mm}\includegraphics[scale=0.35]{m3810_expdist_clt_3.jpeg}\qquad
+\includegraphics[scale=0.35]{m3810_expdist_clt_10.jpeg}
+\vskip 5mm
+\hspace*{8mm}\includegraphics[scale=0.35]{m3810_expdist_clt_100.jpeg}\qquad
+\includegraphics[scale=0.35]{m3810_expdist_clt_1000.jpeg}
+
+\vfill\eject
+
+\ni The usefulness of the theorem is that the distribution of $\sqrt{n}\big(\overline{X}_n-\mu_{_X}\big)$ approaches normality regardless of the shape of the distribution of the individual $X_i$'s. Moreover, for large enough $n$ the random variable $S_n=X_1+\cdots+X_n$ will be approximately normal. To see this, while letting $Z\sim N(0,1)$, we have for large values of $n$
+\[\ds\frac{\overline{X}_n-\mu_{_X}}{\sigma_{X}/\sqrt{n}}\approx Z\quad\Longrightarrow\quad S_n\approx\sigma\sqrt{n}Z+n\mu\] and $\sigma\sqrt{n}Z+n\mu\sim N(n\mu,\sigma^2n)$.
+\vskip 5mm
+This justifies the common assumption of normality when the randomness of a process can be attributed to a sum of random components. Let's consider a couple of examples, one continuous example and one discrete example. We start with a random variable $X$ with a probability density function that is a piecewise polynomial. The mean of this distribution is 0 and its standard deviation is 1.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_1.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $X$}
+\end{figure}
+
+\vskip 5mm
+
+\ni Then assuming $X_1,X_2,X_3,X_4$ are i.i.d. each having the same distribution as $X$, using convolution we compute the density functions for $Y_2=X_1+X_2$, $Y_3=X_1+X_2+X_3$ and $Y_4=X_1+X_2+X_3+X_4$ (and then scale each so that they have variance one). You can see the corresponding graphs below.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_2.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $Y_2=X_1+X_2$}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_3.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $Y_3=X_1+X_2+X_3$}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=2]{clt_4.jpg}
+\end{center}
+\caption{Graph of Probability Density Function of $Y_4=X_1+X_2+X_3+X_4$}
+\end{figure}
+
+\vfill\eject
+
+\ni This density appears qualitatively very similar to a normal density after only summing four copies of the random variable $X$.\\
+
+\ni We next consider a discrete example. Suppose that $X$ is a discrete uniform random variable with $Im(X)=\{1,2,3\}$. Then we have
+\[p_{_X}(x)=\left\{\begin{array}{rcl}
+1/3&:&x=1,2,3\\
+0&:&\text{Otherwise}
+\end{array}\right.\]
+Then let $Y=X_1+X_2$ and $W=X_1+X_2+X_3$ where $X_1,X_2,X_3$ are i.i.d having the same distribution as $X$. Then we have
+\[p_{_Y}(y)=\left\{\begin{array}{rcl}
+1/9&:&y=2,6\\
+2/9&:&y=3,4\\
+3/9&:&y=5\\
+0&:&\text{Otherwise}
+\end{array}\right.\]
+and
+\[p_{_W}(w)=\left\{\begin{array}{rcl}
+1/27&:&w=3,9\\
+3/27&:&w=4,8\\
+6/27&:&w=5,7\\
+7/27&:&w=6\\
+0&:&\text{Otherwise}
+\end{array}\right.\]
+The degree of the resemblance to the bell-shaped curve can be quantified as follows. Consider
+\[\P(W\le 7)=\P(X_1+X_2+X_3\le 7)=\ds\frac{1}{27}+\ds\frac{3}{27}+\ds\frac{6}{27}+\ds\frac{7}{27}+\ds\frac{6}{27}=\ds\frac{23}{27}\approx 0.85185.\]
+Then since $E[W]=6$ and $\text{Var}[W]=2$, and using a continuity correction, we compute
+\[0.85185\approx\P(W\le 7.5)=\P\left(\ds\frac{W-6}{\sqrt{2}}\le\ds\frac{7.5-6}{\sqrt{2}}\right)=\P\left(\ds\frac{W-6}{\sqrt{2}}\le 1.0606602\right).\]
+Then if $Z\sim N(0,1)$ we have.
+\[\P(Z\le 1.0606602)=\Phi(1.0606602)\approx 0.85558.\]
+This example shows how the distribution for the standardized $\big(W-E[W]\Big)/\sigma_{_W}$ has probabilities very close to those of the standard normal distribution.
+ 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We now return to the pollster problem. Suppose we want $\P\big(\big|\hat{p}_{_n}-p\big|<E\big)=0.05$ for some tolerance $E$. By the Central Limit Theorem we have
+\[\ds\frac{\hat{p}_{_n}-p}{\sqrt{p(1-p)/n}}\sim N(0,1)\]
+Therefore will look at the tails of the normal distribution and we have
+\[E=z_{_{0.975}}\sqrt{\ds\frac{p(1-p)}{n}}\quad\Longrightarrow\quad n=\ds\frac{z^2_{_{0.975}}p(1-p)}{E^2}.\]
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[scale=0.5]{normal_dist_intervals.png}
+		\end{center}
+	\caption{Z-scores for Normal Distribution}
+	\end{figure}
+	
+Since $p$ is unknown we can choose $p=0.5$ for the most conservative estimate and use $z_{0.975}=1.96$. Then for $E=0.03$ we have a conservative estimate
+\[n=\ds\frac{(1.96)^2\cdot 0.25}{(0.03)^2}\approx 1067.111.\]
+So a sample size of $n=1068$ would give us $\P\big(\big|\hat{p}_{_n}-p\big|<0.03\big)\le0.05$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+# ==========================================
+# Weak Law of Large Numbers Demonstration
+# ==========================================
+
+set.seed(123)   # for reproducibility
+
+k <- 1000       # number of observations per sample
+j <- 50         # number of independent sequences
+e <- 0.04       # epsilon threshold
+
+# Generate matrix of random variables
+x <- matrix(2 * rbinom(k * j, size = 1, prob = 0.5) - 1, ncol = j)
+
+# Compute running averages for each column
+y <- apply(x, 2, function(z) cumsum(z) / seq_along(z))
+
+# Plot running averages
+matplot(y, type = "l",
+        lty = 1, col = rainbow(j),
+        ylim = c(-0.4, 0.4),
+        main = "Weak Law of Large Numbers Simulation",
+        xlab = "Number of trials (n)",
+        ylab = "Running average of Xn")
+
+# Add horizontal lines for epsilon and 0
+abline(h = c(-e, e), lty = 2, lwd = 2, col = "red")
+abline(h = 0, lty = 1, lwd = 2, col = "black")
+
+# Add legend
+legend("topright",
+       legend = c(expression(paste("|X| <", epsilon)), "Mean (0)"),
+       col = c("red", "black"),
+       lty = c(2, 1),
+       bty = "n")
+
+
+
+# ==========================================
+# Central Limit Theorem Simulation (Exponential Distribution)
+# ==========================================
+
+
+# --- User-defined parameters ---
+lambda <- 2       # rate parameter of exponential
+n <- 1000           # sample size per mean
+m <- 1000         # number of replications
+hist_color <- "orchid"  # histogram color
+
+
+# --- CLT Simulation ---
+# set.seed(123)  # for reproducibility
+
+
+mu <- 1 / lambda
+sigma2 <- 1 / (lambda^2)
+
+# Generate m sample means of size n
+data <- replicate(m, (mean(rexp(n, lambda)) - mu) / sqrt(sigma2 / n))
+
+# --- Plotting ---
+hist(data,
+     prob = TRUE,
+     breaks = "FD",
+     col = hist_color,
+     border = "white",
+     main = bquote("CLT Simulation: Standardized Mean of Exponential
+     (" * .(lambda) * ") with n = " * .(n)),
+     xlab = "Standardized sample mean (Z)",
+     ylab = "Density",
+     cex.main = 1.1,
+     xlim = c(-4, 4))
+
+# Overlay theoretical normal curve
+curve(dnorm(x), from = -4, to = 4, col = "darkblue", lwd = 2, add = TRUE)
+
+# Add grid and legend
+grid(col = "gray80", lty = 1)
+legend("topright",
+       legend = c("Simulated standardized means", "Standard Normal PDF"),
+       fill = c(hist_color, NA),
+       border = c(NA, NA),
+       col = c(NA, "darkblue"),
+       lwd = c(NA, 2),
+       bty = "n")
+
+
+
+# =======================================================
+# CLT Simulation: Distribution Function for Exponential
+# ======================================================
+
+
+# --- User-defined parameters ---
+lambda <- 2    # rate parameter
+n <- 1000        # sample size per mean
+m <- 1000      # number of repetitions
+line_color <- "orchid4"
+
+# --- Simulation ---
+set.seed(123)
+mu <- 1 / lambda
+sigma2 <- 1 / (lambda^2)
+X <- replicate(m, (mean(rexp(n, lambda)) - mu) / sqrt(sigma2 / n))
+
+# --- Plot Empirical and Theoretical CDFs ---
+plot(ecdf(X),
+     col = line_color,
+     main = bquote("CLT Simulation: ECDF of Standardized Mean of Exponential
+     (" * .(lambda) * ") with n = " * .(n)),
+     xlab = "Standardized sample mean (Z)",
+     ylab = "Cumulative Probability",
+     cex.main = 1.1,
+     lwd = 2)
+
+# Overlay theoretical standard normal CDF
+curve(pnorm(x), from = -4, to = 4, col = "darkorange", lwd = 2, add = TRUE)
+
+# Add grid and legend
+grid(col = "gray80", lty = 1)
+legend("bottomright",
+       legend = c("Empirical CDF (Simulated)", "Standard Normal CDF"),
+       col = c(line_color, "darkorange"),
+       lwd = 2,
+       bty = "n")
+
+\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

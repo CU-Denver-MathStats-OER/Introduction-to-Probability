@@ -1,0 +1,477 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Combinatorics}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Suppose that $\big(\Omega,\mathcal F,\P\big)$ is a probability space where $|\Omega|<\infty$.
+If we assume that all outcomes are equally likely, then $\P$ is a discrete uniform probability
+measure and for all events $A\in\mathcal F$ we have
+\[
+\P(A)=\frac{|A|}{|\Omega|}.
+\]
+Thus, computing probabilities in finite uniform sample spaces reduces to counting the number of
+outcomes in sets. The mathematical tools used to determine the size of finite sets fall under the
+study of \emph{combinatorics}. In this section we introduce the basic counting principles needed
+for applied probability.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Below are the basic counting principles we will need for this course.
+\vskip 5mm
+\begin{thm}[Product Rule]
+Suppose a task can be completed in $k$ stages. If stage $i$ can be completed in $n_i$ ways,
+independently of the choices made in the other stages, then the total number of ways to
+complete the task is
+\[n_1 n_2 \cdots n_k.\]
+\end{thm}
+\vskip 2mm
+\noindent\emph{Example.} A password consists of two letters followed by three digits.
+There are $26$ choices for each letter and $10$ choices for each digit. By the product rule,
+the total number of possible passwords is
+\[26^2 \cdot 10^3.\]
+\vskip 5mm
+
+\begin{defn}[Permutation]
+A \emph{permutation} of a set of $n$ distinct objects is an ordering of those objects.
+\end{defn}
+\vskip 2mm
+\noindent\emph{Example.} If three students Alice, Bob, and Carol line up, then
+$(\text{Alice},\text{Bob},\text{Carol})$ and $(\text{Bob},\text{Alice},\text{Carol})$
+represent two different permutations of the same set of students.
+\vskip 5mm
+
+\begin{thm}[Number of Permutations]
+The number of permutations of $n$ distinct objects is
+\[n! = n(n-1)(n-2)\cdots 2\cdot 1.\]
+\end{thm}
+\vskip 2mm
+\noindent\emph{Example.} The number of ways to arrange $5$ distinct books on a shelf is
+\[5! = 120.\]
+\vskip 5mm
+
+\begin{thm}[$k$-Permutations]
+The number of ordered selections of $k$ distinct objects chosen from a set of $n$ distinct
+objects is
+\[P(n,k)=\frac{n!}{(n-k)!}.\]
+\end{thm}
+\vskip 2mm
+\noindent\emph{Example.} Suppose $10$ runners compete in a race. The number of possible
+ways to award gold, silver, and bronze medals is
+\[P(10,3)=\frac{10!}{7!}=10\cdot 9\cdot 8.\]
+\vskip 5mm
+
+\begin{defn}[Combination]
+A \emph{combination} is a selection of objects where order does not matter.
+\end{defn}
+\vskip 2mm
+\noindent\emph{Example.} Choosing students $\{\text{Alice},\text{Bob},\text{Carol}\}$ to form
+a committee is the same selection regardless of the order in which the names are listed.
+\vskip 5mm
+\begin{thm}[Combination Formula]
+The number of ways to choose $k$ objects from a set of $n$ distinct objects is
+\[\binom{n}{k}=\frac{n!}{k!(n-k)!}.\]
+\end{thm}
+\vskip 5mm
+
+\noindent\emph{Example.} The number of ways to choose a committee of $3$ people from $10$ is
+\[
+\binom{10}{3}=120.
+\]
+
+\begin{defn}[Sampling Methods]
+When selecting a sample from a set of objects there are two basic sampling methods:
+	\begin{itemize}
+		\item \textbf{Sampling without replacement:} Once an object is selected, it cannot be selected again.
+Counting typically involves permutations or combinations.
+		\item \textbf{Sampling with replacement:} Objects may be selected multiple times. Counting typically
+uses the product rule.
+	\end{itemize}
+\end{defn}
+
+\noindent\emph{Example.} Drawing $5$ cards from a deck without replacement leads to combinations,
+since order does not matter. In contrast, rolling a die $3$ times is sampling with replacement,
+and the number of possible outcomes is $6^3$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Proofs:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\paragraph*{Proof of the Product Rule:}
+
+Suppose a task consists of two stages. If stage 1 can be completed in $n_1$ ways and stage 2
+can be completed in $n_2$ ways independently of stage 1, then for each of the $n_1$ choices in stage
+1 there are $n_2$ choices in stage 2. Hence, there are $n_1 n_2$ total outcomes.
+The general case follows by induction.
+
+\paragraph*{Proof that the Number of Permutations is $n!$:}
+
+\noindent To form a permutation of $n$ distinct objects, we choose
+\begin{itemize}
+\item one of $n$ objects for the first position,
+\item one of the remaining $n-1$ objects for the second position,
+\item $\vdots$
+\item one object for the final position.
+\end{itemize}
+By the product rule, the total number of permutations is
+\[
+n(n-1)\cdots 1 = n!.
+\]
+
+\paragraph*{Proof of the Combination Formula:}
+
+\noindent First count the number of ordered selections of $k$ distinct objects from $n$:
+\[
+P(n,k)=\frac{n!}{(n-k)!}.
+\]
+Each unordered selection of $k$ objects corresponds to exactly $k!$ orderings. Dividing by $k!$
+yields
+\[
+\binom{n}{k}=\frac{P(n,k)}{k!}=\frac{n!}{k!(n-k)!}.
+\]
+\vskip 1cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Example Problems:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Basic Counting Examples}
+
+	\begin{enumerate}
+		\item \textbf{Passwords.} How many 4-letter passwords can be formed using the English alphabet if
+repetition is allowed?
+
+	\emph{Solution.} Each position has 26 choices. By the product rule, the number of passwords is
+\[26^4.\]
+
+		\item \textbf{Arrangements.} How many ways can 5 students line up in a row?
+
+\emph{Solution.} This is the number of permutations of 5 objects:
+\[5! = 120.\]
+
+		\item \textbf{Committees.} How many ways can a committee of 3 people be chosen from a group of 10?
+
+\emph{Solution.} Since order does not matter, the number of committees is
+\[\binom{10}{3} = 120.\]
+
+		\item \textbf{License Plates.} A license plate consists of two letters followed by three digits.
+How many different license plates are possible if repetition is allowed?
+
+		\item \textbf{Ordered Selections.} From a group of 8 people, how many ways are there to choose a
+president, vice president, and treasurer?
+
+		\item \textbf{Unordered Selections.} From the same group of 8 people, how many distinct committees
+of 3 people can be formed?
+
+		\item \textbf{Sampling With Replacement.} A die is rolled 4 times. How many possible sequences of
+outcomes are there?
+
+		\item \textbf{Sampling Without Replacement.} A bag contains 6 distinct balls. Three balls are
+drawn one at a time without replacement. How many possible ordered outcomes are there?
+
+		\item \textbf{Order Matters or Not?} For each of the following situations, determine whether order
+matters and compute the number of possible outcomes:
+			\begin{enumerate}
+				\item Choosing 2 cards from a standard deck.
+				\item Awarding gold and silver medals in a race with 10 runners.
+				\item Selecting a 4-digit PIN where digits may repeat.
+			\end{enumerate}
+
+		\item \textbf{Conceptual Question.} Explain why selecting a committee of 3 people from a group of
+10 is counted using combinations, while assigning 3 distinct jobs to people from the same group
+is counted using permutations.
+	
+	\end{enumerate}
+
+
+\subsection*{Classic Probability Examples}
+
+	\begin{enumerate}
+		\item \textbf{Coin Tosses.} Suppose 3 fair coins are tossed. What is the probability of obtaining
+exactly 2 heads?
+
+\emph{Solution.} The sample space has $2^3=8$ outcomes. The number of outcomes with exactly 2 heads
+is $\binom{3}{2}=3$. Therefore,
+\[\P(\text{exactly 2 heads})=\ds\frac{3}{8}.\]
+
+		\item \textbf{General Coin Toss Model.} Suppose $n$ fair coins are tossed. What is the probability
+of obtaining exactly $k$ heads?
+
+\emph{Solution.} The sample space has $2^n$ outcomes. The number of outcomes with exactly $k$ heads
+is $\binom{n}{k}$. Thus,
+\[\P(\text{exactly $k$ heads})=\ds\frac{\binom{n}{k}}{2^n}.\]
+
+		\item \textbf{Cards.} A standard deck has 52 cards. What is the probability that a 5-card hand
+contains exactly 2 aces?
+
+\emph{Solution.} The total number of 5-card hands is $\binom{52}{5}$. The number of hands with
+exactly 2 aces is
+\[\binom{4}{2}\binom{48}{3}.\]
+Thus,
+\[\P=\ds\frac{\binom{4}{2}\binom{48}{3}}{\binom{52}{5}}.\]
+
+		\item \textbf{At Least One Ace.} What is the probability that a 5-card hand contains at least one
+ace?
+
+\emph{Solution.} Rather than counting directly, we use complements. The number of hands with no
+aces is $\binom{48}{5}$. Hence,
+\[\P(\text{at least one ace}) = 1 - \ds\frac{\binom{48}{5}}{\binom{52}{5}}.\]
+
+		\item \textbf{Sampling Without Replacement (Urn Model).} An urn contains 5 red balls and 7 blue
+balls. Two balls are drawn at random without replacement. What is the probability that both balls
+are red?
+
+\emph{Solution.} The total number of ways to choose 2 balls from 12 is $\binom{12}{2}$. The number
+of ways to choose 2 red balls from the 5 red balls is $\binom{5}{2}$. Therefore,
+\[\P(\text{both red})=\ds\frac{\binom{5}{2}}{\binom{12}{2}}.\]
+
+		\item \textbf{Sampling With Replacement.} An urn contains 5 red balls and 7 blue balls. Two balls
+are drawn independently with replacement. What is the probability that both balls are red?
+
+\emph{Solution.} Each draw has probability $5/12$ of being red. Since the draws are independent,
+\[\P(\text{both red})=\left(\ds\frac{5}{12}\right)^2.\]
+
+		\item \textbf{Birthday Problem (Finite Version).} Suppose $n$ people are selected independently
+and uniformly from $N$ possible birthdays. What is the probability that all birthdays are distinct?
+
+\emph{Solution.} The total number of birthday assignments is $N^n$. The number of assignments with
+all distinct birthdays is
+\[P(N,n)=\frac{N!}{(N-n)!}.\]
+Hence,
+\[\P(\text{all distinct})=\ds\frac{P(N,n)}{N^n}.\]
+
+		\item \textbf{At Least One Shared Birthday.} Under the same assumptions, what is the probability
+that at least two people share a birthday?
+
+\emph{Solution.} Using complements,
+\[\P(\text{at least one match}) = 1 - \P(\text{all distinct})=1-\ds\frac{P(N,n)}{N^n}.\]
+
+		\item \textbf{Hypergeometric Model.} A shipment contains 20 items, of which 4 are defective. If
+5 items are selected at random without replacement, what is the probability that exactly 1 item
+is defective?
+
+\emph{Solution.} The total number of ways to select 5 items is $\binom{20}{5}$. The number of ways
+to select exactly 1 defective item is
+\[\binom{4}{1}\binom{16}{4}.\]
+Thus,
+\[\P(\text{exactly 1 defective})=\ds\frac{\binom{4}{1}\binom{16}{4}}{\binom{20}{5}}.\]
+
+		\item \textbf{Practice: Binomial vs.\ Hypergeometric.} A box contains 10 light bulbs, 3 of which
+are defective.
+			\begin{enumerate}
+				\item If 4 bulbs are selected \emph{with replacement}, find the probability that exactly 2 are
+defective.
+				\item If 4 bulbs are selected \emph{without replacement}, find the probability that exactly 2 are
+defective.
+			\end{enumerate}
+
+\end{enumerate}
+
+\vskip 1cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Supplement: Why ${n\choose k}$ Is Called a Binomial Coefficient}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent The quantity
+\[\binom{n}{k}=\frac{n!}{k!(n-k)!}\]
+is called a \emph{binomial coefficient} because it appears as the coefficient of the term
+$x^k y^{n-k}$ in the expansion of a binomial expression of the form $(x+y)^n$.
+
+\paragraph*{The Binomial Theorem:}
+
+\begin{thm}[Binomial Theorem]
+For any integer $n \ge 0$,
+\small
+\[(x+y)^n = \sum_{k=0}^n \binom{n}{k} x^k y^{\,n-k}=
+\binom{n}{0}y^n+\binom{n}{1}xy^{n-1}+\binom{n}{2}x^2 y^{n-2}+\cdots+\binom{n}{n} x^n.\]
+\end{thm}
+
+\normalsize
+
+\noindent Thus, the binomial coefficients $\binom{n}{k}$ describe how many times each monomial
+$x^k y^{n-k}$ appears when the product $(x+y)(x+y)\cdots(x+y)$ is expanded.
+
+\paragraph*{Combinatorial Interpretation:}
+
+\noindent Consider the product
+\[(x+y)^n = \underbrace{(x+y)(x+y)\cdots(x+y)}_{n \text{ factors}}.\]
+To obtain a term of the form $x^k y^{n-k}$, we must choose $x$ from exactly $k$ of the $n$ factors
+and $y$ from the remaining $n-k$ factors. The number of ways to choose which $k$ factors contribute
+an $x$ is
+\[\binom{n}{k}.\]
+This explains both the algebraic and combinatorial meaning of the binomial coefficient.
+
+\paragraph*{Illustrative Examples:}
+
+	\begin{enumerate}
+		\item \textbf{Expansion of a Binomial.} Expanding $(x+y)^3$ gives
+\[(x+y)^3 = x^3 + 3x^2y + 3xy^2 + y^3.\]
+The coefficients $1,3,3,1$ are precisely
+\[\binom{3}{0}, \binom{3}{1}, \binom{3}{2}, \binom{3}{3}.\]
+
+		\item \textbf{Numerical Example.} Using the binomial theorem,
+\[(1+1)^n = \sum_{k=0}^n \binom{n}{k}.\]
+Since $(1+1)^n = 2^n$, this shows that
+\[\sum_{k=0}^n \binom{n}{k} = 2^n.\]
+This identity has a natural combinatorial interpretation: the total number of subsets of an
+$n$-element set is $2^n$.
+
+			\item \textbf{Connection to Coin Tosses.} When $n$ fair coins are tossed, each outcome corresponds
+to a term in the expansion of $(H+T)^n$. The coefficient $\binom{n}{k}$ counts the number of outcomes
+with exactly $k$ heads and $n-k$ tails, explaining why binomial coefficients arise naturally in
+probability problems.
+
+	\end{enumerate}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{The R Code:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Here is the R code used for the above simulations.
+%\vspace*{2mm}
+%\small 
+%\begin{lstlisting}[language=R]
+%
+%
+%
+%\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

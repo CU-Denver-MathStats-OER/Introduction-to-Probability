@@ -1,0 +1,147 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+Section\;\classsec\;-\;\classterm\\
+Notes: Continuity of Probability Measure}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+
+\markright{Math\classnum\;-\;Gaussian Normal Distributions, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+\paragraph{Introduction:} Suppose that we flip a fair coin (or even a biased coin) infinitely many times, what is the probability that we never see heads in infinitely many tosses? Our intuition suggests that the probability should be zero. But in order to formally answer this question we will use continuity of probability measures.
+
+\begin{thm}[Continuity] Let $\big(\Omega,\,\mathcal{F},\mathbb{P}\big)$ be a probability space and $A_,A_2,A_3,A_4,\dots$ be a countable sequence of events.
+	\begin{enumerate}
+		\item If the sequence is increasing so that $A_1\subseteq A_2\subseteq A_3\subseteq\cdots$ then
+\[\mathbb{P}\left(\ds\bigcup_{n}A_n\right)=\ds\lim_{n\to\infty}\mathbb{P}\big(A_n\big).\]
+		\item If the sequence is decreasing so that $A_1\supseteq A_2\supseteq A_3\supseteq\cdots$ then
+\[\mathbb{P}\left(\ds\bigcap_{n}A_n\right)=\ds\lim_{n\to\infty}\mathbb{P}\big(A_n\big).\]
+	\end{enumerate}
+
+\end{thm}
+
+The proof of this result is fairly straightforward using the countable additivity of a probability measure. 
+
+\paragraph{The Solution:} Now back to our original problem. Let $A$ be the event that no heads appear in the infinite sequence of coin tosses. Then let $A_n$ be the event that the first $n$ tosses do not contain a head. Then it is easy to see that the sequence $A_1, A_2, A_3,\dots$ is decreasing since $A_{k}\supseteq A_{k+1}$ for all $k$. If there are no heads in the first $k+1$ tosses then certainly there were no heads in the first $k$ tosses. Additionally, we have
+\[A=\ds\bigcap_{n}A_n.\] 
+So by continuity we see that
+\[\mathbb{P}\big(A\big)=\mathbb{P}\left(\ds\bigcap_nA_n\right)=\ds\lim_{n\to\infty}\mathbb{P}\big(A_n\big)=\ds\lim_{n\to\infty}\left(\ds\frac{1}{2}\right)^{n}=0.\]
+Notice that this probability will be the same even with a biased coin where probability $p$ of tails on a single toss  satisfies $0<p<1$. The same probability of zero will apply to any specific sequence of head and tails in an infinite sequence of coin tosses.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\quescommentcorrection
+
+
+\end{document}
+
+ 
+ 

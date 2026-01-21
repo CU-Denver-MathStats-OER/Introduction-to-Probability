@@ -1,0 +1,380 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\usepackage{cancel}
+
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Covariance}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Introduction to Covariance:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Covariance is a numerical measure describing how two random variables vary together. It generalizes the concept of variance:
+	\begin{itemize}
+		\item Variance measures how one variable varies around its mean.
+		\item Covariance measures how two variables jointly vary around their means. 
+	\end{itemize}
+
+Here is the formal definition.
+\vskip 5mm	
+	\begin{defn}
+Let $X$ and $Y$ be random variables with finite expected values,
+$\mu_X = E[X]$ and $\mu_Y = E[Y]$. The \textbf{covariance} of $X$ and $Y$ is defined to be
+\[Cov(X,Y) = E\left[(X - \mu_X)(Y - \mu_Y)\right].\]
+	\end{defn}
+\vskip 2mm	
+Interpretation:
+	\begin{itemize}
+		\item $Cov(X,Y)>0$: when $X$ is above its mean, $Y$ tends to be above its mean (positive relationship).
+		\item $Cov(X,Y)<0$: when $X$ is above its mean, $Y$ tends to be below its mean (negative relationship).
+		\item Cov(X,Y)=0: no linear relationship.	
+	\end{itemize}
+%If one variable tends to be above its mean when the other is above its mean, 
+%the covariance will be positive; if one is above its mean when the other is below, 
+%the covariance will be negative.
+
+\subsection*{Alternative Formulas}
+
+By expanding the definition, we obtain the equivalent expression
+\[\mathrm{Cov}(X,Y) = E[XY] - E[X]E[Y].\]
+This is very easy to verify. 
+	\begin{proof}
+Assume $\mu_X=E[X]$ and $\mu_Y=E[Y]$ exist. Then
+\[\mathrm{Cov}(X,Y)=E\big[(X-\mu_X)(Y-\mu_Y)\big]
+=E\big[XY - X\mu_Y - \mu_X Y + \mu_X\mu_Y\big].\]
+By linearity of expectation and the fact that constants factor out,
+\[\mathrm{Cov}(X,Y)=E[XY]-\mu_YE[X]-\mu_XE[Y]+\mu_X\mu_Y
+=E[XY]-\mu_X\mu_Y.\]
+Therefore, $\mathrm{Cov}(X,Y)=E[XY]-E[X]E[Y]$ as desired.\\
+	\end{proof}
+\vskip 5mm
+The term $E[X]E[Y]$ represents what the expectation of the product would be 
+if $X$ and $Y$ were unrelated; covariance measures the deviation from this baseline. To help 
+see this consider random variables $X$ and $Y$. The expectation of the product $XY$ is  
+\[E[XY] = \sum_x \sum_y xy \, P(X=x,Y=y)\]
+in the discrete case, and
+\[E[XY] = \int_{-\infty}^\infty \int_{-\infty}^\infty xy \, f_{X,Y}(x,y)\,dx\,dy\]
+in the continuous case. This expectation is taken with respect to the \emph{joint distribution} 
+of $(X,Y)$. If large values of $X$ tend to occur with large values of $Y$, 
+then the product $XY$ is typically large, making $E[XY]$ large. If large 
+values of one tend to occur with small values of the other, then $E[XY]$ 
+tends to be smaller.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{Relationship to Variance}
+
+Variance is a special case of covariance:
+\[
+\mathrm{Var}(X) = \mathrm{Cov}(X,X).
+\]
+Using the identity above,
+\[
+\mathrm{Var}(X) = E[X^2] - (E[X])^2.
+\]
+
+\subsection*{Covariance and Independence}
+
+If $X$ and $Y$ are independent, then we can prove that
+\[E[XY] = E[X]E[Y].\]
+It follows, that then
+\[\mathrm{Cov}(X,Y) = 0.\]
+However, the converse is not true in general; zero covariance does not imply 
+independence except in special cases such as jointly normal random variables.
+
+\subsection*{Variance of a Sum}
+
+Covariance plays a central role in computing the variance of a sum.  
+Using the definition of variance,
+\[
+\mathrm{Var}(X+Y) 
+= E\!\left[(X+Y - E[X+Y])^2\right].
+\]
+
+Expanding the square gives
+\[
+(X+Y - \mu_X - \mu_Y)^2
+= (X-\mu_X)^2 + (Y-\mu_Y)^2 + 2(X-\mu_X)(Y-\mu_Y).
+\]
+
+Taking expectations,
+\[
+\mathrm{Var}(X+Y)
+= \mathrm{Var}(X) + \mathrm{Var}(Y) + 2\mathrm{Cov}(X,Y).
+\]
+
+If $X$ and $Y$ are independent, then $\mathrm{Cov}(X,Y)=0$ and the formula 
+reduces to
+\[
+\mathrm{Var}(X+Y) = \mathrm{Var}(X) + \mathrm{Var}(Y).
+\]
+We can extend this to the following result. If $X_1,X_2,\dots,X_n$ are independent random variables then
+\[Var\big[X_1+X_2+\cdots+X_n\big]=Var[X_1]+Var[X_2]+\cdots+Var[X_n].\]
+This result is key in an easy derivation of the variance of a binomial random variable and also in understanding the normalization of a random variable:
+\[X\;\longrightarrow \ds\frac{X-\mu_{_X}}{\sigma_{_X}/\sqrt{n}}.\]
+\vskip 5mm
+One of the weaknesses of covariance is that the value is highly dependent on units. That is, if we change units of measurement we will change the value of the covariance. We would like to have  a measurement that is independent of units.
+\vskip 2mm
+\section*{Correlation Coefficient:}
+
+The correlation coefficient provides a scale-free measure of the linear
+relationship between two random variables. It's value is independent of units and is defined by
+\[
+\rho_{X,Y} = \frac{\mathrm{Cov}(X,Y)}
+{\sqrt{\mathrm{Var}(X)}\sqrt{\mathrm{Var}(Y)}},
+\]
+and satisfies $-1 \le \rho_{X,Y} \le 1$. 
+	\begin{itemize}
+		\item A value of $\rho=1$ indicates a perfect
+positive linear relationship
+		\item A value of $\rho=-1$ indicates a perfect
+negative linear relationship
+		\item A value of $\rho=0$ indicates no linear relationship.
+	\end{itemize}
+
+Correlation is a normalized version of covariance and is therefore 
+dimensionless. Independence implies $\rho_{X,Y}=0$, although the converse is 
+generally false.
+
+\subsection*{Concrete Numerical Example}
+
+Consider the dataset consisting of the four pairs
+\[(1,2),\quad (2,3),\quad (3,6),\quad (4,8).\]
+
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[scale=0.5]{correlation_plot1.jpg}
+			\caption{Scatter Plot of Example Data Set}
+			\label{figcorrplot1}
+		\end{center}			
+	\end{figure}
+
+\subsubsection*{Step 1: Sample Means}
+\[\bar{x} = \frac{1+2+3+4}{4} = 2.5, \qquad\bar{y} = \frac{2+3+6+8}{4} = 4.75.\]
+
+\subsubsection*{Step 2: Sample Covariance}
+
+\note For a sample $\{(x_i,y_i)\}_{i=1}^n$, the \textbf{sample covariance} is
+\[s_{XY} = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y}),\]
+where $\bar{x}$ and $\bar{y}$ are the sample means.
+\vskip 5mm
+
+\[s_{XY} = \frac{1}{n-1}\sum_{i=1}^4 (x_i - \bar{x})(y_i - \bar{y}).\]
+
+We compute each product:
+\[\begin{array}{c|c|c|c|c}
+x_i & y_i & x_i - \bar{x} & y_i - \bar{y} & (x_i-\bar{x})(y_i-\bar{y}) \\
+\hline
+1 & 2 & -1.5 & -2.75 & 4.125 \\
+2 & 3 & -0.5 & -1.75 & 0.875 \\
+3 & 6 & \phantom{-}0.5 & \phantom{-}1.25 & 0.625 \\
+4 & 8 & \phantom{-}1.5 & \phantom{-}3.25 & 4.875 \\
+\end{array}\]
+
+Summing the products:
+\[4.125 + 0.875 + 0.625 + 4.875 = 10.5,\]
+so
+\[s_{XY} = \frac{10.5}{3} = 3.5.\]
+
+\subsubsection*{Step 3: Sample Variances}
+
+For $X$:
+\[s_X^2=\frac{(-1.5)^2+(-0.5)^2+(0.5)^2+(1.5)^2}{3}=\frac{5}{3} \approx 1.6667.\]
+
+For $Y$:
+\[s_Y^2 = \frac{(-2.75)^2 + (-1.75)^2 + (1.25)^2 + (3.25)^2}{3}=\frac{25.75}{3} \approx 8.5833.\]
+
+\subsubsection*{Step 4: Correlation Coefficient}
+
+\[r=\frac{s_{XY}}{\sqrt{s_X^2}\sqrt{s_Y^2}}=\frac{3.5}{\sqrt{1.6667}\sqrt{8.5833}}.\]
+
+Evaluating the square roots:
+\[\sqrt{1.6667} \approx 1.290,\qquad\sqrt{8.5833} \approx 2.930.\]
+
+Thus
+\[r \approx \frac{3.5}{1.290 \cdot 2.930}=\frac{3.5}{3.7797}\approx 0.926.\]
+
+This value indicates a \textbf{strong positive linear relationship} 
+between $X$ and $Y$ which is visible in the scatter plot in Figure \ref{figcorrplot1} shown above.
+
+\subsection*{Numerical Example: Uncorrelated but Dependent}
+
+It's possible to have correlation equal to zero and be dependent. Here is a graphic example. 
+
+	\begin{figure}[h!]
+		\begin{center}
+			\includegraphics[scale=0.5]{correlation_plot2.jpg}
+			\caption{Scatter Plot of Example Data Set}
+			\label{figcorrplot1}
+		\end{center}			
+	\end{figure}
+
+This second plot clearly shows a curved pattern (a parabola), meaning strong dependence, even though the correlation is zero.
+\vskip 5mm
+
+Here is another concrete example using the five observations
+\[(-2,4),\;(-1,1),\;(0,0),\;(1,1),\;(2,4),\]
+so $X=\{-2,-1,0,1,2\}$ and $Y=X^2=\{4,1,0,1,4\}$.
+\vskip 2mm
+\subsubsection*{Step 1: Sample Means}
+\[\bar X = \frac{-2-1+0+1+2}{5}=0,\qquad
+\bar Y = \frac{4+1+0+1+4}{5}=2.\]
+
+Deviations and products:
+\[\begin{array}{c|c|c|c|c}
+x_i & y_i & x_i-\bar X & y_i-\bar Y & (x_i-\bar X)(y_i-\bar Y)\\\hline
+-2 & 4 & -2 & 2 & -4\\
+-1 & 1 & -1 & -1 & 1\\
+0  & 0 & 0  & -2 & 0\\
+1  & 1 & 1  & -1 & -1\\
+2  & 4 & 2  & 2  & 4
+\end{array}\]
+The sum of the products is $-4+1+0-1+4=0$.
+
+\subsubsection*{Step 2: Sample Covariance}
+\[s_{XY}=\frac{1}{n-1}\sum_{i=1}^n (x_i-\bar X)(y_i-\bar Y)=\frac{0}{4}=0.\]
+
+\subsubsection*{Step 3: Sample Variances}
+\[s_X^2=\frac{4+1+0+1+4}{4}=\frac{10}{4}=2.5,\qquad
+s_Y^2=\frac{4+1+4+1+4}{4}=\frac{14}{4}=3.5.\]
+
+\subsubsection*{Step 4: Sample Correlation}
+\[r=\frac{s_{XY}}{\sqrt{s_X^2}\sqrt{s_Y^2}}=0.\]
+
+Thus $r=0$ despite $Y$ depending on $X$ via $Y=X^2$. The zero correlation occurs because the
+positive and negative contributions to the covariance cancel due to symmetry. Important point is
+that zero covariance/correlation does not imply independence.
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

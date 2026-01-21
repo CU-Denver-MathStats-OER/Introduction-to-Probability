@@ -1,0 +1,988 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Exponential Random Variables}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Suppose events occur randomly over continuous time, such as customers arriving at a store,
+radioactive particles decaying, or phone calls coming into a call center.
+We are interested in the \emph{waiting time} until the first ``arrival" occurs.
+\vskip 5mm
+Let $X$ be the amount of time until the first arrival. We will assume events occur at a constant 
+average rate $\lambda>0$ per unit time. Then $X$ is an \emph{exponential random variable} with 
+parameter $\lambda$, denoted
+\[X \sim \mathrm{Exp}(\lambda).\]
+We have two goals:
+	\begin{itemize}
+		\item Find the density function $f_{_X}$ and the distribution function $F_{_X}$.
+		\item Determine $\mathbb{E}[X]$ and $\mathrm{Var}(X)$.
+	\end{itemize}
+
+%The probability density function (pdf) of $X$ is
+%\[
+%f_X(x) = \lambda e^{-\lambda x}, \qquad x \ge 0.
+%\]
+%
+%Our goal is to compute the expected waiting time
+%\[
+%\mathbb{E}[X] = \int_0^\infty x f_X(x)\,dx
+%= \int_0^\infty x \lambda e^{-\lambda x}\,dx,
+%\]
+%and to understand the variance of $X$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{itemize}
+
+	\item \textbf{Poisson Process Assumptions:}  
+A Poisson process with rate $\lambda>0$ satisfies:
+		\begin{itemize}
+			\item The number of arrivals in an interval of length $t$ has a
+$\mathrm{Poisson}(\lambda t)$ distribution.
+			\item Numbers of arrivals in disjoint time intervals are independent.
+			\item Over a very short interval of length $\delta$,
+\[\P(\text{one arrival}) = \lambda \delta + o(\delta),\qquad\P(\text{two or more arrivals}) = o(\delta).\]
+		\end{itemize}
+
+	\item \textbf{From Interval Probabilities to Densities:}  
+If a continuous random variable $X$ satisfies
+\[\P(x \le X \le x+\delta) = f(x)\,\delta + o(\delta),\]
+then $f(x)$ is the probability density function of $X$.
+
+	\item \textbf{Memoryless Property (Exponential Distribution):}  
+If $X \sim \mathrm{Exp}(\lambda)$, then for all $s,t \ge 0$,
+\[\P(X > s+t \mid X > t) = \P(X > s).\]
+
+	\item \textbf{Law of Total Expectation:}  
+If events $A$ and $A^c$ partition the sample space, then
+\[\mathbb{E}[X]=\P(A)\,\mathbb{E}[X \mid A]+\P(A^c)\,\mathbb{E}[X \mid A^c].\]
+
+	\item \textbf{Integration by Parts:}  
+For differentiable functions $u=u(x)$ and $v=v(x)$,
+\[\int u\,dv = uv - \int v\,du.\]
+
+	\item \textbf{Useful Integrals:}  
+For $\lambda>0$,
+\[\int_0^\infty e^{-\lambda x}\,dx = \frac{1}{\lambda},\qquad\int_0^\infty x e^{-\lambda x}\,dx = \frac{1}{\lambda^2},
+\qquad\int_0^\infty x^2 e^{-\lambda x}\,dx = \frac{2}{\lambda^3}.\]
+
+\end{itemize}
+
+\vskip 1cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Determining the Density $f_{_X}$:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We will start by assuming that we are waiting for the first arrival in a Poisson process.
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph*{Step \#1: Waiting Times in a Poisson Process}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Suppose events occur randomly over time according to a Poisson processwith rate $\lambda>0$.
+A Poisson process with rate $\lambda>0$ satisfies:
+		\begin{itemize}
+			\item The number of arrivals in an interval of length $t$ has a
+$\mathrm{Poisson}(\lambda t)$ distribution.
+			\item Numbers of arrivals in disjoint time intervals are independent.
+			\item Over a very short interval of length $\delta$, the probability of more than one event in a very short interval is negligible. Formally,
+\[\P(\text{one arrival}) = \lambda \delta + o(\delta),\qquad\P(\text{two or more arrivals}) = o(\delta).\]
+		\end{itemize}
+\vskip 2mm
+
+We are interested in the random variable
+\[T_k = \text{time of the $k$th arrival},\]
+that is, the amount of time we must wait until the $k$th event occurs.
+Our first goal is to find the probability density function of $T_k$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph*{Step \#2: Deriving the Erlang Density}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent To find the density of $T_k$, we examine the probability that the $k$th
+arrival occurs in a short interval $[x,x+\delta]$, where $\delta>0$ is small.
+
+For this to happen, two things must occur:
+
+\begin{enumerate}
+\item Exactly $k-1$ arrivals occur in the time interval $[0,x]$.
+\item Exactly one arrival occurs in the interval $(x,x+\delta]$.
+\end{enumerate}
+
+Because Poisson process increments are independent, the probability of both events occurring is the product of their probabilities. The number of arrivals in $[0,x]$ is $\mathrm{Poisson}(\lambda x)$, so
+\[\P\Big(k-1\text{ arrivals in }(0,x]\,\Big)=\frac{(\lambda x)^{k-1}}{(k-1)!}e^{-\lambda x}.\]
+
+\noindent The number of arrivals in $(x,x+\delta]$ is $\mathrm{Poisson}(\lambda\delta)$.
+For small $\delta$,
+\[\P\Big(1\text{ arrival in }(x,x+\delta]\,\Big)=\lambda\delta + o(\delta).\]
+
+\vskip 2mm
+
+\noindent
+Multiplying these probabilities, we obtain
+\[\P\big(x \le T_k \le x+\delta\big)=\frac{(\lambda x)^{k-1}}{(k-1)!}e^{-\lambda x}\cdot\lambda\delta+o(\delta).\]
+
+Dividing by $\delta$ and letting $\delta\to 0$, we obtain the probability
+density function of $T_k$:
+\[f_{T_k}(x)=\lim_{\delta\to 0}\frac{\P(x \le T_k \le x+\delta)}{\delta}=
+\frac{\lambda^k x^{k-1}}{(k-1)!}e^{-\lambda x},\qquad x \ge 0.\]
+
+This distribution is called the \emph{Erlang distribution} with parameters
+$k$ and $\lambda$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph*{Step \#3: From Erlang to Exponential}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent The exponential distribution arises as the special case $k=1$.
+Setting $k=1$ in the Erlang density,
+\[f_{T_1}(x)=\frac{\lambda^1 x^{0}}{0!}e^{-\lambda x}=\lambda e^{-\lambda x},\qquad x \ge 0.\]
+
+Thus, the waiting time until the \emph{first} arrival in a Poisson process
+with rate $\lambda$ has density
+\[f_{_X}(x)=\lambda e^{-\lambda x},\qquad x \ge 0,\]
+and we write
+\[X \sim \mathrm{Exp}(\lambda).\]
+
+\vskip 3mm
+
+\noindent
+This mirrors the discrete setting:
+\begin{itemize}
+\item Geometric distribution: number of Bernoulli trials until first success.
+\item Exponential distribution: amount of time until first Poisson arrival.
+\end{itemize}
+
+Both distributions arise from the same idea of \emph{waiting for the first
+``arrival"}, with geometric time measured in trials and exponential time measured
+continuously.
+
+\begin{tcolorbox}[colback=yellow!10!white,colframe=yellow!50!black,title=Remark,sharp corners,boxrule=0.8pt]
+\textbf{Erlang vs.\ Gamma:}  
+
+The Erlang distribution is a special case of the Gamma distribution with an \emph{integer shape parameter} \(k\). That is, if
+\[
+X \sim \text{Erlang}(k,\lambda),
+\]
+then
+\[
+f_X(x) = \frac{\lambda^k x^{k-1}}{(k-1)!} e^{-\lambda x}, \quad x \ge 0,
+\]
+which is equivalent to
+\[
+X \sim \text{Gamma}(\alpha=k, \lambda), \quad \Gamma(k)=(k-1)!.
+\]
+
+\noindent \textbf{Intuition:} Erlang is used in queueing/Poisson processes as the waiting time until the \(k\)th arrival, while Gamma allows non-integer shapes in more general statistical contexts.
+\end{tcolorbox}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculating $\mathbb{E}[X]$:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Let $X \sim \mathrm{Exp}(\lambda)$. Then
+\begin{align*}
+\mathbb{E}[X]
+&= \int_0^\infty x \lambda e^{-\lambda x}\,dx \\
+&= \lambda \int_0^\infty x e^{-\lambda x}\,dx.
+\end{align*}
+
+Using integration by parts, let
+\[u = x, \quad dv = e^{-\lambda x}dx\quad \Longrightarrow \quad
+du = dx, \quad v = -\frac{1}{\lambda}e^{-\lambda x}.\]
+
+Then
+\begin{align*}
+\int_0^\infty x e^{-\lambda x}\,dx
+&= \left[-\frac{x}{\lambda}e^{-\lambda x}\right]_0^\infty
++ \frac{1}{\lambda}\int_0^\infty e^{-\lambda x}\,dx \\
+&= 0 + \frac{1}{\lambda}\cdot\frac{1}{\lambda}
+= \frac{1}{\lambda^2}.
+\end{align*}
+
+Therefore,
+\[\mathbb{E}[X]=\lambda\cdot\frac{1}{\lambda^2}=\frac{1}{\lambda}.\]
+
+\vskip 5mm
+
+\noindent
+\textbf{Intuition for } $\mathbb{E}[X] = 1/\lambda$:
+
+\begin{itemize}
+\item $\lambda$ represents the average number of events per unit time.
+\item If events occur rapidly (large $\lambda$), we expect to wait less time.
+\item If events are rare (small $\lambda$), the waiting time is longer.
+\end{itemize}
+
+For example:
+\begin{itemize}
+\item $\lambda=2$: on average, wait $1/2$ unit of time.
+\item $\lambda=0.1$: on average, wait $10$ units of time.
+\end{itemize}
+
+\vskip 1cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Calculating and $\mathrm{Var}(X)$:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+To compute the variance, we first find $\mathbb{E}[X^2]$.
+\begin{align*}
+\mathbb{E}[X^2]
+&= \int^{\infty}_{x=0} x^2 \lambda e^{-\lambda x}\,dx \\
+&= \lambda \int_0^\infty x^2 e^{-\lambda x}\,dx.
+\end{align*}
+
+Using integration by parts twice (or known gamma integrals),
+\[\int^{\infty}_{x=0} x^2 e^{-\lambda x}\,dx = \frac{2}{\lambda^3}.\]
+
+Thus,
+\[\mathbb{E}[X^2]=\lambda\cdot\frac{2}{\lambda^3}= \frac{2}{\lambda^2}.\]
+
+Now compute the variance:
+\[\mathrm{Var}(X)=\mathbb{E}[X^2]-(\mathbb{E}[X])^2=\frac{2}{\lambda^2}-\frac{1}{\lambda^2}
+=\frac{1}{\lambda^2}.\]
+
+\vskip 5mm
+
+\noindent
+\textbf{Intuition for } $\mathrm{Var}(X)= 1/\lambda^2$:
+
+\begin{itemize}
+\item The variance scales with the square of the mean waiting time.
+\item Faster event rates lead to more tightly clustered waiting times.
+\item Slower rates produce larger variability in how long we must wait.
+\end{itemize}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Using the Memoryless Property (Continuous-Time Argument):}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let $X \sim \mathrm{Exp}(\lambda)$ be the waiting time until the first arrival
+in a Poisson process with rate $\lambda$. We derive $\mathbb{E}[X]$ using the memoryless property and a small-time
+partition of the sample space.
+
+\vskip 3mm
+
+Fix $t>0$. The events $\{X \le t\}$ and $\{X>t\}$ form a partition of the
+sample space. By the law of total expectation,
+\beq\mathbb{E}[X]=\P(X \le t)\,\mathbb{E}[X \mid X \le t]+\P(X > t)\,\mathbb{E}[X \mid X > t].\eeq
+
+Now condition on the event $\{X>t\}$.
+If $X>t$, define the remaining waiting time
+\[Y = X - t.\]
+By the memoryless property of the exponential distribution,
+\[Y \sim \mathrm{Exp}(\lambda),\quad \text{so} \quad\mathbb{E}[Y] = \mathbb{E}[X].\]
+Therefore,
+\[\mathbb{E}[X \mid X>t] = t + \mathbb{E}[X].\]
+
+Substituting into the law of total expectation,
+\begin{align*}
+\mathbb{E}[X]
+&= \P(X \le t)\,\mathbb{E}[X \mid X \le t]
++ \P(X > t)\big(t + \mathbb{E}[X]\big) \\[1mm]
+&= \P(X \le t)\,\mathbb{E}[X \mid X \le t]
++ t\P(X>t)
++ \P(X>t)\mathbb{E}[X].
+\end{align*}
+
+Rearranging terms,
+\[\P(X \le t)\,\mathbb{E}[X]=\P(X \le t)\,\mathbb{E}[X \mid X \le t]+t\P(X>t).\]
+
+Dividing by $\P(X \le t)$ gives
+\beq
+\mathbb{E}[X]=\mathbb{E}[X \mid X \le t]+t\cdot\frac{\P(X>t)}{\P(X \le t)}.
+\eeq
+
+Now let $t\to 0^{+}$. For an exponential random variable,
+\[\P(X \le t) = 1 - e^{-\lambda t}\sim\lambda t,\qquad\P(X>t)\to 1,\qquad
+\mathbb{E}[X \mid X \le t] \to 0.\]
+
+Taking the limit,
+\[\mathbb{E}[X]=\lim_{t\to 0^{+}}\left(\mathbb{E}[X \mid X \le t]+t\frac{\P(X>t)}{\P(X \le t)}\right)=0+\cdot\frac{1}{\lambda}=\frac{1}{\lambda}.\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tcolorbox}[colback=gray!10!white,colframe=gray!60!black,
+title={Why the Geometric Argument Fails in Continuous Time},
+sharp corners, boxrule=0.5pt]
+For a geometric random variable $X$, the event $\{X=1\}$ has positive
+probability, which allows us to condition on the first trial:
+\[\{X=1\}, \quad \{X>1\}.\]
+
+In continuous time, however,
+\[\P(X=0)=0.\]
+There is no ``first instant’’ with positive probability, so conditioning on
+$X=0$ is meaningless. Instead, we must condition on a \emph{small interval} of time:
+\[\{X \le t\}, \quad \{X>t\},\]
+and then let $t \downarrow 0$. This small-time partition plays the role of the first trial in the discrete
+setting.
+\end{tcolorbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\paragraph*{Discrete vs.\ Continuous Waiting-Time Models}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Geometric} & \textbf{Exponential} \\
+\hline
+Bernoulli trials & Poisson process \\
+Discrete time & Continuous time \\
+Success probability $p$ & Rate $\lambda$ \\
+Wait for first success & Wait for first arrival \\
+$\P(X=1)>0$ & $\P(X=0)=0$ \\
+Condition on $\{X=1\}$ or $\{X>1\}$ & Condition on $\{X \le t\}$ or $\{X>t\}$ \\
+Memoryless: $\P(X>s+t\mid X>t)=\P(X>s)$ & Same memoryless property \\
+$\mathbb{E}[X]=1/p$ & $\mathbb{E}[X]=1/\lambda$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\vskip 1cm
+\hrule
+\vskip 1cm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Foundational Examples}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following examples illustrate the basic ideas behind exponential and
+Erlang random variables.
+Each example highlights a core concept that will be used repeatedly
+throughout the course.
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example 1: Interpreting the Rate Parameter}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Suppose customers arrive at a help desk according to a Poisson process
+with rate $\lambda=3$ per hour.
+
+\begin{itemize}
+\item[(a)] What is the expected time until the first customer arrives?
+\item[(b)] What is the probability that no customer arrives in the first
+$20$ minutes?
+\end{itemize}
+
+\begin{solutionbox}
+\begin{itemize}
+\item[(a)] The waiting time $X$ until the first arrival is exponential
+with parameter $\lambda=3$.
+Thus,
+\[
+\mathbb{E}[X]=\frac{1}{\lambda}=\frac{1}{3}\text{ hour }=20\text{ minutes}.
+\]
+
+\item[(b)] Twenty minutes is $1/3$ of an hour.
+Therefore,
+\[
+\P(X>1/3)=e^{-3(1/3)}=e^{-1}.
+\]
+\end{itemize}
+\end{solutionbox}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example 2: Memorylessness in Words}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Let $X \sim \mathrm{Exp}(\lambda)$.
+Suppose no arrival has occurred in the first $10$ minutes.
+
+\begin{itemize}
+\item[(a)] What is the distribution of the remaining waiting time?
+\item[(b)] Does the past waiting time affect the future waiting time?
+\end{itemize}
+
+\begin{solutionbox}
+\begin{itemize}
+\item[(a)] By the memoryless property, the remaining waiting time has the
+same exponential distribution as the original waiting time:
+\[
+X-10 \mid X>10 \sim \mathrm{Exp}(\lambda).
+\]
+
+\item[(b)] No. The exponential distribution has no memory.
+The amount of time already waited provides no information about how much
+longer we must wait.
+\end{itemize}
+\end{solutionbox}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example 3: From Erlang to Exponential}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Let $T_k$ be the time of the $k$th arrival in a Poisson process with rate
+$\lambda$.
+
+\begin{itemize}
+\item[(a)] Write the density function of $T_k$.
+\item[(b)] What distribution do we obtain when $k=1$?
+\end{itemize}
+
+\begin{solutionbox}
+\begin{itemize}
+\item[(a)] The random variable $T_k$ has an Erlang distribution with density
+\[
+f_{T_k}(x)=\frac{\lambda^k x^{k-1}}{(k-1)!}e^{-\lambda x}, \qquad x\ge0.
+\]
+
+\item[(b)] When $k=1$, this reduces to
+\[
+f_{T_1}(x)=\lambda e^{-\lambda x}, \qquad x\ge0,
+\]
+which is the exponential distribution.
+\end{itemize}
+\end{solutionbox}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example 4: Mean Waiting Time for Multiple Arrivals}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Let $T_3$ denote the time until the third arrival in a Poisson process
+with rate $\lambda$.
+
+\begin{itemize}
+\item[(a)] Find $\mathbb{E}[T_3]$.
+\item[(b)] Explain your answer intuitively.
+\end{itemize}
+
+\begin{solutionbox}
+\begin{itemize}
+\item[(a)] The Erlang distribution with parameter $k$ has mean
+\[
+\mathbb{E}[T_k]=\frac{k}{\lambda}.
+\]
+Thus,
+\[
+\mathbb{E}[T_3]=\frac{3}{\lambda}.
+\]
+
+\item[(b)] Waiting for three arrivals is equivalent to waiting for three
+independent exponential waiting times and adding them together.
+On average, each arrival takes $1/\lambda$ units of time.
+\end{itemize}
+\end{solutionbox}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Example 5: Discrete vs.\ Continuous Waiting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent
+Suppose we repeatedly flip a coin with probability of heads $p=0.25$,
+and also observe arrivals in a Poisson process with rate $\lambda=0.25$.
+
+\begin{itemize}
+\item[(a)] What is the expected number of trials until the first head?
+\item[(b)] What is the expected waiting time until the first arrival?
+\item[(c)] Why are these models considered analogues?
+\end{itemize}
+
+\begin{solutionbox}
+\begin{itemize}
+\item[(a)] The waiting time is geometric with mean $1/p=4$ trials.
+\item[(b)] The waiting time is exponential with mean $1/\lambda=4$ time units.
+\item[(c)] Both models describe waiting until the first occurrence of an
+event, differing only in whether time is measured discretely or continuously.
+\end{itemize}
+\end{solutionbox}
+
+
+\vskip 1cm
+\hrule
+\vskip 1cm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{In-Class Practice Problems}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following problems are designed to be worked during class time.
+Some are computational, while others focus on interpretation and structure.
+Unless stated otherwise, assume all Poisson processes have rate $\lambda>0$.
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Warm-Up: Interpreting the Exponential Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\item Let $X \sim \mathrm{Exp}(\lambda)$.
+Interpret the quantity $\P(X>t)$ in words.
+What does the formula $\P(X>t)=e^{-\lambda t}$ tell you about long waiting times?
+
+\item Suppose the average number of arrivals is $2$ per hour.
+\begin{itemize}
+\item What is the value of $\lambda$?
+\item What is the expected waiting time until the first arrival?
+\item Find $\P(X>30 \text{ minutes})$.
+\end{itemize}
+
+\item True or False (justify briefly):  
+If $\mathbb{E}[X]=5$, then $\lambda=5$.
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Building the Erlang Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+
+\item Let $T_2$ be the time of the second arrival in a Poisson process.
+Describe in words what must happen for $T_2$ to lie in the interval $[x,x+\delta]$.
+
+\item Using the Poisson distribution, write an expression for
+\[
+\P(x \le T_2 \le x+\delta)
+\]
+in terms of $\lambda$, $x$, and $\delta$, ignoring terms of order $o(\delta)$.
+
+\item Generalize the previous problem to $T_k$.
+Which parts of the argument depend on $k$, and which do not?
+
+\item Show that the Erlang density integrates to $1$:
+\[
+f_{T_k}(x) = \frac{\lambda^k x^{k-1}}{(k-1)!}e^{-\lambda x}, \quad x\ge0.
+\]
+(Hint: use repeated integration by parts or recall the gamma function.)
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Memoryless Property}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{7}
+
+\item Let $X \sim \mathrm{Exp}(\lambda)$.
+Compute $\P(X>10 \mid X>5)$ and compare it to $\P(X>5)$.
+What do you observe?
+
+\item Suppose you have already waited $t$ minutes with no arrivals.
+What is the distribution of the remaining waiting time?
+Explain your reasoning without formulas.
+
+\item Contrast this with the discrete case:
+If $X \sim \mathrm{Geom}(p)$, what is the distribution of $X-1$ given $X>1$?
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Expectation via Small-Time Conditioning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{10}
+
+\item Let $X \sim \mathrm{Exp}(\lambda)$ and fix $t>0$.
+Write the law of total expectation using the partition
+$\{X \le t\}$ and $\{X>t\}$.
+
+\item Show that
+\[
+\mathbb{E}[X \mid X>t] = t + \mathbb{E}[X].
+\]
+
+\item Use the approximation $\P(X \le t) \approx \lambda t$ for small $t$
+to explain why
+\[
+\mathbb{E}[X] \approx \frac{t}{\lambda t}
+\quad \text{for small } t.
+\]
+
+\item Why does this argument fail if we try to condition on $\{X=0\}$
+instead of $\{X \le t\}$?
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Comparing Discrete and Continuous Waiting Times}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{14}
+
+\item Fill in the blanks:
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Geometric} & \textbf{Exponential} \\
+\hline
+Trials until success & \rule{4cm}{0.15mm} \\
+Parameter $p$ & \rule{4cm}{0.15mm} \\
+$\mathbb{E}[X]=\rule{1cm}{0.15mm}$ & $\mathbb{E}[X]=\rule{1cm}{0.15mm}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\item Give one reason (conceptual, not computational) why both distributions
+are memoryless.
+
+\item Suppose arrivals occur at rate $\lambda=0.2$.
+Would you expect more or less variability in waiting times than if
+$\lambda=2$?
+Explain without computing a variance.
+\end{enumerate}
+
+\vskip 5mm
+
+\noindent
+\textbf{Reflection (Optional):}  
+In what sense is the exponential distribution the “continuous analogue’’
+of the geometric distribution?
+Where does the analogy break down?
+
+
+\vfill\eject
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Solutions to In-Class Practice Problems}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Warm-Up: Interpreting the Exponential Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\item The quantity $\P(X>t)$ represents the probability that we must wait
+\emph{longer than $t$ units of time} for the first arrival.
+The formula $\P(X>t)=e^{-\lambda t}$ shows that long waiting times decay
+exponentially and become increasingly unlikely.
+
+\item If arrivals occur at an average rate of $2$ per hour, then $\lambda=2$.
+\begin{itemize}
+\item The expected waiting time is $\mathbb{E}[X]=1/\lambda=1/2$ hour.
+\item Thirty minutes is $0.5$ hours, so
+\[
+\P(X>0.5)=e^{-2(0.5)}=e^{-1}.
+\]
+\end{itemize}
+
+\item False.  
+If $\mathbb{E}[X]=5$, then $1/\lambda=5$, so $\lambda=1/5$.
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Building the Erlang Distribution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{3}
+
+\item For $T_2$ to lie in $[x,x+\delta]$:
+\begin{itemize}
+\item Exactly one arrival must occur in $[0,x]$.
+\item Exactly one arrival must occur in $(x,x+\delta]$.
+\end{itemize}
+
+\item Using independence of increments,
+\[
+\P(x \le T_2 \le x+\delta)
+=
+\P(N(x)=1)\cdot\P(N(x+\delta)-N(x)=1)
+=
+(\lambda x)e^{-\lambda x}\cdot(\lambda\delta)+o(\delta).
+\]
+
+\item For $T_k$, exactly $k-1$ arrivals must occur in $[0,x]$, and exactly
+one arrival must occur in $(x,x+\delta]$.
+Only the first probability depends on $k$; the small-interval probability
+does not.
+
+\item We compute
+\[
+\int_0^\infty \frac{\lambda^k x^{k-1}}{(k-1)!}e^{-\lambda x}\,dx
+=
+\frac{\lambda^k}{(k-1)!}\cdot\frac{(k-1)!}{\lambda^k}
+=1.
+\]
+Thus $f_{T_k}$ is a valid density.
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Memoryless Property}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{7}
+
+\item
+\[
+\P(X>10 \mid X>5)
+=
+\frac{\P(X>10)}{\P(X>5)}
+=
+\frac{e^{-10\lambda}}{e^{-5\lambda}}
+=
+e^{-5\lambda}
+=
+\P(X>5).
+\]
+This confirms the memoryless property.
+
+\item The remaining waiting time has the same exponential distribution
+as the original waiting time.
+Past waiting provides no information about future waiting.
+
+\item If $X\sim\mathrm{Geom}(p)$, then
+\[
+X-1 \mid X>1 \sim \mathrm{Geom}(p).
+\]
+The process restarts after each failure, just as the exponential clock
+restarts after time has passed.
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Expectation via Small-Time Conditioning}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{10}
+
+\item The law of total expectation gives
+\[
+\mathbb{E}[X]
+=
+\P(X \le t)\,\mathbb{E}[X \mid X \le t]
++
+\P(X>t)\,\mathbb{E}[X \mid X>t].
+\]
+
+\item If $X>t$, then the remaining waiting time $Y=X-t$ satisfies
+$Y\sim\mathrm{Exp}(\lambda)$ by memorylessness.
+Thus
+\[
+\mathbb{E}[X \mid X>t] = t + \mathbb{E}[X].
+\]
+
+\item For small $t$, we have $\P(X \le t)\approx \lambda t$ and
+$\P(X>t)\approx 1$.
+Since $\mathbb{E}[X \mid X \le t]\approx 0$,
+\[
+\mathbb{E}[X]
+\approx
+t\cdot\frac{1}{\lambda t}
+=
+\frac{1}{\lambda}.
+\]
+
+\item Conditioning on $\{X=0\}$ is invalid because $\P(X=0)=0$.
+In continuous time, we must condition on intervals of positive length,
+not single points.
+\end{enumerate}
+
+\vskip 5mm
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Comparing Discrete and Continuous Waiting Times}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}
+\setcounter{enumi}{14}
+
+\item
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Geometric} & \textbf{Exponential} \\
+\hline
+Trials until success & Time until first arrival \\
+Parameter $p$ & Rate $\lambda$ \\
+$\mathbb{E}[X]=1/p$ & $\mathbb{E}[X]=1/\lambda$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\item Both distributions model waiting until the first occurrence of
+an event, where each trial or instant has the same chance of success,
+independent of the past.
+
+\item With $\lambda=0.2$, arrivals are much slower, so waiting times are
+longer and more variable.
+With $\lambda=2$, arrivals are faster and waiting times are more tightly
+clustered.
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{The R Code:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Here is the R code used for the above simulations.
+%\vspace*{2mm}
+%\small 
+%\begin{lstlisting}[language=R]
+%
+%\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

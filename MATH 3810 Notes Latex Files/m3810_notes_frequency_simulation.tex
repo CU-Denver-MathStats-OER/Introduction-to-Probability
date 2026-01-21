@@ -1,0 +1,388 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{latexsym}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{decorations.pathmorphing}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+\newtcolorbox{solutionbox}{
+  breakable,
+  colback=blue!5!white,
+  colframe=blue!50!black,
+  title=Solution,
+  sharp corners,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{hintbox}{
+  breakable,
+  colback=gray!10!white,
+  colframe=gray!50!black,
+  title=Hint,
+  sharp corners,
+  boxrule=0.5pt
+}
+
+% Unnumbered theorem
+\newtheorem*{thm*}{Theorem}
+
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6in}
+\addtolength{\topmargin}{-2cm}
+\addtolength{\oddsidemargin}{-1cm}
+\parindent=0in
+
+
+\input{classinfo}
+\input{latexmacros4810}
+
+\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
+\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+\renewcommand{\ni}{\noindent}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{myheadings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%   Document Body   %%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\def\classnum{3810}
+%\def\classtitle{Probability}
+%\def\classtitleshort{Probability}
+%\def\classsec{001}
+%\def\classterm{Fall 2025}
+%\def\instructor{Robert Rostermundt}
+\def\printsol{0}
+
+
+	\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	Notes: Frequency Approach Simulations\\
+	and Applications}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort, UCD, \classterm, \instructor}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}\maketitle\thispagestyle{empty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The Problem:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent We are given a coin and are curious if the coin is a fair coin. So we are interested in the probability that a coin toss results in heads and the probability that a coin toss results in tails. If we toss the coin once, let $\O=\{H,T\}$ be the sample space and $\F=\big\{\{H\},\{T\},\{H,T\},\emptyset\big\}$ be the event space. We need to determine the probability measure $\P:\F\longrightarrow[0,1]$ which is uniquely determined by $\P\big(\{H\}\big)$.
+\vskip 5mm
+Our experimental procedure to determine this probability might consist of s sequence of multiple coin flips and dividing the number of observed heads by the total number of coin flips. This ratio would then be considered as an estimate of the true probability of obtaining heads. We will assume that there is a well-defined probability for such an outcome, and, intuitively, we believe that the greater the number of coin flips in the above experiment the closer we will be to the actual probability of obtaining heads on a single flip of the coin. We might write this formally in the following manner. Let $H_n$ be the number of heads in $n$ flips of the coin. Then
+\[\P\big(\{H\}\big)=\ds\lim_{n\to\infty}\ds\frac{H_n}{n}.\]
+Our intuition will eventually gain a theoretical verification later in the course due to the law of large numbers. But for now, we are relying on our intuition and experiment.
+\vskip 5mm
+It is not realistic nor practical to perform and actual coin flip experiment with a large number of coin tosses. Fortunately, we have statistical computational languages that can easily simulate such an experiment.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{Theoretical Tools:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\noindent
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Simulations:}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+I have simulated this process in R with $n=100, 500, 1000, 100000$ tosses. These simulations are visualized on the next page along with a summary table of empirical proportions for 20 different trials. The true probability is shown for clarity while understanding that in practice the true probability is an unknown quantity. The R code for the simulation is provided at the end of the document. Examine the variation in the empirical estimates as the number of tosses $n$ increases. Does this match with our intuitive expectation?
+\vskip 1cm
+
+\includegraphics[scale=0.5]{coin_toss_simulation_100.jpeg}\quad
+\includegraphics[scale=0.5]{coin_toss_simulation_500.jpeg}\\
+\vskip 5mm
+\includegraphics[scale=0.5]{coin_toss_simulation_1000.jpeg}\quad
+\includegraphics[scale=0.5]{coin_toss_simulation_100000.jpeg}\\
+\vskip 5mm
+
+
+
+\begin{table}[h!]
+\footnotesize
+\centering
+\begin{tabular}{c c c c c}
+\hline
+Run & $n=100$ & $n=500$ & $n=1000$ & $n=100{,}000$ \\
+\hline
+1  & 0.300 & 0.360 & 0.351 & 0.35117 \\
+2  & 0.450 & 0.390 & 0.324 & 0.34984 \\
+3  & 0.350 & 0.320 & 0.355 & 0.34890 \\
+4  & 0.370 & 0.338 & 0.341 & 0.35065 \\
+5  & 0.390 & 0.360 & 0.336 & 0.34970 \\
+6  & 0.310 & 0.324 & 0.358 & 0.34856 \\
+7  & 0.370 & 0.390 & 0.340 & 0.35177 \\
+8  & 0.370 & 0.360 & 0.341 & 0.35197 \\
+9  & 0.390 & 0.370 & 0.360 & 0.35205 \\
+10 & 0.370 & 0.340 & 0.343 & 0.34876 \\
+11 & 0.310 & 0.366 & 0.336 & 0.34883 \\
+12 & 0.350 & 0.338 & 0.358 & 0.35009 \\
+13 & 0.330 & 0.370 & 0.338 & 0.35088 \\
+14 & 0.330 & 0.310 & 0.347 & 0.34976 \\
+15 & 0.360 & 0.366 & 0.366 & 0.34945 \\
+16 & 0.500 & 0.364 & 0.338 & 0.35252 \\
+17 & 0.340 & 0.376 & 0.385 & 0.34945 \\
+18 & 0.370 & 0.346 & 0.341 & 0.35208 \\
+19 & 0.320 & 0.346 & 0.330 & 0.35020 \\
+20 & 0.400 & 0.336 & 0.343 & 0.35018 \\
+\hline
+\end{tabular}
+\caption{Proportions of heads across 20 runs for $n=100, 500, 1000, 100000$ }
+\label{tab:coin_toss_runs}
+\end{table}
+
+\vfill\eject
+
+\normalsize
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{An Application: Monte Carlo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\noindent Another example of simulation is called a {\bf\emph{Monte Carlo procedure}}. It is sometimes desirable to estimate quantities whose exact values are difficult or impossible to calculate exactly. In some of these cases, a procedure involving chance, called a Monte Carlo procedure, can be used to provide such an estimate. In this section we will see how probability simulations and a frequency approach can be used to estimate the area of plane figures - such as area between the graph of a function and the $x$-axis. Suppose that we program our computer to provide a pair of numbers $(x,y)$, each chosen independently and at ``random" from the interval $[0,1]$. Then we can interpret the pair as the coordinates of a point $(x,y)$ from the unit square in the plane. So our sample space is
+\[\O=\{(x,y):0\le x,y,\le 1\}.\]
+We let our event space be (measurable) regions from the unit square. Then since the area of the unit square is equal to one, the probability of a point falling in a specific region is simply the area of that region. Then to estimate the area of that region we simply need to estimate the probability that a randomly chosen point falls in that region. This estimate will depend on our frequency approach and simulations.\\
+
+\ni As a simple example, consider the function with equation $f(x)=x^2$ on the interval $[0,1]$. We want to evaluate the Reimann integral
+\[\ds\int^{1}_{0}x^2\,dx.\] 
+Of course, this is an easy integral to evaluate with value $\int^{1}_{0}x^2\,dx=1/3$. But knowing this should convince us that the Monte Carlo process is worthwhile. We run the Monte Carlo process calculating the ratio of points that land in the desired region under the graph of $f(x)=x^2$ with $n=20, 50, 100, 1000, 10,000, 50,000$ trials and get the following approximations as can be visualized in the following figure \ref{fig:montecarlo1} and figure \ref{fig:montecarlo2}.\\
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_20.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_50.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_100.pdf}
+\caption{Monte Carlo Approximation to $\int^{1}_{0}x^2\,dx$ for n=20, 50, 100}
+\label{fig:montecarlo1}
+\end{center}
+\end{figure}
+
+
+
+\ni In the approximations from Figure \ref{fig:montecarlo1} we get the following estimates for the probability of a point landing in the region, and thus the area under the graph.
+\[n=20 \Longrightarrow p\approx 0.6;\quad n=50 \Longrightarrow p\approx 0.4;\quad n=100 \Longrightarrow p\approx 0.3\]
+As you can see, as $n$ increases were are getting better and better approximations to the area. 
+\vskip 5mm
+
+\ni In the next set of approximations seen in Figure \ref{fig:montecarlo2} we get the following estimates for the probability of a point landing in the region, and thus the area under the graph.
+\[n=1000 \Longrightarrow p\approx 0.351;\quad n=10,000 \Longrightarrow p\approx 0.3256;\quad n=50,000 \Longrightarrow p\approx 0.33234\]
+
+\ni Keep in mind that we do not know the actual error for each approximation, but we believe that beyond some $n$ our approximations will be within a desired tolerance.
+\vskip 5mm
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_1000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_10000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int1_monte_carlo_50000.pdf}
+\caption{Monte Carlo Approximation to $\int^{1}_{0}x^2\,dx$ for n=1000, 10000, 50000}
+\label{fig:montecarlo2}
+\end{center}
+\end{figure}
+
+
+
+\ni This example might seem too trivial, and so we consider the following improper integral.
+\[\ds\int^{\infty}_{-\infty}e^{-x^2/2}\,dx\]
+It can be shown that there is no elementary anti-derivative for the function $f(x)=e^{-x^2/2}$ and so we may not use the Fundamental Theorem of Calculus to help us directly evaluate this improper integral. Now, while there is a relatively easy way to evaluate this integral using polar coordinates and techniques from mutivariable calculus we will take a Monte Carlo approach and estimate the value of the integral. Now we have a couple of problems. We can not use Monte Carlo over the entire real line, and so we choose a suitable rectangle with $x\in[-8,8]$ and $y\in[0,1]$. We can use this rectangle for an estimate since we can show the tail area will be negligible. Then to estimate the area under the curve in the interval $[-8,8]$ we will use the ratio of points in the desired region (the approximate probability of a random point being in the reqion) and multiply this by the area of the box $[-8,8]\times[0,1]$. We use $n=1000, 10000, 50000$ whose plots can be seen in Figure \ref{fig:montecarlo3} on the following page.\\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int2_monte_carlo_1000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int2_monte_carlo_10000.pdf}\;\;
+\includegraphics[trim=0cm 0cm 0cm 0cm, clip=true, scale=0.35]{int2_monte_carlo_50000.pdf}
+\caption{Monte Carlo Approximation to $\int^{\infty}_{-\infty}e^{-x^2/2}\,dx$ for n=1000, 10000, 50000}
+\label{fig:montecarlo3}
+\end{center}
+\end{figure}
+
+\ni Here we get the following estimates for the area under the graph.
+\[n=1000 \Longrightarrow \text{Area}\approx 2.24;\quad n=10,000 \Longrightarrow \text{Area}\approx 2.4944;\quad n=50,000 \Longrightarrow \text{Area}\approx 2.53824\]
+Using other techniques is is possible to show that the true value of the integral is 
+\[\ds\int^{\infty}_{-\infty}e^{-x^2/2}\,dx=\sqrt{2\pi}\approx 2.50663.\]
+In fact, this is the normalizing constant for the standard Gaussian Normal Distribution. More on this later.
+\vskip 5mm
+
+Back to the Monte Carlo simulation. If we were not able to calculate this integral directly using other techniques our approximation would then be a useful tool, especially if we had enough computing power to estimate the value to a very high degree of precision.\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{The R Code:} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ Here is the R code used for the above simulations.
+\vspace*{2mm}
+\small 
+\begin{lstlisting}[language=R]
+
+set.seed(123) # For reproducibility
+
+n = 500       # number of tosses
+p = 0.35        # probability of heads
+runs = 20      # number of independent experiments
+
+# Store all runs using a for-loop
+#avg_mat = matrix(NA, nrow = runs, ncol = n)
+#
+#for (r in 1:runs) {
+#  toss = runif(n) < p
+#  avg_mat[r, ] = cumsum(toss) / (1:n)
+#}
+
+
+# Replicate() executes the block { ... } runs times. By default, 
+# it stacks results as columns, so each run is a column and each 
+# row is a toss index.
+avg_mat = replicate(runs, {
+  toss = runif(n) < p
+  cumsum(toss) / (1:n)
+})
+
+# Transpose so runs = rows (to match loop version)
+avg_mat = t(avg_mat)
+
+# Theoretical standard error and confidence band
+se   = sqrt(p * (1 - p) / (1:n))
+lower = p - 1.96 * se
+upper = p + 1.96 * se
+lower[lower < 0] = 0
+upper[upper > 1] = 1
+
+# Plot confidence band first (so lines overlay on top)
+plot(1:n, avg_mat[1, ], type = "n",
+     ylim = c(0, 1),
+     ylab = "Proportion of Heads",
+     xlab = "Coin Toss Number",
+     main = paste("Multiple (Trials =", runs,") Coin Toss Simulations (p =", p, ")"))
+
+polygon(c(1:n, rev(1:n)),
+        c(upper, rev(lower)),
+        col = rgb(1, 0, 0, 0.1), border = NA)
+
+# Add all simulation runs
+for (r in 1:runs) {
+  lines(1:n, avg_mat[r, ], col = rgb(0, 0, 1, 0.5), lwd = 1.5)
+}
+
+# Add expectation line
+abline(h = p, col = "red", lwd = 2, lty = 2)
+
+# Grid
+grid(col = "lightgray", lty = "dotted")
+
+# Legend
+legend("topright",
+       legend = c("Simulations", "95% CI", paste("Theoretical p =", p)),
+       col = c(rgb(0,0,1,0.5), rgb(1,0,0,0.3), "red"),
+       lwd = c(2, 6, 2),
+       lty = c(1, 1, 2),
+       bty = "n")
+
+
+
+#---------------------------------------------------
+# Final empirical proportion of heads for each run
+#---------------------------------------------------
+
+final_props = avg_mat[, n]
+
+# Create a data frame table
+empirical_table = data.frame(
+  Run = 1:runs,
+  Empirical_Proportion = final_props
+)
+
+# Add summary rows
+summary_table = rbind(
+  empirical_table,
+  data.frame(
+    Run = "Mean",
+    Empirical_Proportion = mean(final_props)
+  ),
+  data.frame(
+    Run = "SD",
+    Empirical_Proportion = sd(final_props)
+  )
+)
+
+# Print table
+print(summary_table)
+
+\end{lstlisting}
+
+
+
+\vskip 1cm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

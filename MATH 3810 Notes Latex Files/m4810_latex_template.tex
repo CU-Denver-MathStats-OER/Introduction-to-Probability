@@ -1,0 +1,341 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\ifnum\printsol=0 (when no solutions printed)
+%Do something
+%	\else  (when solutions are printed)
+%Do something else
+%\fi
+
+
+% Assessment specific definitions to fill in title and page headers. Other course specific definitions are located in classinfo document which is accessed by \input command below. 
+\def\assessmenttype{????}
+\def\assessmenttypecap{????}
+\def\assessmentnameshort{????}
+\def\assessmentname{\#???}  % Such as #1 or a word title
+\def\assessmentnamesol{\#???? Solutions}
+\def\duedate{Tuesday, November 5}
+\def\duetime{9:30am}
+\def\printfancyheader{1} % Beware that changing the header will change custom pagebreaks for boxed solutions
+
+\input{classinfo}  % Class Specific Information for title header
+
+%If use fancy title header then include custom header on all pages. If don't use fancy title header then include pagenumbers only when solutions printed
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+	\else
+		\ifnum\printsol=0
+				\pagestyle{empty}
+			\else
+				\pagestyle{plain}
+		\fi		
+\fi
+
+
+% Creates a fancy title header for front page. This is turned on by boolean \printfancyheader which later invokes \maketitle command. Otherwise a simpler header is displayed.
+\ifnum\printsol=0 % Determine if non-solution fancyheader or solution fancyheader is displayed
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	\assessmenttypecap\;\assessmentname}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - Dr. \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, Dr. \instructor}
+	
+		\else
+
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+	Section\;\classsec\;-\;\classterm\\
+	\assessmenttypecap\;\assessmentnamesol}
+	\author{University of Colorado Denver / College of Liberal Arts 	and Sciences}
+	\date{Department of Mathematics - Dr. \instructor}
+
+	\markright{Math\classnum\;-\;\classtitleshort,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, Dr. \instructor}
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+	\else	
+		\ifnum\printsol=0
+
+				\begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+\smallskip
+Due by \duedate\, at \duetime.\\
+\smallskip
+{\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+				\end{center}
+			\else
+
+				\begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+				\end{center}
+\vskip 2mm
+
+		\fi
+		
+\hrule
+\vskip 5mm
+
+\fi
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\normalsize
+
+\ifnum\printsol=0
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+\textbf{Student Number:}\bigskip\hrule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace*{5mm}
+\begin{itemize}\itemsep=0in
+	\item This is an open note \assessmenttype. You may use your notes on this \assessmenttype but may not use your book. All electronics must be turned off during the exam.
+	\item Write all answers in the spaces provided on the \assessmenttype.
+	\item Throughout the \assessmenttype, show your work so that your reasoning is clear. Otherwise no credit will be given.
+	\item If you are asked to \emph{find} or \emph{write} a formula or an expression without proof, you do not need to show any work but must present your solution using correct mathematical notation.
+	\item If you are asked to \emph{give} or \emph{cite} a definition or a result that we discussed in class, you must use complete sentences, correct mathematical notation, and state all conditions or assumptions.
+	\item If you are asked to \emph{prove} or \emph{show} a formula or a result, you must give a proof using complete sentences and correct mathematical notation. If you can correctly cite a result that we have proved in class or that is proven in the book, you can use it and do not have to prove it again. 
+	\item The following table gives the total points for each problem on this \assessmenttype.
+
+\begin{center}
+{\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{||c||c||c|c|c|c||}
+\hline
+\rule{0pt}{3ex}Problem & Exam \% & Score  &  Problem & Exam \% & Score \\ 
+\hline \hline
+1  & ?? & \hspace{1.0in}  &   &    & \hspace{1.0in} \\ \hline
+2  & ?? & \hspace{1.0in}  &   &    & \hspace{1.0in} \\ \hline
+3  & ?? & \hspace{1.0in}  &   &    & \hspace{1.0in} \\ \hline
+4  & ?? & \hspace{1.0in}  &   &    & \hspace{1.0in} \\ \hline
+5  & ?? & \hspace{1.0in}  &   &    & \hspace{1.0in} \\ \hline
+6  & ?? & \hspace{1.0in}  &   &    & \hspace{1.0in} \\ \hline
+\hline
+\rule{0pt}{3ex}Total &  100 &  &    &  & \hspace{1.0in} \\ \hline
+\end{tabular}}
+\end{center}
+
+%
+\end{itemize}
+\vspace*{5mm}
+
+\begin{flushright}
+Total Score:\;\underline{\hspace*{2cm}}\;/\;10
+
+\end{flushright}
+
+\vfill\eject
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifnum\printsol=1
+\vspace*{2mm}
+\hrule
+\vskip 8mm
+
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\renewcommand{\S}{\mathbb{S}} % For defining a set S 
+\renewcommand{\P}{\mathbb{P}} % For defining a probabilty measure
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)} % For defining a probability measure with argument and normal parentheses
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)} % For defining a probability measure with argument and large parenthesis
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{enumerate}
+
+	\item\exampercent{???} Some of the following conditions are true for a probability measure $\P$. Mark the box for each condition that is true (and leave all other boxes blank). If a statement is false provide a counterexample or correct it in the space provided.
+\ifnum\printsol=0
+
+	\begin{enumerate}
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+		\vskip 0.55in
+
+		\item[] $\square$\qquad 
+
+\vfill\eject
+
+	\end{enumerate}
+
+\fi
+\ifnum\printsol=1
+\ssol See the following checked and unchecked boxes and corresponding discussions.
+
+	\begin{enumerate}
+
+		\item[] $\boxtimes$\qquad 
+		\vskip 2mm
+
+
+		\item[] $\square$\qquad 
+		\vskip 2mm
+	\begin{discussion}
+		
+	\end{discussion}
+		\vskip 2mm
+
+
+		\vskip 1cm
+
+	\end{enumerate}
+
+\fi
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\item\exampercent{??} 
+
+\boxsol{
+	\vskip 2mm
+	\begin{boxsolution}
+			
+	\end{boxsolution}
+	
+	\vskip 5mm
+
+}
+
+\ifnum\printsol=0
+\vfill\eject
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+	\item\exampercent{??} 
+
+\boxsol{
+	\vskip 2mm
+	\begin{boxsolution}
+			
+	\end{boxsolution}
+	
+	\vskip 5mm
+
+}
+
+\ifnum\printsol=0
+\vfill\eject
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\item\exampercent{??} 
+
+\boxsol{
+	\vskip 2mm
+	\begin{boxsolution}
+			
+	\end{boxsolution}
+	
+	\vskip 5mm
+
+}
+
+\ifnum\printsol=0
+\vfill\eject
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	\item\exampercent{??} 
+
+\boxsol{
+	\vskip 2mm
+	\begin{boxsolution}
+			
+	\end{boxsolution}
+	
+	\vskip 5mm
+
+}
+
+\ifnum\printsol=0
+\vfill\eject
+
+\fi
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\quescommentcorrection
+
+
+\end{document}
+
+ 
+ 
