@@ -1,0 +1,192 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+\usepackage{listings,tikz,enumitem,booktabs}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+\def\assessmenttype{introductory homework}
+\def\assessmenttypecap{Introductory Homework}
+\def\assessmentname{\#5}  
+\def\assessmentnamesol{\#5 Solutions}
+\def\duedate{Wednesday, October 16}
+\def\duetime{3:30pm}
+\def\printfancyheader{1} 
+
+\input{classinfo}
+
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+\else
+    \ifnum\printsol=0
+        \pagestyle{empty}
+    \else
+        \pagestyle{plain}
+    \fi
+\fi
+
+\ifnum\printsol=0
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentname}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\else
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentnamesol}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\fi
+
+\begin{document}
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+\else
+    \ifnum\printsol=0
+        \begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+        \smallskip
+        Due by \duedate\, at \duetime.\\
+        \smallskip
+        {\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+        \end{center}
+    \else
+        \begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+        \end{center}
+        \vskip 2mm
+    \fi
+\hrule
+\vskip 5mm
+\fi
+
+\normalsize
+
+\ifnum\printsol=0
+\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+\textbf{Student Number:}\bigskip\hrule
+\vspace*{5mm}
+\fi
+
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)}
+
+\section*{Instructions}
+Show all reasoning clearly. All simulation results should be reproducible and clearly labeled.
+You may use R for all computations.
+
+\section*{Problems}
+\begin{enumerate}[leftmargin=*]
+
+\item \textbf{Joint Distributions}
+\begin{enumerate}
+\item Simulate 500 pairs $(X,Y)$ from a bivariate normal distribution with $\mu_X=0,\mu_Y=0$, $\sigma_X^2=1,\sigma_Y^2=1$, and $\rho=0.5$.
+\item Compute the sample covariance and correlation.
+\item Plot the scatterplot of $Y$ versus $X$.
+\end{enumerate}
+
+\item \textbf{Marginal Distributions}
+\begin{enumerate}
+\item Compute the empirical marginal distributions of $X$ and $Y$.
+\item Compare histograms with theoretical marginal densities.
+\end{enumerate}
+
+\item \textbf{Conditional Distribution}
+\begin{enumerate}
+\item Compute $Y|X>0$ and $Y|X<0$.
+\item Plot histograms of conditional distributions.
+\item Comment on how the mean and variance differ conditionally.
+\end{enumerate}
+
+\item \textbf{Covariance Transformation}
+\begin{enumerate}
+\item Define $U = 2X - Y$ and $V = X + 3Y$.
+\item Compute the covariance matrix of $(U,V)$.
+\item Compare with theoretical result using linear transformation formula.
+\end{enumerate}
+
+\item \textbf{Discussion}
+\begin{itemize}
+\item Explain the effect of correlation on joint scatterplots.
+\item Describe the effect of linear transformations on covariance.
+\end{itemize}
+
+\end{enumerate}
+
+\ifnum\printsol=1
+\section*{Solutions}
+\begin{enumerate}[leftmargin=*]
+
+\item
+\begin{lstlisting}[language=R]
+library(MASS)
+set.seed(123)
+Sigma <- matrix(c(1,0.5,0.5,1),2,2)
+samples <- mvrnorm(500, mu=c(0,0), Sigma)
+X <- samples[,1]
+Y <- samples[,2]
+cov(X,Y)
+cor(X,Y)
+plot(X,Y)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+hist(X, prob=TRUE)
+curve(dnorm(x,0,1), add=TRUE, col="blue")
+hist(Y, prob=TRUE)
+curve(dnorm(x,0,1), add=TRUE, col="red")
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+Y_pos <- Y[X>0]
+Y_neg <- Y[X<0]
+hist(Y_pos, prob=TRUE, main="Y | X>0")
+hist(Y_neg, prob=TRUE, main="Y | X<0")
+mean(Y_pos); var(Y_pos)
+mean(Y_neg); var(Y_neg)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+U <- 2*X - Y
+V <- X + 3*Y
+cov(cbind(U,V))
+# Theoretical: use linear transform formula
+\end{lstlisting}
+
+\item
+Correlation stretches or rotates scatterplots.  
+Linear transformations change the covariance according to $Cov(A*X)=A*Cov(X)*A^T$.
+
+\end{enumerate}
+
+\vskip 5mm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+\fi
+
+\end{document}

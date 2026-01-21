@@ -1,0 +1,187 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+\usepackage{listings,tikz,enumitem,booktabs}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+\def\assessmenttype{introductory homework}
+\def\assessmenttypecap{Introductory Homework}
+\def\assessmentname{\#9}  
+\def\assessmentnamesol{\#9 Solutions}
+\def\duedate{Wednesday, November 13}
+\def\duetime{3:30pm}
+\def\printfancyheader{1} 
+
+\input{classinfo}
+
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+\else
+    \ifnum\printsol=0
+        \pagestyle{empty}
+    \else
+        \pagestyle{plain}
+    \fi
+\fi
+
+\ifnum\printsol=0
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentname}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\else
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentnamesol}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\fi
+
+\begin{document}
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+\else
+    \ifnum\printsol=0
+        \begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+        \smallskip
+        Due by \duedate\, at \duetime.\\
+        \smallskip
+        {\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+        \end{center}
+    \else
+        \begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+        \end{center}
+        \vskip 2mm
+    \fi
+\hrule
+\vskip 5mm
+\fi
+
+\normalsize
+
+\ifnum\printsol=0
+\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+\textbf{Student Number:}\bigskip\hrule
+\vspace*{5mm}
+\fi
+
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)}
+
+\section*{Instructions}
+Show all reasoning clearly. All simulation results should be reproducible and clearly labeled.
+You may use R for all computations.
+
+\section*{Problems}
+\begin{enumerate}[leftmargin=*]
+
+\item \textbf{Poisson Random Variable}
+\begin{enumerate}
+\item Simulate 100, 500, 1000, 50000 Poisson($\lambda=4$) random variables.
+\item Plot histograms and compare with theoretical PMF.
+\item Compute empirical mean and variance; compare to $\lambda$.
+\end{enumerate}
+
+\item \textbf{Exponential Random Variable}
+\begin{enumerate}
+\item Simulate Exponential($\lambda=0.5$) random variables.
+\item Plot histogram with theoretical density overlay.
+\item Compute sample mean and variance; compare to theory.
+\end{enumerate}
+
+\item \textbf{Transformation}
+\begin{enumerate}
+\item If $Y = 3X+2$ where $X \sim$ Poisson(4), simulate and compare mean/variance.
+\item Plot histogram of $Y$ and overlay $X$ histogram scaled.
+\end{enumerate}
+
+\item \textbf{Empirical CDF}
+\begin{enumerate}
+\item Compute empirical CDFs of $X$ and $Y$ from above simulations.
+\item Compare to theoretical CDF.
+\end{enumerate}
+
+\item \textbf{Discussion}
+\begin{itemize}
+\item Explain how sample size affects the empirical distribution.
+\item Discuss the difference between discrete and continuous distributions.
+\end{itemize}
+
+\end{enumerate}
+
+\ifnum\printsol=1
+\section*{Solutions}
+\begin{enumerate}[leftmargin=*]
+
+\item
+\begin{lstlisting}[language=R]
+lambda <- 4
+for(n in c(100,500,1000,50000)){
+  X <- rpois(n, lambda)
+  hist(X, breaks=0:(max(X)+1)-0.5, prob=TRUE, main=paste("Poisson, n=",n))
+  mean(X); var(X)
+}
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+lambda <- 0.5
+X <- rexp(5000, rate=lambda)
+hist(X, prob=TRUE)
+curve(dexp(x, rate=lambda), add=TRUE, col="red", lwd=2)
+mean(X); var(X)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+Y <- 3*X + 2
+hist(Y, prob=TRUE, col=rgb(1,0,0,0.5))
+hist(X, prob=TRUE, col=rgb(0,0,1,0.5), add=TRUE)
+mean(Y); var(Y)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+ecdf_X <- ecdf(X)
+ecdf_Y <- ecdf(Y)
+plot(ecdf_X)
+lines(ecdf_Y, col="red")
+\end{lstlisting}
+
+\item
+Larger sample sizes make empirical distribution closer to theoretical.
+Discrete histograms have gaps; continuous histograms are smooth.
+
+\end{enumerate}
+
+\vskip 5mm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+\fi
+
+\end{document}

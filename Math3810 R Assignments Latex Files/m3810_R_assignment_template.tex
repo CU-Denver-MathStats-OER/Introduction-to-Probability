@@ -1,0 +1,195 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+\usepackage{listings,tikz,enumitem,booktabs}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+\def\assessmenttype{introductory homework}
+\def\assessmenttypecap{Introductory Homework}
+\def\assessmentname{\#1}  
+\def\assessmentnamesol{\#1 Solutions}
+\def\duedate{Wednesday, September 18}
+\def\duetime{3:30pm}
+\def\printfancyheader{1} 
+
+\input{classinfo}
+
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+\else
+    \ifnum\printsol=0
+        \pagestyle{empty}
+    \else
+        \pagestyle{plain}
+    \fi
+\fi
+
+\ifnum\printsol=0
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentname}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\else
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentnamesol}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\fi
+
+\begin{document}
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+\else
+    \ifnum\printsol=0
+        \begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+        \smallskip
+        Due by \duedate\, at \duetime.\\
+        \smallskip
+        {\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+        \end{center}
+    \else
+        \begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+        \end{center}
+        \vskip 2mm
+    \fi
+\hrule
+\vskip 5mm
+\fi
+
+\normalsize
+
+\ifnum\printsol=0
+\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+\textbf{Student Number:}\bigskip\hrule
+\vspace*{5mm}
+\fi
+
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)}
+
+\section*{Instructions}
+Show all reasoning clearly. All simulation results should be reproducible and clearly labeled.
+You may use R for all computations.
+
+\section*{Problems}
+\begin{enumerate}[leftmargin=*]
+
+\item \textbf{Basic R Warm-Up}
+\begin{enumerate}
+\item Compute $2^5$, $17/3$, and $\sqrt{2}$ using R.
+\item Store $\sqrt{2}$ in a variable \texttt{x} and compute $x^2 - 2$.
+\end{enumerate}
+
+\item \textbf{Simulating a Coin Toss}
+\begin{enumerate}
+\item Simulate one fair coin toss (H or T).
+\item Simulate 10 independent coin tosses.
+\item Count the number of heads.
+\end{enumerate}
+
+\item \textbf{Empirical Probability}
+\begin{enumerate}
+\item Simulate 100 independent coin tosses.
+\item Compute the empirical proportion of heads.
+\item Repeat three times.
+\item Comment on differences in proportions.
+\end{enumerate}
+
+\item \textbf{Dice Experiment}
+\begin{enumerate}
+\item Simulate 60 rolls of a fair six-sided die.
+\item Estimate the probability that the outcome is greater than 4.
+\item Compare to theoretical probability.
+\end{enumerate}
+
+\item \textbf{Conceptual Question}
+Explain in your own words:
+\begin{itemize}
+\item What an empirical probability is.
+\item Why empirical probabilities vary.
+\item Connection to long-run frequency.
+\end{itemize}
+
+\end{enumerate}
+
+\ifnum\printsol=1
+\section*{Solutions}
+\begin{enumerate}[leftmargin=*]
+
+\item
+\begin{lstlisting}[language=R]
+2^5
+17 / 3
+sqrt(2)
+
+x <- sqrt(2)
+x^2 - 2
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+sample(c("H","T"), 1)
+
+tosses <- sample(c("H","T"), 10, replace = TRUE)
+sum(tosses == "H")
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+t1 <- sample(c("H","T"), 100, replace = TRUE)
+mean(t1 == "H")
+
+t2 <- sample(c("H","T"), 100, replace = TRUE)
+mean(t2 == "H")
+
+t3 <- sample(c("H","T"), 100, replace = TRUE)
+mean(t3 == "H")
+\end{lstlisting}
+
+Proportions differ slightly due to randomness but cluster near 0.5.
+
+\item
+\begin{lstlisting}[language=R]
+rolls <- sample(1:6, 60, replace = TRUE)
+mean(rolls > 4)
+\end{lstlisting}
+
+Theoretical probability: $P(X>4)=1/3$.
+
+\item
+Empirical probabilities are based on observed data. They vary due to sampling randomness, but stabilize with more trials, illustrating the Law of Large Numbers.
+
+\end{enumerate}
+
+\vskip 5mm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+\fi
+
+\end{document}

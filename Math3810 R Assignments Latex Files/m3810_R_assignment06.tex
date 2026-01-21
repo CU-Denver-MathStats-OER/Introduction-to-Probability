@@ -1,0 +1,182 @@
+\documentclass[11pt]{article}
+\usepackage[suffix=Solutions]{teaching-header}
+\usepackage{listings,tikz,enumitem,booktabs}
+
+\lstdefinelanguage{R}{
+      keywords={if,else,while,for,in,next,break,function,TRUE,FALSE,NULL,Inf,NA,NaN,switch,repeat,return,require,library},
+      keywordstyle=\color{blue}\bfseries,
+      identifierstyle=\color{black},
+      comment=[l]{\#},
+      commentstyle=\color{gray}\ttfamily,
+      string=[b]{"},
+      stringstyle=\color{red}\ttfamily,
+      morecomment=[l]{//},
+      morestring=[b]{'},
+      sensitive=true,
+      morekeywords={print,summary,plot,lm,glm,data,frame,read.csv,write.csv,factor,levels,names,colnames,rownames,
+      head,tail,str,dim,length,class,typeof,mode,is.na,is.null,is.finite,is.infinite,is.nan,as.numeric,as.character,
+      as.factor,as.Date,as.POSIXct,as.matrix,as.data.frame,rbind,cbind,merge,subset,aggregate,tapply,apply,lapply,sapply,
+      mapply,vapply,replicate,seq,rep,c,list,matrix,array,data.frame,table,hist,boxplot,barplot,pie,curve,lines,points,text,
+      abline,legend,par,mtext,title,xlab,ylab,xlim,ylim,main,sub,col,pch,cex,lty,lwd,type,bg,fg,args,options,warnings,errors,
+      message,stop,warning,error,try,tryCatch,withCallingHandlers,on.exit,debug,browser,trace,recover,options,getOption,setOption},
+    }
+
+\def\assessmenttype{introductory homework}
+\def\assessmenttypecap{Introductory Homework}
+\def\assessmentname{\#6}  
+\def\assessmentnamesol{\#6 Solutions}
+\def\duedate{Wednesday, October 23}
+\def\duetime{3:30pm}
+\def\printfancyheader{1} 
+
+\input{classinfo}
+
+\ifnum\printfancyheader=1
+\pagestyle{myheadings}
+\else
+    \ifnum\printsol=0
+        \pagestyle{empty}
+    \else
+        \pagestyle{plain}
+    \fi
+\fi
+
+\ifnum\printsol=0
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentname}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\else
+\title{\vspace{-1in}Math\classnum\;-\;\classtitle\\
+    Section\;\classsec\;-\;\classterm\\
+    \assessmenttypecap\;\assessmentnamesol}
+\author{University of Colorado Denver / College of Liberal Arts and Sciences}
+\date{Department of Mathematics - \instructor}
+\markright{Math\classnum\;-\;\classtitle,\;\assessmenttypecap\;\assessmentname, UCD, \classterm, \instructor}
+\fi
+
+\begin{document}
+\ifnum\printfancyheader=1
+\maketitle\thispagestyle{empty}
+\else
+    \ifnum\printsol=0
+        \begin{center}{\large Math \classnum--\classsec, UCD, \classterm, Homework \assessmentname}\\
+        \smallskip
+        Due by \duedate\, at \duetime.\\
+        \smallskip
+        {\em Late homeworks will not be accepted without prior approval. Please no email submissions!}
+        \end{center}
+    \else
+        \begin{center}{Math \classnum--\classsec, UCD, \classterm \hfill Homework \assessmentnamesol}
+        \end{center}
+        \vskip 2mm
+    \fi
+\hrule
+\vskip 5mm
+\fi
+
+\normalsize
+
+\ifnum\printsol=0
+\hrule\bigskip\noindent\textbf{Name:}\hspace*{3in}
+\textbf{Student Number:}\bigskip\hrule
+\vspace*{5mm}
+\fi
+
+\renewcommand{\S}{\mathbb{S}}
+\renewcommand{\P}{\mathbb{P}}
+\newcommand{\prob}[1]{\mathbb{P}\left(#1\right)}
+\newcommand{\Prob}[1]{\mathbb{P}\Big(#1\Big)}
+
+\section*{Instructions}
+Show all reasoning clearly. All simulation results should be reproducible and clearly labeled.
+You may use R for all computations.
+
+\section*{Problems}
+\begin{enumerate}[leftmargin=*]
+
+\item \textbf{Simulating Exponential Random Variables}
+\begin{enumerate}
+\item Simulate 1000 samples from an exponential distribution with rate $\lambda=0.5$.
+\item Plot the histogram and overlay the theoretical density.
+\item Compute the sample mean and compare with theoretical mean.
+\end{enumerate}
+
+\item \textbf{Transformations}
+\begin{enumerate}
+\item Let $Y = 2X + 3$. Simulate $Y$ from your $X$ samples.
+\item Compute the sample mean and variance of $Y$ and compare with theoretical values.
+\item Plot the histogram of $Y$.
+\end{enumerate}
+
+\item \textbf{Probability Computation}
+\begin{enumerate}
+\item Estimate $P(X > 3)$ using your simulated samples.
+\item Compare with the exact probability $P(X>3)=\exp(-0.5*3)$.
+\end{enumerate}
+
+\item \textbf{CDF Comparison}
+\begin{enumerate}
+\item Plot the empirical CDF of $X$.
+\item Overlay the theoretical CDF.
+\item Comment on the convergence.
+\end{enumerate}
+
+\item \textbf{Discussion}
+\begin{itemize}
+\item Explain how linear transformations affect the exponential distribution.
+\item Discuss the difference between empirical and theoretical probabilities.
+\end{itemize}
+
+\end{enumerate}
+
+\ifnum\printsol=1
+\section*{Solutions}
+\begin{enumerate}[leftmargin=*]
+
+\item
+\begin{lstlisting}[language=R]
+set.seed(123)
+X <- rexp(1000, rate=0.5)
+hist(X, prob=TRUE)
+curve(dexp(x, rate=0.5), add=TRUE, col="red")
+mean(X)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+Y <- 2*X + 3
+mean(Y); var(Y)
+hist(Y, prob=TRUE)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+mean(X > 3)
+1 - pexp(3, rate=0.5)
+\end{lstlisting}
+
+\item
+\begin{lstlisting}[language=R]
+ecdf_X <- ecdf(X)
+plot(ecdf_X)
+curve(pexp(x, rate=0.5), add=TRUE, col="blue")
+\end{lstlisting}
+
+\item
+Linear transformation scales the mean and variance: $E[Y] = 2E[X]+3$, $Var(Y)=4Var(X)$.  
+Empirical probabilities converge to theoretical as $n$ increases.
+
+\end{enumerate}
+
+\vskip 5mm
+\hrule
+\vskip 5mm
+\begin{center}
+\bf Please let me know if you have any questions, comments, or corrections!
+\end{center}
+\fi
+
+\end{document}
